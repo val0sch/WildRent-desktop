@@ -1,0 +1,10 @@
+type User {
+  id: String
+  email: String
+  password: String
+  isAdmin: Boolean
+}
+
+type Query {
+  users: [User]
+}
