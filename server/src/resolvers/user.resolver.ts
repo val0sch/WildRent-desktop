@@ -4,6 +4,7 @@ import { ApolloServerErrorCode } from "@apollo/server/errors";
 import { hash, verify } from "argon2";
 import * as jwt from "jsonwebtoken";
 import { IContext } from "../index.d";
+import { MutationRegisterArgs, QueryLoginArgs } from "../../graphql/generated/graphql";
 
 export default {
   Query: {

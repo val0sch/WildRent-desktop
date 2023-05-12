@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import datasource from "./lib/datasource";
 import typeDefs from "./typeDefs";
+import fs from "fs";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
@@ -39,6 +40,9 @@ const start = async () => {
     httpServer.listen({ port: 4000 }, resolve)
   );
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+  fs.open("./src/gen.toto", "w", function (err, fd) {
+    fs.close(fd);
+  });
 };
 
 start();

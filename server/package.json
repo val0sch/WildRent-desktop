@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node-dev --exit-child --watch src/**/*.ts,src/**/*.gql --poll src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "codegen": "graphql-codegen --config codegen.ts --watch \"src/gen.toto\""
   },
   "dependencies": {
     "@apollo/server": "^4.6.0",
@@ -26,7 +27,7 @@
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^3.3.1",
+    "@graphql-codegen/cli": "3.3.1",
     "@graphql-codegen/client-preset": "^3.0.1",
     "@graphql-codegen/typescript": "3.0.4",
     "@graphql-codegen/typescript-resolvers": "3.2.1",
