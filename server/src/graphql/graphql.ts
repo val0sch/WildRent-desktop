@@ -22,7 +22,7 @@ export type LoginInfo = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  register?: Maybe<Scalars['String']>;
+  register?: Maybe<User>;
 };
 
 
@@ -33,7 +33,7 @@ export type MutationRegisterArgs = {
 export type Query = {
   __typename?: 'Query';
   checkToken?: Maybe<Scalars['Boolean']>;
-  login?: Maybe<Scalars['Boolean']>;
+  login?: Maybe<LoginInfo>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -161,12 +161,12 @@ export type LoginInfoResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  register?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'infos'>>;
+  register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'infos'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  login?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
+  login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
 
