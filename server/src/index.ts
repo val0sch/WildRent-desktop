@@ -12,6 +12,7 @@ import http from "http";
 import "reflect-metadata";
 import cors from "cors";
 import { json } from "body-parser";
+import resolvers from "./resolvers";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -19,6 +20,7 @@ const httpServer = http.createServer(app);
 const start = async () => {
   await datasource.initialize();
   const server = new ApolloServer({
+    resolvers,
     typeDefs,
   });
 

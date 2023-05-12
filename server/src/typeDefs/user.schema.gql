@@ -7,4 +7,26 @@ type User {
 
 type Query {
   users: [User]
+  login(infos: UserLogin!): LoginInfo
+  checkToken: Boolean
+}
+
+type Mutation {
+  register(infos: UserRegister!): User
+}
+
+input UserLogin {
+  email: String!
+  password: String!
+}
+
+input UserRegister {
+  email: String!
+  password: String!
+  isAdmin: Boolean!
+}
+
+type LoginInfo {
+  token: String
+  email: String
 }
