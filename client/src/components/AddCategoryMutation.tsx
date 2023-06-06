@@ -20,7 +20,7 @@ function AddCategoryMutation() {
       console.log("%c⧭", "color: #0088cc", data);
     },
     onError(error) {
-      console.log("%c⧭", "color: #917399", error);
+      console.error("%c⧭", "color: #917399", error);
     },
   });
   

@@ -21,7 +21,7 @@ function MesFactures(): JSX.Element {
       Mes Factures
       <div>
         <button>
-          <Link to={"/MonCompte/"}>Retour</Link>
+          <Link to={"/compte"}>Retour</Link>
         </button>
       </div>
     </div>

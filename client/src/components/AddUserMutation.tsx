@@ -23,10 +23,10 @@ function AddUserMutation() {
   const [addUserInDb, { data }] = useMutation(ADD_USER, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", data);
-      navigate('/MonCompte/MesInfos');
+      navigate('/compte/infos');
     },
     onError(error) {
-      console.log("%c⧭", "color: #917399", error);
+      console.error("%c⧭", "color: #917399", error);
     },
   });
   

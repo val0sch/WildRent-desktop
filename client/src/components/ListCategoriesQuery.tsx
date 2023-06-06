@@ -21,7 +21,7 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
       console.log(data);
     },
     onError(error) {
-      console.log(error);
+      console.error(error);
     },
   });
 
@@ -41,8 +41,8 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
     <div>
       <select value={selectedCategoryId} onChange={(e) => handleDataChange(e.target.value)}>
         <option value="0">Choisir une catégorie</option>
-        {data && data.categories && data.categories.map((b: any, index: number) => (
-          <option key={index} value={b.id}>{b.label}</option>
+        {data.categories && data.categories.map((category: any, index: number) => (
+          <option key={index} value={category.id}>{category.label}</option>
         ))}
       </select>
     </div>

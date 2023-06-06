@@ -21,7 +21,7 @@ function MesFavoris(): JSX.Element {
       Mes Favoris
       <div>
         <button>
-          <Link to={"/MonCompte/"}>Retour</Link>
+          <Link to={"/compte"}>Retour</Link>
         </button>
       </div>
     </div>

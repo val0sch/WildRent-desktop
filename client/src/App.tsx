@@ -30,14 +30,14 @@ function App(): JSX.Element {
           <Route path="inscription" element={<Inscription />} />
           <Route path="contact" element={<Contact />} />
           <Route path="conditions-generales" element={<ConditionsGenerales />} />
-          <Route path="mentionslegales" element={<MentionsLegales />} />
+          <Route path="mentions-legales" element={<MentionsLegales />} />
           <Route path="panier" element={<Panier />} />
-          <Route path="mon-compte">
+          <Route path="compte">
             <Route path="" element={<MonCompte />} />
-            <Route path="mes-infos" element={<MesInfos />} />
-            <Route path="mes-reservations" element={<MesReservations />} />
-            <Route path="mes-factures" element={<MesFactures />} />
-            <Route path="mes-favoris" element={<MesFavoris />} />
+            <Route path="infos" element={<MesInfos />} />
+            <Route path="reservations" element={<MesReservations />} />
+            <Route path="factures" element={<MesFactures />} />
+            <Route path="favoris" element={<MesFavoris />} />
           </Route>
           <Route path="back-office">
             <Route path="" element={<BackOffice />} />

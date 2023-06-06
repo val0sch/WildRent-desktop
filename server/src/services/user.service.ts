@@ -43,7 +43,7 @@ export default class UserService {
           payload = jwt.verify(token, `${process.env.SECRET_KEY}`);
         }
       } catch (err) {
-        console.log("error", err);
+        console.error("error", err);
       }
     }
     return payload;

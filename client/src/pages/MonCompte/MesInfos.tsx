@@ -21,7 +21,7 @@ function MesInfos(): JSX.Element {
       Mes informations personnelles
       <div>
         <button>
-          <Link to={"/MonCompte/"}>Retour</Link>
+          <Link to={"/compte"}>Retour</Link>
         </button>
       </div>
     </div>

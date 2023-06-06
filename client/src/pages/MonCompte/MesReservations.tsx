@@ -21,7 +21,7 @@ function MesReservations(): JSX.Element {
       Mes Réservations
       <div>
         <button>
-          <Link to={"/MonCompte/"}>Retour</Link>
+          <Link to={"/compte"}>Retour</Link>
         </button>
       </div>
     </div>

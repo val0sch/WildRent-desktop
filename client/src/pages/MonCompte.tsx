@@ -20,10 +20,10 @@ function MonCompte(): JSX.Element {
     <div>
       Mon Compte
       <div>
-        <Link to={"/MonCompte/MesInfos"}>Mes informations personnelles</Link>
-        <Link to={"/MonCompte/MesReservations"}>Mes réservations</Link>
-        <Link to={"/MonCompte/MesFactures"}>Mes factures</Link>
-        <Link to={"/MonCompte/MesFavoris"}>Mes favoris</Link>
+        <Link to={"/compte/infos"}>Mes informations personnelles</Link>
+        <Link to={"/compte/reservations"}>Mes réservations</Link>
+        <Link to={"/compte/factures"}>Mes factures</Link>
+        <Link to={"/compte/favoris"}>Mes favoris</Link>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ function Categories(): JSX.Element {
       </div>
       <div>
         <button>
-          <Link to={"/BackOffice/"}>Retour</Link>
+          <Link to={"/back-office"}>Retour</Link>
         </button>
       </div>
     </div>

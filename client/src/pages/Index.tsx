@@ -20,17 +20,17 @@ function Accueil(): JSX.Element {
     <div>
       <nav>
         <Link to={"/"}>Accueil</Link>
-        <Link to={"/Inscription"}>S'inscrire</Link>
-        <Link to={"/MonCompte/"}>Mon Compte</Link>
-        <Link to={"/BackOffice/"}>BackOffice</Link>
-        <Link to={"/Panier"}>Panier</Link>
+        <Link to={"/inscription"}>S'inscrire</Link>
+        <Link to={"/compte/"}>Mon Compte</Link>
+        <Link to={"/back-office/"}>BackOffice</Link>
+        <Link to={"/panier"}>Panier</Link>
       </nav>
       <Outlet />
       <footer>
         <div className='footerLinks'>
-          <Link to={"/MentionsLegales"}>Mentions Légales</Link>
-          <Link to={"/Contact"}>Contact</Link>
-          <Link to={"/ConditionsGenerales"}>Conditions Générales</Link>
+          <Link to={"/mentions-legales"}>Mentions Légales</Link>
+          <Link to={"/contact"}>Contact</Link>
+          <Link to={"/conditions-generales"}>Conditions Générales</Link>
         </div>
         <div className='credentials'>@ Wild Code School</div>
       </footer>
