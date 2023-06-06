@@ -20,8 +20,8 @@ function BackOffice(): JSX.Element {
     <div>
       Back Office
       <div>
-        <Link to={"/BackOffice/Categories"}>Catégories</Link>
-        <Link to={"/BackOffice/Produits"}>Produits</Link>
+        <Link to={"/back-office/categories"}>Catégories</Link>
+        <Link to={"/back-office/produits"}>Produits</Link>
       </div>
     </div>
   );
