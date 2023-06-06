@@ -27,22 +27,22 @@ function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<Index />}>
           <Route index element={<Accueil />} />
-          <Route path="Inscription" element={<Inscription />} />
-          <Route path="Contact" element={<Contact />} />
-          <Route path="ConditionsGenerales" element={<ConditionsGenerales />} />
-          <Route path="MentionsLegales" element={<MentionsLegales />} />
-          <Route path="Panier" element={<Panier />} />
-          <Route path="MonCompte">
+          <Route path="inscription" element={<Inscription />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="conditions-generales" element={<ConditionsGenerales />} />
+          <Route path="mentionslegales" element={<MentionsLegales />} />
+          <Route path="panier" element={<Panier />} />
+          <Route path="mon-compte">
             <Route path="" element={<MonCompte />} />
-            <Route path="MesInfos" element={<MesInfos />} />
-            <Route path="MesReservations" element={<MesReservations />} />
-            <Route path="MesFactures" element={<MesFactures />} />
-            <Route path="MesFavoris" element={<MesFavoris />} />
+            <Route path="mes-infos" element={<MesInfos />} />
+            <Route path="mes-reservations" element={<MesReservations />} />
+            <Route path="mes-factures" element={<MesFactures />} />
+            <Route path="mes-favoris" element={<MesFavoris />} />
           </Route>
-          <Route path="BackOffice">
+          <Route path="back-office">
             <Route path="" element={<BackOffice />} />
-            <Route path="Categories" element={<Categories />} />
-            <Route path="Produits" element={<Produits />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="produits" element={<Produits />} />
           </Route>
           <Route path="errors">
             <Route path="404" element={<NotFound />} />
