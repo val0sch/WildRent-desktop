@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import AddCategoryMutation from "../../components/AddCategoryMutation";
-import ListCategoriesQuery from "../../components/ListCategoriesQuery";
-import DeleteCategoryMutation from "../../components/deleteCategoryMutation";
+import AddCategory from "../../components/AddCategory";
+import ListCategories from "../../components/ListCategories";
+import DeleteCategory from "../../components/DeleteCategory";
 import { useState } from "react";
 
 function Categories(): JSX.Element {
@@ -12,13 +12,13 @@ function Categories(): JSX.Element {
 /////
 //  useState
 /////
-  const [deleteCategoryId, setData] = useState<string>('');
+  const [deleteCategoryId, setDeleteCategoryId] = useState<string>('');
 
 /////
 //  Code
 /////
-  const handleDataChange = (selectedCategoryId: string) => {// On récupère l'id de la catégorie sélectionnée dans ListCategoriesQuery
-    setData(selectedCategoryId);
+  const dataCategories = (selectedCategoryId: string) => {// On récupère l'id de la catégorie sélectionnée dans ListCategoriesQuery
+    setDeleteCategoryId(selectedCategoryId);
   };
 
 /////
@@ -28,9 +28,9 @@ function Categories(): JSX.Element {
     <div>
       Catégories
       <div>
-        <ListCategoriesQuery onDataChange={handleDataChange}/>
-        <AddCategoryMutation />
-        <DeleteCategoryMutation datas={deleteCategoryId}/>
+        <ListCategories dataCategories={dataCategories}/>
+        <AddCategory />
+        <DeleteCategory deleteCategoryId={deleteCategoryId}/>
       </div>
       <div>
         <button>

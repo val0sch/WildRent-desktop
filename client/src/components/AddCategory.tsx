@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { ADD_CATEGORY } from "../graphql/category.mutation";
 
-function AddCategoryMutation() {
+function AddCategory() {
 /////
 //  useEffects
 /////
@@ -17,7 +17,7 @@ function AddCategoryMutation() {
 /////
   const [addCategoryInDb, { data }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", data);
+      console.log("%c⧭", "color: #0088cc", "add Category" + data);
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
@@ -34,7 +34,7 @@ function AddCategoryMutation() {
     };
   };
 
-  const addCategory = () => {
+  const handleAddCategory = () => {
     addCategoryInDb({
       variables: {
         infos: {
@@ -50,9 +50,9 @@ function AddCategoryMutation() {
   return (
     <div>
       <input placeholder="Nom de la catégorie" onChange={handleChangeField('label', setLabel)}/>
-      <button onClick={addCategory}>Enregistrer</button>
+      <button onClick={handleAddCategory}>Enregistrer</button>
     </div>
   );
 }
 
-export default AddCategoryMutation;
+export default AddCategory;

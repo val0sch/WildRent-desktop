@@ -22,7 +22,7 @@ function AddUserMutation() {
  
   const [addUserInDb, { data }] = useMutation(ADD_USER, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", data);
+      console.log("%c⧭", "color: #0088cc", "add User" + data);
       navigate('/compte/infos');
     },
     onError(error) {
@@ -40,7 +40,7 @@ function AddUserMutation() {
     };
   };
 
-  const addUser = () => {
+  const handleAddUser = () => {
     addUserInDb({
       variables: {
         infos: {
@@ -58,7 +58,7 @@ function AddUserMutation() {
     <div>
       <input placeholder="Votre Email" onChange={handleChangeField('email', setEmail)}/>
       <input placeholder="Votre mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
-      <button onClick={addUser}>S'inscrire</button>
+      <button onClick={handleAddUser}>S'inscrire</button>
     </div>
   );
 }
