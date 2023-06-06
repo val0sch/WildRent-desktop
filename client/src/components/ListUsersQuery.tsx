@@ -18,7 +18,7 @@ function ListUsersQuery() {
       console.log(data);
     },
     onError(error) {
-      console.log(error);
+      console.error(error);
     },
 
   });
@@ -32,27 +32,27 @@ function ListUsersQuery() {
   return (
     <div>
       <button onClick={handleClick}>Afficher la liste des Utilisateurs</button>
-      {data && data.users && data.users.map((b: any, index: number) => (
+      {data.users && data.users.map((user: any, index: number) => (
         <div key={index}>
           <h1>
-            { b.detailsUser.firstname && b.detailsUser.lastname
+            { user.detailsUser.firstname && user.detailsUser.lastname
             ?
-              b.detailsUser.firstname + " " + b.detailsUser.lastname
+              user.detailsUser.firstname + " " + user.detailsUser.lastname
             :
-              b.email
+              user.email
             }
             </h1>
           <p>
-            { b.detailsUser.firstname && b.detailsUser.lastname
+            { user.detailsUser.firstname && user.detailsUser.lastname
             ?
-              b.email
+              user.email
             :
               ""
             }
             </p>
-          <p>{b.detailsUser.address? "Adresse : " + b.detailsUser.address:""} </p>
-          <p>{b.detailsUser.birthday? "Anniversaire : " + b.detailsUser.birthday: ""} </p>
-          <p>Admin : {b.isAdmin? "oui" : "non"} </p>
+          <p>{user.detailsUser.address? "Adresse : " + user.detailsUser.address:""} </p>
+          <p>{user.detailsUser.birthday? "Anniversaire : " + user.detailsUser.birthday: ""} </p>
+          <p>Admin : {user.isAdmin? "oui" : "non"} </p>
         </div>
       ))}
     </div>
