@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_CATEGORY } from "../graphql/category.mutation";
 
-function DeleteCategoryMutation({ datas }:{ datas: string }): JSX.Element {
+function DeleteCategory({ deleteCategoryId }:{ deleteCategoryId: string }): JSX.Element {
 /////
 //  useEffect
 /////
@@ -13,18 +13,17 @@ function DeleteCategoryMutation({ datas }:{ datas: string }): JSX.Element {
 /////
 //  Code
 /////
-  const deleteCategoryId:string = datas;
 
   const [deleteCategoryInDb, { data }] = useMutation(DELETE_CATEGORY, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", data);
+      console.log("%c⧭", "color: #0088cc", "Suppression : " + data);
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
     },
   });
   
-  const deleteCategory = () => {
+  const handleDeleteCategory = () => {
     deleteCategoryInDb({
       variables: {
         deleteCategoryId
@@ -37,11 +36,11 @@ function DeleteCategoryMutation({ datas }:{ datas: string }): JSX.Element {
 /////
   return (
     <div>
-      <button onClick={deleteCategory} >
+      <button onClick={handleDeleteCategory} >
         Supprimer
       </button>
     </div>
   );
 }
 
-export default DeleteCategoryMutation;
+export default DeleteCategory;

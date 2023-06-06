@@ -15,7 +15,7 @@ function ListUsersQuery() {
 /////
   const [getList, { data }] = useLazyQuery(LIST_USERS, {
     onCompleted(data) {
-      console.log(data);
+      console.log("list users" + data);
     },
     onError(error) {
       console.error(error);

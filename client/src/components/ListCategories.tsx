@@ -2,7 +2,7 @@ import { useLazyQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "../graphql/listCategories.query";
 import { useEffect, useState } from "react";
 
-function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) => void }): JSX.Element {
+function ListCategories({ dataCategories }:{ dataCategories: (newData: string) => void }): JSX.Element {
 /////
 //  useEffect
 /////
@@ -18,7 +18,7 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
 /////
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      console.log(data);
+      console.log("list categories" + data);
     },
     onError(error) {
       console.error(error);
@@ -31,7 +31,7 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
   };
 
   const sendDataToParent = (data: string) => {
-    onDataChange(data);
+    dataCategories(data);
   };
 
 /////
@@ -41,7 +41,7 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
     <div>
       <select value={selectedCategoryId} onChange={(e) => handleDataChange(e.target.value)}>
         <option value="0">Choisir une catégorie</option>
-        {data.categories && data.categories.map((category: any, index: number) => (
+        {data?.categories && data.categories.map((category: any, index: number) => (
           <option key={index} value={category.id}>{category.label}</option>
         ))}
       </select>
@@ -49,4 +49,4 @@ function ListCategoriesQuery({ onDataChange }:{ onDataChange: (newData: string) 
   );
 }
 
-export default ListCategoriesQuery;
+export default ListCategories;
