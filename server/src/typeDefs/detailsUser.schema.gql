@@ -1,0 +1,25 @@
+type DetailsUser {
+  id: String
+  birthday: String
+  address: String
+  firstname: String
+  lastname: String
+}
+
+type Query {
+  detailsUsers: [DetailsUser]
+}
+
+type Mutation {
+  updateDetailsUser(id: String!, infos: DetailsUserRegister!): DetailsUser
+}
+
+input DetailsUserRegister {
+  birthday: String!
+  address: String!
+  firstname: String!
+  lastname: String!
+}
+
+
+

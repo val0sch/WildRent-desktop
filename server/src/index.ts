@@ -40,7 +40,7 @@ const start = async () => {
     httpServer.listen({ port: 4000 }, resolve)
   );
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
-  fs.open("./src/gen.toto", "w", function (err, fd) {
+  fs.open("./src/gen.temp", "w", function (err, fd) {
     fs.close(fd);
   });
 };
