@@ -3,16 +3,25 @@ type User {
   email: String
   password: String
   isAdmin: Boolean
+  detailsUser: DetailsUser
+}
+
+type LoginInfo {
+  token: String
+  email: String
 }
 
 type Query {
   users: [User]
+  user(id: String!): User
   login(infos: UserLogin!): LoginInfo
   checkToken: Boolean
 }
 
 type Mutation {
-  register(infos: UserRegister!): User
+  addUser(infos: UserRegister!): User
+  updateUser(id: String!, infos: UserRegister!): User
+  deleteUser(id: String!): User
 }
 
 input UserLogin {
@@ -23,10 +32,9 @@ input UserLogin {
 input UserRegister {
   email: String!
   password: String!
-  isAdmin: Boolean!
+  isAdmin: Boolean
 }
 
-type LoginInfo {
-  token: String
-  email: String
-}
+
+
+

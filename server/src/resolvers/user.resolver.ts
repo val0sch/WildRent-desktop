@@ -1,15 +1,19 @@
 import UserService from "../services/user.service";
+import DetailsUserService from "../services/detailsUser.service";
 import { GraphQLError } from "graphql";
 import { ApolloServerErrorCode } from "@apollo/server/errors";
 import { hash, verify } from "argon2";
 import * as jwt from "jsonwebtoken";
 import { IContext } from "../index.d";
-import { MutationRegisterArgs, QueryLoginArgs } from "../graphql/graphql";
+import { MutationAddUserArgs, MutationUpdateUserArgs, MutationDeleteUserArgs, QueryLoginArgs } from "../graphql/graphql";
 
 export default {
   Query: {
     async users() {
       return await new UserService().listUsers();
+    },
+    async user(id: string) {
+      return await new UserService().findById(id);
     },
 
     async login(_: any, { infos }: QueryLoginArgs) {
@@ -40,23 +44,72 @@ export default {
   },
 
   Mutation: {
-    async register(_: any, { infos }: MutationRegisterArgs) {
-      const { email, password: plainPassword } = infos;
+    async addUser(_: any, { infos }: MutationAddUserArgs) {
+      let { email, password: plainPassword, isAdmin=false } = infos;
 
-      const user = await new UserService().findByEmail(email);
+      if (isAdmin == null) { // assignation de la valeur false à isAdmin si elle n'est pas renseignée
+        isAdmin = false;
+      }
 
-      if (user) {
+      // Vérification que l'email n'est pas déjà pris
+      const userCheck = await new UserService().findByEmail(email);
+      if (userCheck) {
         throw new GraphQLError("Cet email est déjà pris", {
           extensions: { code: ApolloServerErrorCode.BAD_USER_INPUT },
         });
       }
 
+      // Hashage du mot de passe
       const password = await hash(plainPassword);
 
-      return await new UserService().register({
+      // Création du DetailsUser
+      const detailsUser = new DetailsUserService().addDetailsUser({
+        firstName: null,
+        lastName: null,
+        birthday: null,
+        address: null,
+      });
+      const detailsUserId = (await detailsUser).id;
+
+      // Création du User
+      let user = new UserService().addUser({
         email,
         password,
+        isAdmin,
+        detailsUser: detailsUserId,
+      });
+ 
+      return user;
+    },
+
+    async updateUser(_: any, { id, infos }: MutationUpdateUserArgs) {
+      const { email, password: plainPassword, isAdmin } = infos;
+      
+      const user = await new UserService().findById(id);
+
+      //TODO: vérifier que l'email n'est pas déjà pris par un autre user
+
+      const password = await hash(plainPassword);
+
+      return await new UserService().updateUser({
+        id,
+        email,
+        password,
+        isAdmin
       });
     },
+
+    async deleteUser(_: any, { id }: MutationDeleteUserArgs) {
+      const user = await new UserService().findById(id);
+      if (!user) {
+        throw new Error('Utilisateur non trouvé');
+      }
+      const detailsUserId = user.detailsUser.id;
+      await Promise.all([
+       new UserService().deleteUser({ id }),
+       new DetailsUserService().deleteDetailsUser({ id:detailsUserId })
+      ]);
+      return 'Utilisateur supprimé'
+    }
   },
 };

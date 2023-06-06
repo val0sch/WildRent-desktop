@@ -1,0 +1,21 @@
+type Image {
+  id: String
+  isMain: Boolean
+  name: String
+  product: Product
+}
+
+type Query {
+  images: [Image]
+}
+
+type Mutation {
+  addImage(infos: ImageRegister!): Image
+  deleteImage(id: String!): Image
+}
+
+input ImageRegister {
+  isMain: Boolean
+  name: String!
+  product: String!
+}

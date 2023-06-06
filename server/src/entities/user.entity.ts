@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import DetailsUser from "./detailsUser.entity";
+
 
 @Entity()
 export default class User {
@@ -11,7 +13,9 @@ export default class User {
     @Column()
     password: string
 
-    @Column({ default: false})
+    @Column()
     isAdmin: boolean 
 
+    @OneToOne(() => DetailsUser, detailsUser => detailsUser.user) @JoinColumn()
+    detailsUser: DetailsUser
 }

@@ -11,15 +11,27 @@ export default class UserService {
   }
 
   async listUsers() {
-    return await this.db.find();
+    return await this.db.find({ relations: ['detailsUser'] });
   }
 
   async findByEmail(email: string) {
     return await this.db.findOneBy({ email });
   }
 
-  async register({ email, password }: any) {
-    return await this.db.save({ email, password });
+  async findById(id: string) {
+    return await this.db.findOne({ where: { id }, relations: ['detailsUser'] });
+  }
+
+  async addUser({ email, password, isAdmin, detailsUser }: any) {
+    return await this.db.save({ email, password, isAdmin, detailsUser });
+  }
+
+  async updateUser({ id, email, password, isAdmin }: any) {
+    return await this.db.update(id, { email, password, isAdmin });
+  }
+  
+  async deleteUser({ id }: any) {
+    return await this.db.delete({ id });
   }
 
   async getAndCheckToken(authorization: string | undefined) {
@@ -31,7 +43,7 @@ export default class UserService {
           payload = jwt.verify(token, `${process.env.SECRET_KEY}`);
         }
       } catch (err) {
-        console.log("error", err);
+        console.error("error", err);
       }
     }
     return payload;

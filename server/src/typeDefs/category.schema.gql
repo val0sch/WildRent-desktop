@@ -1,0 +1,19 @@
+type Category {
+  id: String
+  label: String
+}
+
+type Query {
+  categories: [Category]
+}
+
+type Mutation {
+  addCategory(infos: CategoryRegister!): Category
+  updateCategory(id: String!, infos: CategoryRegister!): Category
+  deleteCategory(id: String!): Category
+}
+
+input CategoryRegister {
+  label: String!
+}
+

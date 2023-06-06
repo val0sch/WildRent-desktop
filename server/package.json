@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --exit-child --watch src/**/*.ts,src/**/*.gql --poll src/index.ts",
-    "test": "jest",
-    "codegen": "graphql-codegen --config codegen.ts --watch \"src/gen.toto\""
+    "start": "ts-node-dev --respawn --watch src/**/*.ts,src/**/*.gql --poll src/index.ts",
+    "codegen": "graphql-codegen --config codegen.ts --watch \"src/gen.temp\"",
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/server": "^4.6.0",
