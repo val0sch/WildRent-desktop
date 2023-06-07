@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { ADD_USER } from "../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import React from "react";
 
 
 function AddUserMutation() {
