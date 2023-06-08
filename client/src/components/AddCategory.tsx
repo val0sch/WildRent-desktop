@@ -3,32 +3,37 @@ import { useState } from "react";
 import { ADD_CATEGORY } from "../graphql/category.mutation";
 
 function AddCategory() {
-/////
-//  useEffects
-/////
+  /////
+  //  useEffects
+  /////
 
-/////
-//  useStates
-/////
+  /////
+  //  useStates
+  /////
   const [label, setLabel] = useState<string>("");
-
-/////
-//  Code
-/////
+  /////
+  //  Code
+  /////
   const [addCategoryInDb, { data }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "add Category" + data);
+      console.log("%c⧭", "color: #0088cc", "add Category", data);
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
     },
   });
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setState: React.Dispatch<React.SetStateAction<any>>
+  ) => {
     setState(e.target.value);
   };
 
-  const handleChangeField = (field: string, setState: React.Dispatch<React.SetStateAction<any>>) => {
+  const handleChangeField = (
+    field: string,
+    setState: React.Dispatch<React.SetStateAction<any>>
+  ) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       handleChange(e, setState);
     };
@@ -38,19 +43,28 @@ function AddCategory() {
     addCategoryInDb({
       variables: {
         infos: {
-          label
-        }
+          label,
+        },
       },
     });
   };
 
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
     <div>
-      <input placeholder="Nom de la catégorie" onChange={handleChangeField('label', setLabel)}/>
+      <input
+        data-testid="input-category"
+        placeholder="Nom de la catégorie"
+        onChange={handleChangeField("label", setLabel)}
+      />
       <button onClick={handleAddCategory}>Enregistrer</button>
+      {data && (
+        <p data-testid="paragraphe">
+          Vous avez ajouté la catégorie : {data.addCategory.label}
+        </p>
+      )}
     </div>
   );
 }

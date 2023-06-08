@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { ADD_USER } from "../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import React from "react";
 
 
 function AddUserMutation() {
@@ -58,7 +59,7 @@ function AddUserMutation() {
     <div>
       <input placeholder="Votre Email" onChange={handleChangeField('email', setEmail)}/>
       <input placeholder="Votre mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
-      <button onClick={handleAddUser}>S'inscrire</button>
+      <button data-button="register" onClick={handleAddUser}>S'inscrire</button>
     </div>
   );
 }
