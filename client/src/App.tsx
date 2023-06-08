@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import Index from "./components/Navbar";
 import Accueil from "./pages/Accueil";
 import Inscription from "./pages/Inscription";
 import MesInfos from "./pages/MonCompte/MesInfos";
@@ -17,6 +17,7 @@ import MesFavoris from "./pages/MonCompte/MesFavoris";
 import Produits from "./pages/BackOffice/Produits";
 import Categories from "./pages/BackOffice/Categories";
 import BackOffice from "./pages/BackOffice";
+import Footer from "./components/Footer";
 
 
 
@@ -50,6 +51,7 @@ function App(): JSX.Element {
           </Route>
         </Route>
       </Routes>
+      <Footer />
     </div>
   );
 }
