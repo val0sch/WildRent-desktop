@@ -22,7 +22,7 @@ function AddCategory() {
       console.error("%c⧭", "color: #917399", error);
     },
   });
-  console.log(addCategoryInDb);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setState: React.Dispatch<React.SetStateAction<any>>
@@ -55,11 +55,16 @@ function AddCategory() {
   return (
     <div>
       <input
+        data-testid="input-category"
         placeholder="Nom de la catégorie"
         onChange={handleChangeField("label", setLabel)}
       />
       <button onClick={handleAddCategory}>Enregistrer</button>
-      {data && <p>Vous avez ajouté la catégorie : {data.addCategory.label}</p>}
+      {data && (
+        <p data-testid="paragraphe">
+          Vous avez ajouté la catégorie : {data.addCategory.label}
+        </p>
+      )}
     </div>
   );
 }
