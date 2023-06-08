@@ -9,6 +9,7 @@ type User {
 type LoginInfo {
   token: String
   email: String
+  isAdmin: Boolean
 }
 
 type Query {

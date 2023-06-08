@@ -92,6 +92,7 @@ export type ItemRegister = {
 export type LoginInfo = {
   __typename?: 'LoginInfo';
   email?: Maybe<Scalars['String']>;
+  isAdmin?: Maybe<Scalars['Boolean']>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -448,6 +449,7 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type LoginInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginInfo'] = ResolversParentTypes['LoginInfo']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

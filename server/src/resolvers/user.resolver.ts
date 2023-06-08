@@ -33,9 +33,12 @@ export default {
         });
       }
 
+      //on récupère la valeur de isAdmin du user pour le stocker dans le payload
+      const isAdmin = user.isAdmin;
+
       //génération du token permettant ensuite de s'authentifié auprès de chaque resolvers sans indiquer un identifiant et un mot de passe
-      const token = jwt.sign({ email }, `${process.env.SECRET_KEY}`); // on stocke ici un payload qui est un objet contenant email, signé grâce à la clé secrète
-      return { token, email };
+      const token = jwt.sign({ email, isAdmin }, `${process.env.SECRET_KEY}`); // on stocke ici un payload qui est un objet contenant email, signé grâce à la clé secrète
+      return { token, email, isAdmin };
     },
 
     async checkToken(_: any, {}, { user }: IContext) {
