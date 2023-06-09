@@ -20,7 +20,7 @@ export default function Login() {
     password: "",
   });
 
-  console.log(state);
+//   console.log(state);
   
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

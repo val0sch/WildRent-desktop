@@ -51,6 +51,9 @@ export default function AuthContextProvider({
       ...state.userData,
     },
   };
+  console.log("token : ", authContext.setUserData);
+
+  
   return (
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>
   );
