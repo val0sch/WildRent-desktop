@@ -33,8 +33,6 @@ export default function AuthContextProvider({
     }
   );
 
-  // console.log("%c⧭", "color: #00a3cc", state);
-  
   const authContext = {
     setUserData: async (data: any) => {
       const { token, ...userData } = data;
@@ -51,9 +49,7 @@ export default function AuthContextProvider({
       ...state.userData,
     },
   };
-  // console.log("token : ", authContext.setUserData);
 
-  
   return (
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>
   );

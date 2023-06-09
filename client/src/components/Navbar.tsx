@@ -1,27 +1,15 @@
-import { Link, Outlet } from 'react-router-dom';
-import checkIsAdmin from '../Utils/utils';
+import { Link, Outlet } from "react-router-dom";
+import checkIsAdmin from "../Utils/utils";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Accueil(): JSX.Element {
-/////
-//  useEffect
-/////
+  const user = useContext(AuthContext);
 
-/////
-//  useState
-/////
+  const token = localStorage.getItem("token") as string;
 
-/////
-//  Code
-/////
+  const isAdmin = checkIsAdmin(token);
 
-const token = localStorage.getItem('token') as string;
-console.log("token : ",token);
-const isAdmin = checkIsAdmin(token);
-console.log("isAdmin : ",isAdmin);
-
-/////
-//  Return
-/////
   return (
     <div>
       <nav>
