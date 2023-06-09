@@ -40,11 +40,11 @@ function App(): JSX.Element {
             <Route path="factures" element={<MesFactures />} />
             <Route path="favoris" element={<MesFavoris />} />
           </Route>
-          <Route path="back-office">
-            <Route path="" element={<BackOffice />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="produits" element={<Produits />} />
-          </Route>
+            <Route path="back-office">
+              <Route path="" element={<BackOffice /> } />
+              <Route path="categories" element={<Categories />} />
+              <Route path="produits" element={<Produits />} />
+            </Route>
           <Route path="errors">
             <Route path="404" element={<NotFound />} />
             <Route path="500" element={<InternalError />} />

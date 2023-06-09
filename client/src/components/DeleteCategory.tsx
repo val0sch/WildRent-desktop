@@ -16,7 +16,7 @@ function DeleteCategory({ deleteCategoryId }:{ deleteCategoryId: string }): JSX.
 
   const [deleteCategoryInDb, { data }] = useMutation(DELETE_CATEGORY, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "Suppression : " + data);
+      console.log("%c⧭", "color: #0088cc", "Suppression : " , data);
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);

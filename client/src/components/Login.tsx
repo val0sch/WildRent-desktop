@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import {useNavigate} from "react-router-dom"
 import { useLoginLazyQuery } from "../generated";
+import Inscription from "../pages/Inscription";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export default function Login() {
         <input onChange={handleChange} name="password" type="password" placeholder="Password" />
         <button disabled={loading} type="submit" name="login">Je me connecte</button>
       </form>
+      <Inscription />
     </>
   );
 }

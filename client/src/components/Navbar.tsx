@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
+import checkIsAdmin from '../Utils/utils';
 
 function Accueil(): JSX.Element {
 /////
@@ -13,6 +14,11 @@ function Accueil(): JSX.Element {
 //  Code
 /////
 
+const token = localStorage.getItem('token') as string;
+console.log("token : ",token);
+const isAdmin = checkIsAdmin(token);
+console.log("isAdmin : ",isAdmin);
+
 /////
 //  Return
 /////
@@ -20,7 +26,7 @@ function Accueil(): JSX.Element {
     <div>
       <nav>
         <Link to={"/"}>Accueil</Link>
-        <Link to={"/back-office/"}>BackOffice</Link>
+        {isAdmin && <Link to={"/back-office/"}>BackOffice</Link>}
         <Link to={"/compte/"}>Mon Compte</Link>
         <Link to={"/panier"}>Panier</Link>
       </nav>

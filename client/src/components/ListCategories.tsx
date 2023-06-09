@@ -24,7 +24,7 @@ function ListCategories({
   /////
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      console.log("list categories" + data);
+      console.log("list categories", data);
     },
     onError(error) {
       console.error(error);
