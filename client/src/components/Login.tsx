@@ -13,6 +13,7 @@ export default function Login() {
     onCompleted(data) {
       console.log("data.login", data.login);
       setUserData(data.login);
+      navigate("/");
     },
   });
 
