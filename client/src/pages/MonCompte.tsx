@@ -15,9 +15,7 @@ function MonCompte(): JSX.Element {
   //  Code
   /////
   const { userInfos } = useAuth();
-  // console.log("userinfos : ", userInfos);
-  // console.log("userinfos.email : ", userInfos.email);
-  
+ 
 
   /////
   //  Return

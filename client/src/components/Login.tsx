@@ -11,7 +11,6 @@ export default function Login() {
 
   const [login, { error, loading }] = useLoginLazyQuery({
     onCompleted(data) {
-      console.log("data.login", data.login);
       setUserData(data.login);
       navigate("/");
     },

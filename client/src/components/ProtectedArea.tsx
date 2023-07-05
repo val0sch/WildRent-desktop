@@ -16,7 +16,6 @@ function ProtectedArea({
     if (data?.checkAdmin) {
       return children;
     } else {
-      console.log("rediriger");
       return <div>Vous n'avez le droit d'être là</div>;
     }
   } else {
