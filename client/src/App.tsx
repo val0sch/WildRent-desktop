@@ -33,14 +33,7 @@ function App(): JSX.Element {
             element={<ConditionsGenerales />}
           />
           <Route path="mentions-legales" element={<MentionsLegales />} />
-          <Route
-            path="panier"
-            element={
-              <ProtectedArea>
-                <Panier />
-              </ProtectedArea>
-            }
-          />
+          <Route path="panier" element={<Panier />} />
           <Route path="compte">
             <Route path="" element={<MonCompte />} />
             <Route path="infos" element={<MesInfos />} />
@@ -57,8 +50,22 @@ function App(): JSX.Element {
                 </ProtectedArea>
               }
             />
-            <Route path="categories" element={<Categories />} />
-            <Route path="produits" element={<Produits />} />
+            <Route
+              path="categories"
+              element={
+                <ProtectedArea role={"admin"}>
+                  <Categories />
+                </ProtectedArea>
+              }
+            />
+            <Route
+              path="produits"
+              element={
+                <ProtectedArea role={"admin"}>
+                  <Produits />
+                </ProtectedArea>
+              }
+            />
           </Route>
           <Route path="errors">
             <Route path="404" element={<NotFound />} />

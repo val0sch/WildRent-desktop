@@ -13,7 +13,6 @@ export default function Login() {
     onCompleted(data) {
       console.log("data.login", data.login);
       setUserData(data.login);
-      navigate("/");
     },
   });
 
@@ -21,8 +20,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-
-  //   console.log(state);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

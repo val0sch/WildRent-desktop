@@ -1,4 +1,3 @@
-// import checkIsAdmin from "../Utils/utils";
 import { useQuery } from "@apollo/client";
 import { CHECK_ISADMIN, CHECK_TOKEN } from "../graphql/auth.query";
 
@@ -9,7 +8,6 @@ function ProtectedArea({
   children: JSX.Element;
   role?: "admin";
 }) {
-  // const token = localStorage.getItem("token") as string;
   const { data, loading } = useQuery(
     role === "admin" ? CHECK_ISADMIN : CHECK_TOKEN
   );
