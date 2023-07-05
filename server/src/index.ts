@@ -14,6 +14,7 @@ import "reflect-metadata";
 import cors from "cors";
 import { json } from "body-parser";
 import resolvers from "./resolvers";
+import UserService from "./services/user.service";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -27,13 +28,27 @@ const start = async () => {
 
   await server.start();
 
-   app.use(
+  app.use(
     "/graphql",
     cors<cors.CorsRequest>({
       origin: ["http://localhost:3000", "https://studio.apollographql.com"],
     }),
     json(),
-    expressMiddleware(server)
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        let user = null;
+        if (req.headers.authorization) {
+          const payload = (await new UserService().getAndCheckToken(
+            req.headers.authorization
+          )) as any;
+          if (payload) {
+            const email = payload.email;
+            user = await new UserService().findByEmail(email);
+          }
+        }
+        return { user };
+      },
+    })
   );
 
   await new Promise<void>((resolve) =>

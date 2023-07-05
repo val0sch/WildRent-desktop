@@ -9,6 +9,7 @@ function Accueil(): JSX.Element {
   const token = localStorage.getItem("token") as string;
   const [isAdmin, setIsAdmin] = useState(checkIsAdmin(token));
   useEffect(() => {}, [isAdmin]);
+
   // ////////////
   // commentaire de David : créer un hook useCheckToken pour récupérer isAdmin depuis le back est la manière la plus sécurisée:
   // ex:  const role = useCheckToken();

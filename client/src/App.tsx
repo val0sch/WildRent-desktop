@@ -18,6 +18,7 @@ import Produits from "./pages/BackOffice/Produits";
 import Categories from "./pages/BackOffice/Categories";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
+import ProtectedArea from "./components/ProtectedArea";
 
 function App(): JSX.Element {
   return (
@@ -32,7 +33,14 @@ function App(): JSX.Element {
             element={<ConditionsGenerales />}
           />
           <Route path="mentions-legales" element={<MentionsLegales />} />
-          <Route path="panier" element={<Panier />} />
+          <Route
+            path="panier"
+            element={
+              <ProtectedArea>
+                <Panier />
+              </ProtectedArea>
+            }
+          />
           <Route path="compte">
             <Route path="" element={<MonCompte />} />
             <Route path="infos" element={<MesInfos />} />
@@ -41,7 +49,14 @@ function App(): JSX.Element {
             <Route path="favoris" element={<MesFavoris />} />
           </Route>
           <Route path="back-office">
-            <Route path="" element={<BackOffice />} />
+            <Route
+              path=""
+              element={
+                <ProtectedArea role={"admin"}>
+                  <BackOffice />
+                </ProtectedArea>
+              }
+            />
             <Route path="categories" element={<Categories />} />
             <Route path="produits" element={<Produits />} />
           </Route>

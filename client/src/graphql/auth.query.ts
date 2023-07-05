@@ -14,3 +14,9 @@ export const CHECK_TOKEN = gql`
     checkToken
   }
 `;
+
+export const CHECK_ISADMIN = gql`
+  query CheckAdmin {
+    checkAdmin
+  }
+`;

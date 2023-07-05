@@ -97,7 +97,6 @@ export type ItemRegister = {
 export type LoginInfo = {
   __typename?: 'LoginInfo';
   email?: Maybe<Scalars['String']['output']>;
-  isAdmin?: Maybe<Scalars['Boolean']['output']>;
   token?: Maybe<Scalars['String']['output']>;
 };
 
@@ -245,6 +244,7 @@ export type Query = {
   __typename?: 'Query';
   carts?: Maybe<Array<Maybe<Cart>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
+  checkAdmin?: Maybe<Scalars['Boolean']['output']>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
   images?: Maybe<Array<Maybe<Image>>>;
@@ -296,6 +296,11 @@ export type CheckTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CheckTokenQuery = { __typename?: 'Query', checkToken?: boolean | null };
+
+export type CheckAdminQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckAdminQuery = { __typename?: 'Query', checkAdmin?: boolean | null };
 
 export type AddCategoryMutationVariables = Exact<{
   infos: CategoryRegister;
@@ -512,7 +517,6 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type LoginInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginInfo'] = ResolversParentTypes['LoginInfo']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -553,6 +557,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   carts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cart']>>>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
@@ -656,6 +661,38 @@ export function useCheckTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CheckTokenQueryHookResult = ReturnType<typeof useCheckTokenQuery>;
 export type CheckTokenLazyQueryHookResult = ReturnType<typeof useCheckTokenLazyQuery>;
 export type CheckTokenQueryResult = Apollo.QueryResult<CheckTokenQuery, CheckTokenQueryVariables>;
+export const CheckAdminDocument = gql`
+    query CheckAdmin {
+  checkAdmin
+}
+    `;
+
+/**
+ * __useCheckAdminQuery__
+ *
+ * To run a query within a React component, call `useCheckAdminQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckAdminQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckAdminQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckAdminQuery(baseOptions?: Apollo.QueryHookOptions<CheckAdminQuery, CheckAdminQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckAdminQuery, CheckAdminQueryVariables>(CheckAdminDocument, options);
+      }
+export function useCheckAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckAdminQuery, CheckAdminQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckAdminQuery, CheckAdminQueryVariables>(CheckAdminDocument, options);
+        }
+export type CheckAdminQueryHookResult = ReturnType<typeof useCheckAdminQuery>;
+export type CheckAdminLazyQueryHookResult = ReturnType<typeof useCheckAdminLazyQuery>;
+export type CheckAdminQueryResult = Apollo.QueryResult<CheckAdminQuery, CheckAdminQueryVariables>;
 export const AddCategoryDocument = gql`
     mutation addCategory($infos: CategoryRegister!) {
   addCategory(infos: $infos) {

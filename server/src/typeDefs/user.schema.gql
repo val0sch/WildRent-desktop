@@ -9,7 +9,7 @@ type User {
 type LoginInfo {
   token: String
   email: String
-  isAdmin: Boolean
+  # isAdmin: Boolean
 }
 
 type Query {
@@ -17,6 +17,7 @@ type Query {
   user(id: String!): User
   login(infos: UserLogin!): LoginInfo
   checkToken: Boolean
+  checkAdmin: Boolean
 }
 
 type Mutation {
@@ -35,7 +36,3 @@ input UserRegister {
   password: String!
   isAdmin: Boolean
 }
-
-
-
-
