@@ -1,5 +1,3 @@
-import React from "react";
-
 function Users(): JSX.Element {
 /////
 //  useEffect

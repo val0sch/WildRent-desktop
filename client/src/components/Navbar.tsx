@@ -1,32 +1,27 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet } from "react-router-dom";
+import { CHECK_ISADMIN } from "../graphql/auth.query";
+import { useQuery } from "@apollo/client";
+import useAuth from "../hooks/useAuth";
+import { useEffect } from "react";
 
-function Accueil(): JSX.Element {
-/////
-//  useEffect
-/////
+export default function Accueil(): JSX.Element {
+  const { data, refetch } = useQuery(CHECK_ISADMIN);
+  const { userInfos, logout } = useAuth();
 
-/////
-//  useState
-/////
+  useEffect(() => {
+    refetch();
+  }, [userInfos, refetch]);
 
-/////
-//  Code
-/////
-
-/////
-//  Return
-/////
   return (
     <div>
       <nav>
         <Link to={"/"}>Accueil</Link>
-        <Link to={"/back-office/"}>BackOffice</Link>
+        {data?.checkAdmin && <Link to={"/back-office/"}>BackOffice</Link>}
         <Link to={"/compte/"}>Mon Compte</Link>
         <Link to={"/panier"}>Panier</Link>
+        {userInfos?.email && <button onClick={logout}>Se deconnecter</button>}
       </nav>
       <Outlet />
     </div>
   );
 }
-
-export default Accueil;

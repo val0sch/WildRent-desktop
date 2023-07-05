@@ -8,11 +8,4 @@ export const USER = gql`
       }
     }
   }
-
-  query Login($infos: UserLogin!) {
-    login(infos: $infos) {
-      token
-      email
-    }
-  }
 `;

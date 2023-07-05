@@ -5,7 +5,12 @@ import { ApolloServerErrorCode } from "@apollo/server/errors";
 import { hash, verify } from "argon2";
 import * as jwt from "jsonwebtoken";
 import { IContext } from "../index.d";
-import { MutationAddUserArgs, MutationUpdateUserArgs, MutationDeleteUserArgs, QueryLoginArgs } from "../graphql/graphql";
+import {
+  MutationAddUserArgs,
+  MutationUpdateUserArgs,
+  MutationDeleteUserArgs,
+  QueryLoginArgs,
+} from "../graphql/graphql";
 
 export default {
   Query: {
@@ -37,20 +42,29 @@ export default {
       const isAdmin = user.isAdmin;
 
       //génération du token permettant ensuite de s'authentifié auprès de chaque resolvers sans indiquer un identifiant et un mot de passe
-      const token = jwt.sign({ email, isAdmin }, `${process.env.SECRET_KEY}`); // on stocke ici un payload qui est un objet contenant email, signé grâce à la clé secrète
-      return { token, email, isAdmin };
+      const token = jwt.sign({ email }, `${process.env.SECRET_KEY}`); // on stocke ici un payload qui est un objet contenant email, signé grâce à la clé secrète
+      return { token, email };
     },
 
     async checkToken(_: any, {}, { user }: IContext) {
       return user !== null;
     },
+    async checkAdmin(_: any, {}, { user }: IContext) {
+      console.log("====> ", user);
+      let isAdmin = false;
+      if (user) {
+        isAdmin = user.isAdmin;
+      }
+      return isAdmin;
+    },
   },
 
   Mutation: {
     async addUser(_: any, { infos }: MutationAddUserArgs) {
-      let { email, password: plainPassword, isAdmin=false } = infos;
+      let { email, password: plainPassword, isAdmin = false } = infos;
 
-      if (isAdmin == null) { // assignation de la valeur false à isAdmin si elle n'est pas renseignée
+      if (isAdmin == null) {
+        // assignation de la valeur false à isAdmin si elle n'est pas renseignée
         isAdmin = false;
       }
 
@@ -81,13 +95,13 @@ export default {
         isAdmin,
         detailsUser: detailsUserId,
       });
- 
+
       return user;
     },
 
     async updateUser(_: any, { id, infos }: MutationUpdateUserArgs) {
       const { email, password: plainPassword, isAdmin } = infos;
-      
+
       const user = await new UserService().findById(id);
 
       //TODO: vérifier que l'email n'est pas déjà pris par un autre user
@@ -98,21 +112,21 @@ export default {
         id,
         email,
         password,
-        isAdmin
+        isAdmin,
       });
     },
 
     async deleteUser(_: any, { id }: MutationDeleteUserArgs) {
       const user = await new UserService().findById(id);
       if (!user) {
-        throw new Error('Utilisateur non trouvé');
+        throw new Error("Utilisateur non trouvé");
       }
       const detailsUserId = user.detailsUser.id;
       await Promise.all([
-       new UserService().deleteUser({ id }),
-       new DetailsUserService().deleteDetailsUser({ id:detailsUserId })
+        new UserService().deleteUser({ id }),
+        new DetailsUserService().deleteDetailsUser({ id: detailsUserId }),
       ]);
-      return 'Utilisateur supprimé'
-    }
+      return "Utilisateur supprimé";
+    },
   },
 };

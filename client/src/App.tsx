@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Index from "./components/Navbar";
+import NavBar from "./components/Navbar";
 import Accueil from "./pages/Accueil";
 import Inscription from "./pages/Inscription";
 import MesInfos from "./pages/MonCompte/MesInfos";
@@ -18,19 +18,20 @@ import Produits from "./pages/BackOffice/Produits";
 import Categories from "./pages/BackOffice/Categories";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
-
-
-
+import ProtectedArea from "./components/ProtectedArea";
 
 function App(): JSX.Element {
   return (
-    <div className="App">      
+    <div className="App">
       <Routes>
-        <Route path="/" element={<Index />}>
+        <Route path="/" element={<NavBar />}>
           <Route index element={<Accueil />} />
           <Route path="inscription" element={<Inscription />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="conditions-generales" element={<ConditionsGenerales />} />
+          <Route
+            path="conditions-generales"
+            element={<ConditionsGenerales />}
+          />
           <Route path="mentions-legales" element={<MentionsLegales />} />
           <Route path="panier" element={<Panier />} />
           <Route path="compte">
@@ -41,9 +42,30 @@ function App(): JSX.Element {
             <Route path="favoris" element={<MesFavoris />} />
           </Route>
           <Route path="back-office">
-            <Route path="" element={<BackOffice />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="produits" element={<Produits />} />
+            <Route
+              path=""
+              element={
+                <ProtectedArea role={"admin"}>
+                  <BackOffice />
+                </ProtectedArea>
+              }
+            />
+            <Route
+              path="categories"
+              element={
+                <ProtectedArea role={"admin"}>
+                  <Categories />
+                </ProtectedArea>
+              }
+            />
+            <Route
+              path="produits"
+              element={
+                <ProtectedArea role={"admin"}>
+                  <Produits />
+                </ProtectedArea>
+              }
+            />
           </Route>
           <Route path="errors">
             <Route path="404" element={<NotFound />} />

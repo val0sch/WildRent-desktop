@@ -1,7 +1,8 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { useLoginLazyQuery } from "../generated";
+import Inscription from "../pages/Inscription";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,9 +20,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-
-//   console.log(state);
-  
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,14 +39,25 @@ export default function Login() {
 
   return (
     <>
-    {error && error.message}
+      {error && error.message}
       <form onSubmit={handleSubmit}>
-        <input onChange={handleChange} name="email" type="text" placeholder="Email" />
-        <input onChange={handleChange} name="password" type="password" placeholder="Password" />
-        <button disabled={loading} type="submit" name="login">Je me connecte</button>
+        <input
+          onChange={handleChange}
+          name="email"
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          onChange={handleChange}
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+        <button disabled={loading} type="submit" name="login">
+          Je me connecte
+        </button>
       </form>
+      <Inscription />
     </>
   );
 }
-
-
