@@ -1,3 +1,160 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* reset.css */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* *** */
+
+:root {
+  --main-orange: #f1600d;
+  --main-navy: #1a265a;
+  --main-turquoise: #50a5b1;
+  --secondary-navy: rgba(26, 38, 90, 0.5);
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-family: "Exo", sans-serif;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Libre Franklin", sans-serif;
+}
+
+#root {
+  position: relative;
+  min-height: 100vh;
+  background-color: whitesmoke;
+}
+
+button{
+  border: none;
+  background-color: var(--main-orange);
+  padding: 8px 16px;
+  border-radius: 24px;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+button.secondary{
+  border: 1px solid var(--main-orange);
+  background-color: white;
+  color: var(--main-orange);
+}
+
+button.navy{
+  border: none;
+  background-color: var(--main-navy);
+  color: white;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+input{
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  padding: 8px;
+  border-radius: 8px;
+}
