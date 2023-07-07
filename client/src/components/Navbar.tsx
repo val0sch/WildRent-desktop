@@ -6,7 +6,11 @@ import { useState, useEffect } from "react";
 
 import "../style/navbar.css";
 
-import { CaretCircleDown, UserCircle, ShoppingCartSimple } from "@phosphor-icons/react";
+import {
+  CaretCircleDown,
+  UserCircle,
+  ShoppingCartSimple,
+} from "@phosphor-icons/react";
 
 export default function Accueil(): JSX.Element {
   // gestion login admin
@@ -51,9 +55,12 @@ export default function Accueil(): JSX.Element {
 
         <ul className={`${showMenu ? "open" : "desktop"}`}>
           <li className="dropdown">
-            <div className={`toggleCategories ${showCategories ? "openCat" : ""}`} onClick={toggleCategories}>
+            <div
+              className={`toggleCategories ${showCategories ? "openCat" : ""}`}
+              onClick={toggleCategories}
+            >
               <CaretCircleDown size={32} />
-              <p>Catégories</p>
+              <p className="text-sky-500 hover:text-sky-600">Catégories</p>
             </div>
 
             <div
@@ -90,9 +97,7 @@ export default function Accueil(): JSX.Element {
             </li>
           )}
           <li>
-            {userInfos?.email && (
-              <button onClick={logout}>Déconnexion</button>
-            )}
+            {userInfos?.email && <button onClick={logout}>Déconnexion</button>}
           </li>
         </ul>
       </nav>
