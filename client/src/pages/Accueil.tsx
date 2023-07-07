@@ -9,6 +9,7 @@ function Users(): JSX.Element {
           Louez nos équipements d'exception,<br/> vivez l'aventure sportive à votre
           façon !
         </h2>
+        {/* 🔽 requeter le nombre de sports 🔽 */}
         <h3>Plus de 50 sports disponibles !</h3>
         <div className="home-button-container">
           <button><Link to={"/categories"}>Parcourir les catégories</Link></button>
