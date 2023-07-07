@@ -220,7 +220,7 @@ export type Product = {
   id?: Maybe<Scalars['String']>;
   isAvailable?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Int']>;
   size?: Maybe<Scalars['String']>;
   stock?: Maybe<Scalars['Int']>;
 };
@@ -230,7 +230,7 @@ export type ProductRegister = {
   description: Scalars['String'];
   isAvailable?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
-  price: Scalars['String'];
+  price: Scalars['Int'];
   size: Scalars['String'];
   stock: Scalars['Int'];
 };
@@ -480,7 +480,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  price?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   size?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   stock?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
