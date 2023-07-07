@@ -13,6 +13,7 @@ COPY .env ./
 RUN npm install
 
 COPY setup.js ./
+COPY tailwind.config.js ./
 
 COPY src src
 
