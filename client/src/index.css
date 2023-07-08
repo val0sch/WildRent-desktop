@@ -118,7 +118,6 @@ h6 {
 }
 
 #root {
-  position: relative;
   min-height: 100vh;
   background-color: whitesmoke;
 }
@@ -126,7 +125,8 @@ h6 {
 button{
   border: none;
   background-color: var(--main-orange);
-  padding: 8px 16px;
+  padding: 16px;
+  width: fit-content;
   border-radius: 24px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -157,4 +157,10 @@ input{
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   padding: 8px;
   border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .App{
+    min-height: 100vh;
+  }
 }
