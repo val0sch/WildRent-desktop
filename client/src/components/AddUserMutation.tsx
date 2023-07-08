@@ -4,64 +4,127 @@ import { ADD_USER } from "../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
 
+import * as Yup from "yup";
 
 function AddUserMutation() {
-/////
-//  useEffect
-/////
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .matches(
+        /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        "L'adresse e-mail est invalide"
+      )
+      .required("L'adresse e-mail est obligatoire.")
+      .email("Veuillez entrer une adresse e-mail valide."),
+    password: Yup.string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        "Minimum 8 caractères, au moins une majuscule, une minuscule et un chiffre"
+      )
+      .required("Le mot de passe est obligatoire.")
+      .min(8, "Le mot de passe doit avoir au minimum 8 caractères."),
+      passwordConfirmation: Yup.string()
+      .oneOf([Yup.ref("password")], "Les mots de passe ne correspondent pas")
+      .required("La confirmation du mot de passe est obligatoire."),
+  });
 
-/////
-//  useState
-/////
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
 
-/////
-//  Code
-/////
   const navigate: NavigateFunction = useNavigate();
- 
+
   const [addUserInDb, { data }] = useMutation(ADD_USER, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add User", data);
-      navigate('/compte/infos');
+      navigate("/compte/infos");
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
     },
   });
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<any>>) => {
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setState: React.Dispatch<React.SetStateAction<any>>
+  ) => {
     setState(e.target.value);
   };
 
-  const handleChangeField = (field: string, setState: React.Dispatch<React.SetStateAction<any>>) => {
+  const handleChangeField = (
+    field: string,
+    setState: React.Dispatch<React.SetStateAction<any>>
+  ) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       handleChange(e, setState);
     };
   };
 
-  const handleAddUser = () => {
-    addUserInDb({
-      variables: {
-        infos: {
-          email,
-          password
-        }
-      },
-    });
+  const handleAddUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  
+    try {
+      await validationSchema.validate(
+        { email, password, passwordConfirmation },
+        { abortEarly: false }
+      );
+  
+      addUserInDb({
+        variables: {
+          infos: {
+            email,
+            password,
+          },
+        },
+      });
+    } catch (err) {
+      if (Yup.ValidationError.isError(err)) {
+        const yupErrors: Record<string, string> = {};
+        err.inner.forEach((validationError) => {
+          if (validationError.path) {
+            yupErrors[validationError.path] = validationError.message;
+          }
+        });
+        setErrors(yupErrors);
+      }
+    }
   };
+  
 
-/////
-//  Return
-/////
   return (
-    <div className="register-form">
-      <input placeholder="Saisissez votre adresse email" onChange={handleChangeField('email', setEmail)}/>
-      <input placeholder="Choisissez un mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
-      <input placeholder="Répétez votre mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
-      <button data-button="register" onClick={handleAddUser}>S'inscrire</button>
-    </div>
+    <form onSubmit={handleAddUser} className="register-form">
+      <input
+        name="email"
+        placeholder="Saisissez votre adresse email"
+        onChange={handleChangeField("email", setEmail)}
+      />
+      {errors.email && <p className="register-error-message">{errors.email}</p>}
+
+      <input
+        name="password"
+        placeholder="Choisissez un mot de passe"
+        type="password"
+        onChange={handleChangeField("password", setPassword)}
+      />
+      {errors.password && (
+        <p className="register-error-message">{errors.password}</p>
+      )}
+
+      <input
+        name="passwordConfirmation"
+        placeholder="Répétez votre mot de passe"
+        type="password"
+        onChange={handleChangeField("passwordConfirmation", setPasswordConfirmation)}
+      />
+      {errors.passwordConfirmation && (
+        <p className="register-error-message">{errors.passwordConfirmation}</p>
+      )}
+
+      <button type="submit" data-button="register">
+        S'inscrire
+      </button>
+    </form>
   );
 }
 

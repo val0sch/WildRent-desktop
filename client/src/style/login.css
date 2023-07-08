@@ -86,6 +86,13 @@ button.back-home a p {
   color: darkred;
 }
 
+.register-container p.register-error-message{
+  font-size: 18px;
+  align-self: flex-start;
+  color: darkred;
+  padding: 0;
+}
+
 @media screen and (min-width: 768px) {
   .login-register-container {
     background-image: url(../assets/home.jpeg);
@@ -145,9 +152,10 @@ button.back-home a p {
   }
 
   .login-form p.login-error-message {
-    font-size: 18px;
-    align-self: flex-start;
-    color: darkred;
+    padding-left: 2rem;
+  }
+  
+  .register-container p.register-error-message{
     padding-left: 2rem;
   }
 }
