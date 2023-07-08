@@ -10,8 +10,8 @@
   margin-bottom: 2rem;
 }
 
-button.back-home a p{
-    display: none;
+button.back-home a p {
+  display: none;
 }
 
 .login-container {
@@ -80,6 +80,12 @@ button.back-home a p{
   font-size: 18px;
 }
 
+.login-form p.login-error-message {
+  font-size: 18px;
+  align-self: flex-start;
+  color: darkred;
+}
+
 @media screen and (min-width: 768px) {
   .login-register-container {
     background-image: url(../assets/home.jpeg);
@@ -100,41 +106,48 @@ button.back-home a p{
     height: fit-content;
   }
 
-  .login-register{
+  .login-register {
     display: flex;
     width: 80%;
   }
 
-  .login-container{
-    width: 50%;
-  }
-  
-  .register-container{
+  .login-container {
     width: 50%;
   }
 
-  .login-form input{
+  .register-container {
+    width: 50%;
+  }
+
+  .login-form input {
     width: 90%;
   }
 
-  .login-form{
+  .login-form {
     width: 100%;
   }
 
-  .register-form input{
+  .register-form input {
     width: 90%;
   }
 
-  .login-register-container button.back-home{
-      position: absolute;
-      left: 1rem;
+  .login-register-container button.back-home {
+    position: absolute;
+    left: 1rem;
   }
 
-  button.back-home a{
+  button.back-home a {
     display: flex;
   }
 
-  button.back-home a p{
+  button.back-home a p {
     display: block;
-}
+  }
+
+  .login-form p.login-error-message {
+    font-size: 18px;
+    align-self: flex-start;
+    color: darkred;
+    padding-left: 2rem;
+  }
 }
