@@ -56,9 +56,10 @@ function AddUserMutation() {
 //  Return
 /////
   return (
-    <div>
-      <input placeholder="Votre Email" onChange={handleChangeField('email', setEmail)}/>
-      <input placeholder="Votre mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
+    <div className="register-form">
+      <input placeholder="Saisissez votre adresse email" onChange={handleChangeField('email', setEmail)}/>
+      <input placeholder="Choisissez un mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
+      <input placeholder="Répétez votre mot de passe" type="password" onChange={handleChangeField('password', setPassword)}/>
       <button data-button="register" onClick={handleAddUser}>S'inscrire</button>
     </div>
   );

@@ -1,0 +1,140 @@
+.login-register-container {
+  min-height: calc(100vh - 241px);
+  padding: 2rem 1rem;
+  background-image: url(../assets/home-mobile.jpeg);
+}
+
+.login-register-container button.navy {
+  padding: 8px 16px;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}
+
+button.back-home a p{
+    display: none;
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.login-container input {
+  height: 2.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0 2rem 0;
+}
+
+.login-form p {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.login-form input {
+  width: 100%;
+}
+
+.login-form button {
+  margin-top: 1rem;
+  font-size: 18px;
+}
+
+.register-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.register-container p {
+  font-size: 24px;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.register-form input {
+  width: 100%;
+  height: 2.5rem;
+}
+
+.register-form button {
+  margin-top: 1rem;
+  font-size: 18px;
+}
+
+@media screen and (min-width: 768px) {
+  .login-register-container {
+    background-image: url(../assets/home.jpeg);
+    display: flex;
+    min-height: calc(100vh - 104px);
+    justify-content: end;
+    gap: 2rem;
+  }
+
+  .login-container {
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+
+  .login-register-container button.navy {
+    height: fit-content;
+  }
+
+  .login-register{
+    display: flex;
+    width: 80%;
+  }
+
+  .login-container{
+    width: 50%;
+  }
+  
+  .register-container{
+    width: 50%;
+  }
+
+  .login-form input{
+    width: 90%;
+  }
+
+  .login-form{
+    width: 100%;
+  }
+
+  .register-form input{
+    width: 90%;
+  }
+
+  .login-register-container button.back-home{
+      position: absolute;
+      left: 1rem;
+  }
+
+  button.back-home a{
+    display: flex;
+  }
+
+  button.back-home a p{
+    display: block;
+}
+}

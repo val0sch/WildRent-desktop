@@ -1,8 +1,11 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginLazyQuery } from "../generated";
 import Inscription from "../pages/Inscription";
+
+import "../style/login.css";
+import { CaretLeft, UserCircle } from "@phosphor-icons/react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,26 +41,38 @@ export default function Login() {
   };
 
   return (
-    <>
-      {error && error.message}
-      <form onSubmit={handleSubmit}>
-        <input
-          onChange={handleChange}
-          name="email"
-          type="text"
-          placeholder="Email"
-        />
-        <input
-          onChange={handleChange}
-          name="password"
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={loading} type="submit" name="login">
-          Je me connecte
-        </button>
-      </form>
-      <Inscription />
-    </>
+    <div className="login-register-container">
+      <button className="navy back-home">
+        <Link to={"/"}>
+          <CaretLeft size={28} color="white" />
+          <p>Retour</p>
+        </Link>
+      </button>
+      <div className="login-register">
+        <section className="login-container">
+          {error && error.message}
+          <form onSubmit={handleSubmit} className="login-form">
+            <UserCircle size={32} />
+            <p>Connexion</p>
+            <input
+              onChange={handleChange}
+              name="email"
+              type="text"
+              placeholder="Email"
+            />
+            <input
+              onChange={handleChange}
+              name="password"
+              type="password"
+              placeholder="Mot de passe"
+            />
+            <button disabled={loading} type="submit" name="login">
+              Se connecter
+            </button>
+          </form>
+        </section>
+        <Inscription />
+      </div>
+    </div>
   );
 }
