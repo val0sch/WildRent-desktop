@@ -15,6 +15,7 @@ import cors from "cors";
 import { json } from "body-parser";
 import resolvers from "./resolvers";
 import UserService from "./services/user.service";
+import { Server } from "socket.io";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -25,7 +26,6 @@ const start = async () => {
     resolvers,
     typeDefs,
   });
-
   await server.start();
 
   app.use(
@@ -50,6 +50,17 @@ const start = async () => {
       },
     })
   );
+  const io = new Server(4004, {
+    cors: {
+      origin: "http://localhost:3000",
+    },
+  });
+
+  io.on("connection", (socket) => {
+    socket.on("send_message", (data) => {
+      socket.broadcast.emit("receive_message", data);
+    });
+  });
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)

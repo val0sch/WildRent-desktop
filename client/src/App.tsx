@@ -15,10 +15,14 @@ import MesFactures from "./pages/MonCompte/MesFactures";
 import MesFavoris from "./pages/MonCompte/MesFavoris";
 import Produits from "./pages/BackOffice/Produits";
 import Categories from "./pages/BackOffice/Categories";
+import Messaging from "./pages/BackOffice/Messaging";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
+import { io } from "socket.io-client";
 
+const socket = io();
+console.log("socket", socket);
 function App(): JSX.Element {
   return (
     <div className="App">
@@ -62,6 +66,14 @@ function App(): JSX.Element {
               element={
                 <ProtectedArea role={"admin"}>
                   <Produits />
+                </ProtectedArea>
+              }
+            />
+            <Route
+              path="messagerie"
+              element={
+                <ProtectedArea role={"admin"}>
+                  <Messaging />
                 </ProtectedArea>
               }
             />
