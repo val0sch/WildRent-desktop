@@ -9,16 +9,16 @@ export default {
     },
   },
   Mutation: {
-    async updateDetailsUser(_: any, { id, infos }: MutationUpdateDetailsUserArgs) {
+    async updateDetailsUser(_: any, { id, infos }: MutationUpdateDetailsUserArgs, { user }: any) {
       const {  birthday, address, firstname, lastname } = infos;
-
-      return await new DetailsUserService().updateDetailsUser({
-        id,
-        birthday,
-        address,
-        firstname,
-        lastname
-      });
+      console.log(user);
+      // return await new DetailsUserService().updateDetailsUser({
+      //   id,
+      //   birthday,
+      //   address,
+      //   firstname,
+      //   lastname
+      // });
     },
   },
 };
