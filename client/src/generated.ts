@@ -321,7 +321,7 @@ export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?:
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListCategoriesQuery = { __typename?: 'Query', categories?: Array<{ __typename?: 'Category', id?: string | null, label?: string | null } | null> | null };
+export type ListCategoriesQuery = { __typename?: 'Query', categories?: Array<{ __typename?: 'Category', id?: string | null, label?: string | null, imageUrl?: string | null } | null> | null };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -788,6 +788,7 @@ export const ListCategoriesDocument = gql`
   categories {
     id
     label
+    imageUrl
   }
 }
     `;
