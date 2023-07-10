@@ -32,7 +32,9 @@ export default function Accueil(): JSX.Element {
     setShowMenu(false);
   };
 
-  // gestion categories et sous-categories
+  // récupérer la liste des categories
+
+  // gestion affichage categories et sous-categories
   const [showCategories, setShowCategories] = useState(false);
 
   const toggleCategories = () => {

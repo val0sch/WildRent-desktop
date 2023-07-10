@@ -21,6 +21,7 @@ import ProtectedArea from "./components/ProtectedArea";
 
 function App(): JSX.Element {
   return (
+    <>
     <div className="App">
       <Routes>
         <Route path="/" element={<NavBar />}>
@@ -72,8 +73,9 @@ function App(): JSX.Element {
           </Route>
         </Route>
       </Routes>
-      <Footer />
     </div>
+      <Footer />
+      </>
   );
 }
 
