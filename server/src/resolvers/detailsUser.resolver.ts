@@ -7,6 +7,9 @@ export default {
     async detailsUsers() {
       return await new DetailsUserService().listDetailsUsers();
     },
+    detailsConnectUser(_: any, {}, { user }: any){
+      return user?.detailsUser;
+    }
   },
   Mutation: {
     async updateDetailsUser(_: any, { id, infos }: MutationUpdateDetailsUserArgs, { user }: any) {
