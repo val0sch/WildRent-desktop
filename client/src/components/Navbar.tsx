@@ -97,7 +97,7 @@ export default function Accueil(): JSX.Element {
             </li>
           )}
           <li>
-            {userInfos?.email && <button onClick={logout}>Déconnexion</button>}
+            {userInfos?.email && <button className="secondary" onClick={logout}>Déconnexion</button>}
           </li>
         </ul>
       </nav>

@@ -58,6 +58,15 @@ a.navlink {
   transition: all 0.3s linear;
 }
 
+.navigation button.secondary {
+  border: 1px solid var(--main-orange);
+  background-color: rgba(245, 245, 245, 0.9);
+}
+
+.navigation button.secondary:last-of-type{
+margin: .5rem;
+}
+
 @media screen and (max-width: 768px) {
   .hamburger {
     display: flex;
