@@ -1,14 +1,30 @@
 import { Link } from "react-router-dom";
-import AddProduct from "../../components/AddProduct";
 import ListProducts from "../../components/ListProducts";
+import { MouseEventHandler, useState } from "react";
+import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
 function Produits(): JSX.Element {
+  const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
+
+  const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
+    setToggleModaleProduct(!toggleModaleProduct);
+    console.log(toggleModaleProduct);
+  };
+
+  const closeModaleProduct: () => void = () => {
+    setToggleModaleProduct(false);
+  };
 
   return (
     <div>
       Produits
       <div>
-        <AddProduct />
+        <button onClick={handleModaleProduct}>Ajouter un produit</button>
+        {toggleModaleProduct && <ModaleAddProduct
+          handleModaleProduct={handleModaleProduct}
+          closeModaleProduct={closeModaleProduct}
+        />} 
+
         <ListProducts />
       </div>
       <div>

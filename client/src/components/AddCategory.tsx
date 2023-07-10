@@ -11,6 +11,7 @@ function AddCategory() {
   //  useStates
   /////
   const [label, setLabel] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   /////
   //  Code
   /////
@@ -44,6 +45,7 @@ function AddCategory() {
       variables: {
         infos: {
           label,
+          imageUrl
         },
       },
     });
@@ -58,6 +60,11 @@ function AddCategory() {
         data-testid="input-category"
         placeholder="Nom de la catégorie"
         onChange={handleChangeField("label", setLabel)}
+      />
+            <input
+        data-testid="input-category"
+        placeholder="Url de l'image"
+        onChange={handleChangeField("imageUrl", setImageUrl)}
       />
       <button onClick={handleAddCategory}>Enregistrer</button>
       {data && (

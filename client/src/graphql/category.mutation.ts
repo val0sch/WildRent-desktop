@@ -5,6 +5,7 @@ mutation addCategory($infos: CategoryRegister!) {
   addCategory(infos: $infos) {
     id
     label
+    imageUrl
   }
 }
 `

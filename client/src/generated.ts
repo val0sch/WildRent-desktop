@@ -37,10 +37,12 @@ export type CartRegister = {
 export type Category = {
   __typename?: 'Category';
   id?: Maybe<Scalars['String']['output']>;
+  imageUrl?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
 };
 
 export type CategoryRegister = {
+  imageUrl: Scalars['String']['input'];
   label: Scalars['String']['input'];
 };
 
@@ -231,7 +233,7 @@ export type Product = {
 };
 
 export type ProductRegister = {
-  category: Scalars['String']['input'];
+  category?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
@@ -307,7 +309,7 @@ export type AddCategoryMutationVariables = Exact<{
 }>;
 
 
-export type AddCategoryMutation = { __typename?: 'Mutation', addCategory?: { __typename?: 'Category', id?: string | null, label?: string | null } | null };
+export type AddCategoryMutation = { __typename?: 'Mutation', addCategory?: { __typename?: 'Category', id?: string | null, label?: string | null, imageUrl?: string | null } | null };
 
 export type DeleteCategoryMutationVariables = Exact<{
   deleteCategoryId: Scalars['String'];
@@ -498,6 +500,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -717,6 +720,7 @@ export const AddCategoryDocument = gql`
   addCategory(infos: $infos) {
     id
     label
+    imageUrl
   }
 }
     `;
