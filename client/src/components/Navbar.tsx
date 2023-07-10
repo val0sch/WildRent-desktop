@@ -79,7 +79,11 @@ export default function Accueil(): JSX.Element {
               onClick={toggleCategories}
             >
               <CaretCircleDown size={32} />
-              <p>Catégories</p>
+              {window.innerWidth < 768 ? (
+                <p>Catégories</p>
+              ) : (
+                <Link to="/all-categories">Catégories</Link>
+              )}
             </div>
 
             <div

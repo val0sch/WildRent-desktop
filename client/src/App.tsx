@@ -18,6 +18,7 @@ import Categories from "./pages/BackOffice/Categories";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
+import CategorieList from "./pages/CategorieList";
 
 function App(): JSX.Element {
   return (
@@ -28,6 +29,7 @@ function App(): JSX.Element {
             <Route index element={<Accueil />} />
             <Route path="inscription" element={<Inscription />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="all-categories" element={<CategorieList />} />
             <Route
               path="conditions-generales"
               element={<ConditionsGenerales />}
