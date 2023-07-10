@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { CHECK_ISADMIN } from "../graphql/auth.query";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import useAuth from "../hooks/useAuth";
 import { useState, useEffect } from "react";
 
@@ -11,6 +11,7 @@ import {
   UserCircle,
   ShoppingCartSimple,
 } from "@phosphor-icons/react";
+import { LIST_CATEGORIES } from "../graphql/listCategories.query";
 
 export default function Accueil(): JSX.Element {
   // gestion login admin
@@ -33,6 +34,22 @@ export default function Accueil(): JSX.Element {
   };
 
   // récupérer la liste des categories
+
+  const [categoriesList, setCategoriesList] = useState([]);
+
+  const [getList, { data: subMenu }] = useLazyQuery(LIST_CATEGORIES, {
+    onCompleted(subMenu) {
+      console.log("list categories subMenu", subMenu.categories);
+      setCategoriesList(subMenu.categories);
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   // gestion affichage categories et sous-categories
   const [showCategories, setShowCategories] = useState(false);
@@ -68,15 +85,14 @@ export default function Accueil(): JSX.Element {
             <div
               className={`dropdown-content ${showCategories ? "openCat" : ""}`}
             >
-              <Link className="navlink" to="/" onClick={closeMenu}>
-                Tennis
-              </Link>
-              <Link className="navlink" to="/" onClick={closeMenu}>
-                Hiver
-              </Link>
-              <Link className="navlink" to="/" onClick={closeMenu}>
-                Aquatique
-              </Link>
+              {categoriesList &&
+                categoriesList.map((submenu: any) => {
+                  return (
+                    <Link className="navlink" to="/" onClick={closeMenu}>
+                      {submenu.label}
+                    </Link>
+                  );
+                })}
             </div>
           </li>
           <li className="navlink mobile">
@@ -99,7 +115,11 @@ export default function Accueil(): JSX.Element {
             </li>
           )}
           <li>
-            {userInfos?.email && <button className="secondary" onClick={logout}>Déconnexion</button>}
+            {userInfos?.email && (
+              <button className="secondary" onClick={logout}>
+                Déconnexion
+              </button>
+            )}
           </li>
         </ul>
       </nav>

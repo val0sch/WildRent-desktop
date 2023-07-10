@@ -154,6 +154,7 @@ a.navlink {
     margin-bottom: 0;
     cursor: pointer;
     flex-direction: row-reverse;
+    height: 69.5px;
   }
 
   .navigation {
@@ -184,9 +185,10 @@ a.navlink {
 
   .dropdown-content {
     position: absolute;
+    right: -100%;
     display: none;
     gap: 1rem;
-    padding: 2rem 1rem 1rem;
+    padding: 1rem;
     background-color: var(--secondary-navy);
   }
 
