@@ -22,7 +22,7 @@ function AddUserMutation() {
       )
       .required("Le mot de passe est obligatoire.")
       .min(8, "Le mot de passe doit avoir au minimum 8 caractères."),
-      passwordConfirmation: Yup.string()
+    passwordConfirmation: Yup.string()
       .oneOf([Yup.ref("password")], "Les mots de passe ne correspondent pas")
       .required("La confirmation du mot de passe est obligatoire."),
   });
@@ -41,7 +41,11 @@ function AddUserMutation() {
       navigate("/compte/infos");
     },
     onError(error) {
-      console.error("%c⧭", "color: #917399", error);
+      if (error.message.includes("Cet email est déjà pris")) {
+        setErrors({ email: "Cet email est déjà pris" });
+      } else {
+        console.error("%c⧭", "color: #917399", error);
+      }
     },
   });
 
@@ -69,8 +73,7 @@ function AddUserMutation() {
         { email, password, passwordConfirmation },
         { abortEarly: false }
       );
-  
-      addUserInDb({
+      await addUserInDb({
         variables: {
           infos: {
             email,
@@ -78,7 +81,7 @@ function AddUserMutation() {
           },
         },
       });
-    } catch (err) {
+    } catch (err:any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
         err.inner.forEach((validationError) => {
@@ -87,6 +90,8 @@ function AddUserMutation() {
           }
         });
         setErrors(yupErrors);
+      } else if (err.message === "Cet email est déjà pris") {
+        setErrors({ email: "Cet email est déjà pris" });
       }
     }
   };
@@ -100,7 +105,6 @@ function AddUserMutation() {
         onChange={handleChangeField("email", setEmail)}
       />
       {errors.email && <p className="register-error-message">{errors.email}</p>}
-
       <input
         name="password"
         placeholder="Choisissez un mot de passe"
@@ -115,7 +119,10 @@ function AddUserMutation() {
         name="passwordConfirmation"
         placeholder="Répétez votre mot de passe"
         type="password"
-        onChange={handleChangeField("passwordConfirmation", setPasswordConfirmation)}
+        onChange={handleChangeField(
+          "passwordConfirmation",
+          setPasswordConfirmation
+        )}
       />
       {errors.passwordConfirmation && (
         <p className="register-error-message">{errors.passwordConfirmation}</p>
