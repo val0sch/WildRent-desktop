@@ -26,5 +26,5 @@ input ProductRegister {
   isAvailable: Boolean
   size: String!
   stock: Int!
-  category: String!
+  category: String
 }

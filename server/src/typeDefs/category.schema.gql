@@ -1,6 +1,7 @@
 type Category {
   id: String
   label: String
+  imageUrl: String
 }
 
 type Query {
@@ -15,5 +16,6 @@ type Mutation {
 
 input CategoryRegister {
   label: String!
+  imageUrl: String!
 }
 

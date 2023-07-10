@@ -32,10 +32,12 @@ export type CartRegister = {
 export type Category = {
   __typename?: 'Category';
   id?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
 };
 
 export type CategoryRegister = {
+  imageUrl: Scalars['String'];
   label: Scalars['String'];
 };
 
@@ -226,7 +228,7 @@ export type Product = {
 };
 
 export type ProductRegister = {
-  category: Scalars['String'];
+  category?: InputMaybe<Scalars['String']>;
   description: Scalars['String'];
   isAvailable?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
@@ -411,6 +413,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
