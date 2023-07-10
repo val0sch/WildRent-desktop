@@ -39,7 +39,6 @@ export default function Accueil(): JSX.Element {
 
   const [getList, { data: subMenu }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(subMenu) {
-      console.log("list categories subMenu", subMenu.categories);
       setCategoriesList(subMenu.categories);
     },
     onError(error) {
@@ -55,7 +54,6 @@ export default function Accueil(): JSX.Element {
   const [showCategories, setShowCategories] = useState(false);
 
   const toggleCategories = () => {
-    console.log("showCategories : ", showCategories);
     setShowCategories(!showCategories);
   };
 

@@ -12,7 +12,6 @@ function Users(): JSX.Element {
 
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      console.log("list categories", data.categories);
       setCategoriesList(data.categories)
     },
     onError(error) {
@@ -33,7 +32,7 @@ function Users(): JSX.Element {
         </h2>
         <div className="home-button-container">
           <button>
-            <Link to={"/categories"}>Parcourir les catégories</Link>
+            <Link to={"/all-categories"}>Parcourir les catégories</Link>
           </button>
           <button className="navy">
             <Link to="/compte">Accéder à mon espace</Link>
