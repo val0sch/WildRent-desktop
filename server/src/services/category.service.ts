@@ -20,12 +20,12 @@ export default class CategoryService {
     return await this.db.findOneBy({ id });
   }
 
-  async addCategory({ label }: any) {
-    return await this.db.save({ label });
+  async addCategory({ label, imageUrl }: any) {
+    return await this.db.save({ label, imageUrl });
   }
 
-  async updateCategory({ id, label }: any) {
-    return await this.db.update(id, { label });
+  async updateCategory({ id, label, imageUrl }: any) {
+    return await this.db.update(id, { label, imageUrl });
   }
   
   async deleteCategory({ id }: any) {

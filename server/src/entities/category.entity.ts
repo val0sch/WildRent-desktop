@@ -8,4 +8,7 @@ export default class Category {
     @Column({ unique: true })
     label: string
 
+    @Column({ unique: true })
+    imageUrl: string
+
 }

@@ -1,27 +1,20 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { LIST_CATEGORIES } from "../graphql/listCategories.query";
+import { DELETE_CATEGORY } from "../graphql/category.mutation";
 import { useEffect, useState } from "react";
 
-function ListCategories({
-  dataCategories,
-}: {
-  dataCategories: (newData: string) => void;
-}): JSX.Element {
-  /////
-  //  useEffect
-  /////
+function ListCategories(
+  {deletable, idCategories}:
+  {deletable?: boolean; idCategories?: (newData: string) => void;
+  }): JSX.Element {
+
   useEffect(() => {
     getList();
   }, []);
 
-  /////
-  //  useState
-  /////
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
-  /////
-  //  Code
-  /////
+  /// LIST CATEGORIES
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("list categories", data);
@@ -31,23 +24,38 @@ function ListCategories({
     },
   });
 
-  const handleDataChange = (newData: string) => {
-    sendDataToParent(newData);
+  const handleSelectChange = (newData: string) => {
     setSelectedCategoryId(newData);
+    sendDataToParent(newData);
   };
-
   const sendDataToParent = (data: string) => {
-    dataCategories(data);
+    if (idCategories) {
+      idCategories(data);
+    }
   };
 
-  /////
-  //  Return
-  /////
+  /// DELETE CATEGORY
+  const [deleteCategoryInDb] = useMutation(DELETE_CATEGORY, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "Suppression : " , data);
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+  
+  const handleDeleteCategory = (deleteCategoryId:String ) => {
+    deleteCategoryInDb({
+      variables: {
+        deleteCategoryId
+      },
+    });
+  };
   return (
     <div>
       <select
         value={selectedCategoryId}
-        onChange={(e) => handleDataChange(e.target.value)}
+        onChange={(e) => handleSelectChange(e.target.value)}
       >
         <option value="0">Choisir une catégorie</option>
         {data?.categories &&
@@ -57,6 +65,7 @@ function ListCategories({
             </option>
           ))}
       </select>
+      {deletable && (<button onClick={()=>handleDeleteCategory(selectedCategoryId)}>Supprimer</button>)}
     </div>
   );
 }

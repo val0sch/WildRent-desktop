@@ -25,67 +25,70 @@ const socket = io();
 console.log("socket", socket);
 function App(): JSX.Element {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<NavBar />}>
-          <Route index element={<Accueil />} />
-          <Route path="inscription" element={<Inscription />} />
-          <Route path="contact" element={<Contact />} />
-          <Route
-            path="conditions-generales"
-            element={<ConditionsGenerales />}
-          />
-          <Route path="mentions-legales" element={<MentionsLegales />} />
-          <Route path="panier" element={<Panier />} />
-          <Route path="compte">
-            <Route path="" element={<MonCompte />} />
-            <Route path="infos" element={<MesInfos />} />
-            <Route path="reservations" element={<MesReservations />} />
-            <Route path="factures" element={<MesFactures />} />
-            <Route path="favoris" element={<MesFavoris />} />
+    <>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<Accueil />} />
+            <Route path="inscription" element={<Inscription />} />
+            <Route path="contact" element={<Contact />} />
+            <Route
+              path="conditions-generales"
+              element={<ConditionsGenerales />}
+            />
+
+            <Route path="mentions-legales" element={<MentionsLegales />} />
+            <Route path="panier" element={<Panier />} />
+            <Route path="compte">
+              <Route path="" element={<MonCompte />} />
+              <Route path="infos" element={<MesInfos />} />
+              <Route path="reservations" element={<MesReservations />} />
+              <Route path="factures" element={<MesFactures />} />
+              <Route path="favoris" element={<MesFavoris />} />
+            </Route>
+            <Route path="back-office">
+              <Route
+                path=""
+                element={
+                  <ProtectedArea role={"admin"}>
+                    <BackOffice />
+                  </ProtectedArea>
+                }
+              />
+              <Route
+                path="categories"
+                element={
+                  <ProtectedArea role={"admin"}>
+                    <Categories />
+                  </ProtectedArea>
+                }
+              />
+              <Route
+                path="produits"
+                element={
+                  <ProtectedArea role={"admin"}>
+                    <Produits />
+                  </ProtectedArea>
+                }
+              />
+              <Route
+                path="messagerie"
+                element={
+                  <ProtectedArea role={"admin"}>
+                    <Messaging />
+                  </ProtectedArea>
+                }
+              />
+            </Route>
+            <Route path="errors">
+              <Route path="404" element={<NotFound />} />
+              <Route path="500" element={<InternalError />} />
+            </Route>
           </Route>
-          <Route path="back-office">
-            <Route
-              path=""
-              element={
-                <ProtectedArea role={"admin"}>
-                  <BackOffice />
-                </ProtectedArea>
-              }
-            />
-            <Route
-              path="categories"
-              element={
-                <ProtectedArea role={"admin"}>
-                  <Categories />
-                </ProtectedArea>
-              }
-            />
-            <Route
-              path="produits"
-              element={
-                <ProtectedArea role={"admin"}>
-                  <Produits />
-                </ProtectedArea>
-              }
-            />
-            <Route
-              path="messagerie"
-              element={
-                <ProtectedArea role={"admin"}>
-                  <Messaging />
-                </ProtectedArea>
-              }
-            />
-          </Route>
-          <Route path="errors">
-            <Route path="404" element={<NotFound />} />
-            <Route path="500" element={<InternalError />} />
-          </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
