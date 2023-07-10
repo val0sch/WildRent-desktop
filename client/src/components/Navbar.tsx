@@ -60,7 +60,7 @@ export default function Accueil(): JSX.Element {
               onClick={toggleCategories}
             >
               <CaretCircleDown size={32} />
-              <p className="text-sky-500 hover:text-sky-600">Catégories</p>
+              <p>Catégories</p>
             </div>
 
             <div
