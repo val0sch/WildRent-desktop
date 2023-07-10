@@ -12,7 +12,7 @@ export default {
 
   Mutation: {
     async addCategory(_: any, { infos }: MutationAddCategoryArgs) {
-      const { label } = infos;
+      const { label, imageUrl } = infos;
 
       const category = await new CategoryService().findByLabel(label);
 
@@ -23,12 +23,13 @@ export default {
       }
 
       return await new CategoryService().addCategory({
-        label
+        label,
+        imageUrl
       });
     },
 
     async updateCategory(_: any, { id, infos }: MutationUpdateCategoryArgs) {
-      const { label } = infos;
+      const { label, imageUrl } = infos;
       const category = await new CategoryService().findByLabel(label);
 
       if (category) {
@@ -38,7 +39,8 @@ export default {
       }
       return await new CategoryService().updateCategory({
         id,
-        label
+        label,
+        imageUrl
       });
     },
 

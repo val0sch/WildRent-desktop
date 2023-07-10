@@ -25,11 +25,7 @@ test("List of categories", async () => {
       ]}
       addTypename={false}
     >
-      <ListCategories
-        dataCategories={function (newData: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      <ListCategories/>
     </MockedProvider>
   );
 
