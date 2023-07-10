@@ -5,6 +5,7 @@ query listCategories {
   categories {
     id
     label
+    imageUrl
   }
 }
 `
