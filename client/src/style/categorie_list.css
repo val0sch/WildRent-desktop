@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-.all-categories-div h3 {
+.all-categories-div a {
   color: white;
   font-size: 24px;
   padding-left: 1rem;
@@ -34,13 +34,15 @@
     width: initial;
     justify-content: center;
     transition: .5s;
+    filter: opacity(0.5);
   }
 
   .all-categories-div:hover{
     flex: 3;
+    filter: opacity(1);
   }
 
-  .all-categories-div h3 {
+  .all-categories-div a {
     backdrop-filter: contrast(0.5);
     padding: 0.5rem;
   }

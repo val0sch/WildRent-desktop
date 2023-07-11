@@ -4,6 +4,7 @@ import { LIST_CATEGORIES } from "../graphql/listCategories.query";
 import NotFound from "./errors/NotFound";
 
 import "../style/categorie_list.css";
+import { Link } from "react-router-dom";
 
 function CategorieList(): JSX.Element {
   const isMobile = window.innerWidth <= 768;
@@ -39,7 +40,7 @@ function CategorieList(): JSX.Element {
               }}
               key={index}
             >
-              <h3>{categorie.label}</h3>
+              <Link to={`/all-categories/${categorie.label}`}>{categorie.label}</Link>
             </div>
           );
         })

@@ -90,7 +90,7 @@ export default function Accueil(): JSX.Element {
               {categoriesList &&
                 categoriesList.map((submenu: any) => {
                   return (
-                    <Link className="navlink" to="/" onClick={closeMenu}>
+                    <Link className="navlink" to={`/all-categories/${submenu.label}`} onClick={closeMenu}>
                       {submenu.label}
                     </Link>
                   );
