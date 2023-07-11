@@ -73,6 +73,7 @@ function App(): JSX.Element {
               <Route path="404" element={<NotFound />} />
               <Route path="500" element={<InternalError />} />
             </Route>
+              <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </div>

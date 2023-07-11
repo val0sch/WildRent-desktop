@@ -118,50 +118,105 @@ h6 {
   background-color: whitesmoke;
 }
 
-button{
+button {
   font-size: 18px;
   border: none;
   background-color: var(--main-orange);
-  padding: 12px 24px;;
+  padding: 12px 24px;
   width: fit-content;
   border-radius: 24px;
   color: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-button.secondary{
+button.secondary {
   border: 1px solid var(--main-orange);
   background-color: white;
   color: var(--main-orange);
 }
 
-button.navy{
+button.navy {
   border: none;
   background-color: var(--main-navy);
   color: white;
 }
 
-button:hover{
+button:hover {
   cursor: pointer;
 }
 
-button a{
+button a {
   color: white;
 }
 
-a:hover{
+a:hover {
   text-decoration: underline;
 }
 
-input{
+input {
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   padding: 8px;
   border-radius: 8px;
 }
 
 @media screen and (min-width: 768px) {
-  .App{
+  .App {
     min-height: 100vh;
   }
+}
+
+/* Page 404 */
+
+.page-404-container {
+  background-image: url(./assets/home-mobile.jpeg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 104px );
+}
+
+.page-404-div{
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  width: 80%;
+}
+
+.page-404-div p{
+  color: var(--main-orange);
+  font-size: 64px;
+  font-family: exo;
+  margin-bottom: 1rem;
+}
+
+.page-404-div span{
+  font-size: 18px;
+}
+
+.page-404-div a{
+  color: var(--main-orange);
+  margin-top: 4rem;
+}
+
+@media screen and (min-width: 768px){
+  .page-404-container{
+    min-height: calc(100vh - 69.5px);
+    background-image: url(./assets/home.jpeg);
+  }
+  
+  .page-404-div p{
+    font-size: 96px;
+  }
+
+  .page-404-div span, .page-404-div a {
+    font-size: 24px;
+}
 }

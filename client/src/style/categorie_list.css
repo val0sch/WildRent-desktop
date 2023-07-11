@@ -29,7 +29,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    flex-grow: 1;
+    flex: 1;
     height: calc(100vh - 48px);
     width: initial;
     justify-content: center;
@@ -37,7 +37,7 @@
   }
 
   .all-categories-div:hover{
-    flex: 6;
+    flex: 3;
   }
 
   .all-categories-div h3 {
