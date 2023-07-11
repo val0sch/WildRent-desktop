@@ -18,7 +18,7 @@ function ModaleAddProduct({
   const [size, setSize] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [stock, setStock] = useState<Number>(0);
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("");
 
   const [message, setMessage] = useState<string>("");
 
@@ -34,7 +34,7 @@ function ModaleAddProduct({
   const [addProductInDb, { data }] = useMutation(ADD_PRODUCT, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Product", data);
-      setMessage("Vous avez ajouté le produit : "+data.addProduct.name);
+      setMessage("Vous avez ajouté le produit : " + data.addProduct.name);
     },
     onError(error) {
       console.log("%c⧭", "color: #917399", error);
@@ -57,7 +57,7 @@ function ModaleAddProduct({
     setStock(Number(event.target.value));
   }
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategoryId(event.target.value);
+    setCategory(event.target.value);
   };
 
   useEffect(() => {
@@ -65,26 +65,24 @@ function ModaleAddProduct({
   }, [stock]);
 
   const handleAddProduct = () => {
-    const selectedCategory = categories
-    category == "" ? setCategory(null) : setCategory(category);
-    console.log("catégorie: ", category);
-    // addProductInDb({
-    //   variables: {
-    //     infos: {
-    //       name,
-    //       description,
-    //       price,
-    //       size,
-    //       stock,
-    //       isAvailable,
-    //       category: selectedCategoryId,
-    //     },
-    //   },
-    // });
+    const selectedCategoryId = category === "" ? null : category;
+    addProductInDb({
+      variables: {
+        infos: {
+          name,
+          description,
+          price,
+          size,
+          stock,
+          isAvailable,
+          category: selectedCategoryId,
+        },
+      },
+    });
   };
   return (
     <div>
-      <select value={selectedCategoryId} onChange={handleSelectChange}>
+      <select onChange={handleSelectChange}>
         <option value="">Choisir une catégorie</option>
         {categories?.categories.map((selectedcategory: any, index: number) => (
           <option key={index} value={selectedcategory.id}>
@@ -113,7 +111,7 @@ function ModaleAddProduct({
       <input
         name="size"
         type="text"
-        placeholder="Size"
+        placeholder="Taille"
         onChange={handleChangeSize}
       />
       <input
@@ -124,7 +122,7 @@ function ModaleAddProduct({
         onChange={handleChangeStock}
       />
       <button onClick={handleAddProduct}>Ajouter un produit</button>
-      
+
       <div>{message}</div>
       <button onClick={closeModaleProduct}>Fermer</button>
     </div>
