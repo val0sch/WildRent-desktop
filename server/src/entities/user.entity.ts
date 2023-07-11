@@ -16,6 +16,6 @@ export default class User {
     @Column()
     isAdmin: boolean 
 
-    @OneToOne(() => DetailsUser, detailsUser => detailsUser.user) @JoinColumn()
+    @OneToOne(() => DetailsUser, detailsUser => detailsUser.user, {eager:true}) @JoinColumn()
     detailsUser: DetailsUser
 }
