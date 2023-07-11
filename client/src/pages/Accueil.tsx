@@ -9,8 +9,6 @@ import io from "socket.io-client";
 
 function Users(): JSX.Element {
   const [categoriesList, setCategoriesList] = useState([]);
-  const [message, setMessage] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("list categories", data.categories);
@@ -24,18 +22,6 @@ function Users(): JSX.Element {
   useEffect(() => {
     getList();
   }, []);
-
-  const socket = io("http://localhost:3001");
-  console.log(socket);
-
-  const sendMessage = () => {
-    socket.emit("send_message", { message });
-  };
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageReceived(data.message);
-    });
-  }, [socket]);
 
   return (
     <section className="home-container">
@@ -58,17 +44,7 @@ function Users(): JSX.Element {
             return <CardSport key={categories.id} {...categories} />;
           })}
         </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Message..."
-            onChange={(event) => {
-              setMessage(event.target.value);
-            }}
-          />
-          <button onClick={sendMessage}>Envoyer</button>
-          <h1>Message : {messageReceived}</h1>
-        </div>
+       
       </div>
     </section>
   );

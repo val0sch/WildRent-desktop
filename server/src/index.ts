@@ -60,17 +60,17 @@ const start = async () => {
     },
   });
   io.on("connection", (socket) => {
-    // socket.on("join_room", (data) => {
-    //   socket.join(data);
-    // });
-    // socket.on("send_message", (data: any) => {
-    //   socket.to(data.room).emit("receive_message", data);
-    // });
-    // console.log("user join", socket.id);
-    console.log("userconnected");
-    socket.on("send_message", (data: any) => {
-      socket.broadcast.emit("receive_message", data);
+    socket.on("join_room", (data) => {
+      socket.join(data);
+      console.log("USERJOIN ROOM");
     });
+    socket.on("send_message", (data: any) => {
+      socket.to(data.room).emit("receive_message", data);
+      console.log("USER SEND MESSAGE");
+    });
+    // socket.on("send_message", (data: any) => {
+    //   socket.broadcast.emit("receive_message", data);
+    // });
   });
 
   // IoHttpServer.listen(3001);

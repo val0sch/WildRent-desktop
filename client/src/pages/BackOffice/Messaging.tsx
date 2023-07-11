@@ -1,30 +1,48 @@
-// import { useEffect } from "react";
-// import io from "socket.io-client";
-// const Messaging = () => {
-//   const socket = io();
+import { useEffect, useState } from "react";
+import socket from "../../Utils/socketService";
+const Messaging = () => {
+  const [input, setInput] = useState("");
+  const [conversation, setConversation] = useState<any>([]);
+  const [messageReceived, setMessageReceived] = useState<string[]>([]);
+  const sendMessage = () => {
+    // setConversation((prev: any) => [...prev, input]);
+    socket.emit("send_message", conversation);
+    setInput("");
+    console.log("yo");
+    console.log("input", input);
+  };
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      console.log("receive_message", data);
+      // setMessageReceived((prev) => [...prev, data]);
+    });
+  }, [socket]);
+  console.log(socket.id);
+  console.log(input);
+  console.log(conversation);
+  console.log(messageReceived);
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Message..."
+        value={input}
+        onChange={(event) => {
+          setInput(event.target.value);
+        }}
+        onKeyDown={(event) => {
+          event.key === "Enter" && sendMessage();
+        }}
+      />
+      <button onClick={sendMessage}>Envoyer</button>
 
-//   const sendMessage = () => {
-//     socket.emit("send_message", { message: "hello" });
-//   };
-//   useEffect(() => {
-//     socket.on("receive_message", (data) => {
-//       alert(data.message);
-//     });
-//   }, [socket]);
-//   return (
-//     <div>
-//       <input type="text" placeholder="Message..." />
-//       <button onClick={sendMessage}>Envoyer</button>
-//     </div>
-//   );
-// };
-
-// export default Messaging;
-
-import React from "react";
-
-function Messaging() {
-  return <div>Messaging</div>;
-}
+      {messageReceived.map((newMessage) => (
+        <ul>
+          <li>{newMessage}</li>
+        </ul>
+      ))}
+    </div>
+  );
+};
 
 export default Messaging;

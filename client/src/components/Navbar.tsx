@@ -17,7 +17,6 @@ export default function Accueil(): JSX.Element {
   // gestion login admin
   const { data, refetch } = useQuery(CHECK_ISADMIN);
   const { userInfos, logout } = useAuth();
-  console.log(userInfos);
 
   useEffect(() => {
     refetch();
