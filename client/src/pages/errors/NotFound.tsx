@@ -1,24 +1,15 @@
+import { Link } from "react-router-dom";
+
 function NotFound(): JSX.Element {
-/////
-//  useEffect
-/////
-
-/////
-//  useState
-/////
-
-/////
-//  Code
-/////
-
-/////
-//  Return
-/////
   return (
-    <div>
-      <h1>404</h1>
-      <p>Cet élément n'existe pas</p>
-    </div>
+    <section className="page-404-container">
+      <div className="page-404-div">
+        <p>404</p>
+        <span>Oops !</span>
+        <span>Cette page n'existe pas.</span>
+        <Link to="/">Retour vers l'accueil</Link>
+      </div>
+    </section>
   );
 }
 
