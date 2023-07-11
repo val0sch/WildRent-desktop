@@ -1,8 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import { ADD_USER } from "../graphql/user.mutation";
+import { ADD_USER } from "../../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
+import useAuth from "../../hooks/useAuth";
 
 
 function AddUserMutation() {
@@ -15,7 +16,7 @@ function AddUserMutation() {
 /////
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const { setUserData } = useAuth();
 /////
 //  Code
 /////
@@ -24,6 +25,7 @@ function AddUserMutation() {
   const [addUserInDb, { data }] = useMutation(ADD_USER, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add User", data);
+      setUserData(data.addUser);
       navigate('/compte/infos');
     },
     onError(error) {

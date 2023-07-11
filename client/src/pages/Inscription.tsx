@@ -1,4 +1,4 @@
-import AddUserMutation from '../components/AddUserMutation';
+import AddUserMutation from '../components/backoffice/AddUserMutation';
 
 function Inscription(): JSX.Element {
 /////

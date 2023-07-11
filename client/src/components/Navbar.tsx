@@ -39,7 +39,6 @@ export default function Accueil(): JSX.Element {
     console.log("showCategories : ", showCategories);
     setShowCategories(!showCategories);
   };
-
   return (
     <div>
       <nav className="navigation">
@@ -81,6 +80,7 @@ export default function Accueil(): JSX.Element {
             <Link to="/compte/" onClick={closeMenu}>
               <UserCircle size={32} />
               <span>Profil</span>
+              <li><p>{userInfos?.email}</p></li>
             </Link>
           </li>
           <li className="navlink mobile">

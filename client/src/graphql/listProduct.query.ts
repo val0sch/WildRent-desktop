@@ -12,6 +12,7 @@ query Products {
     price
     size
     stock
+    isAvailable
   }
 }
 `;

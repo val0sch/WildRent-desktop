@@ -8,6 +8,9 @@ export default {
     async categories() {
       return await new CategoryService().listCategory();
     },
+    async category(id: string) {
+      return await new CategoryService().findById(id);
+    },  
   },
 
   Mutation: {

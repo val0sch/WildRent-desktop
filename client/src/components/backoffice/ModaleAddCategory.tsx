@@ -1,23 +1,23 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
-import { ADD_CATEGORY } from "../graphql/category.mutation";
+import { useState, MouseEventHandler } from "react";
+import { ADD_CATEGORY } from "../../graphql/category.mutation";
 
-function AddCategory() {
-  /////
-  //  useEffects
-  /////
+function ModaleAddCategory({
+  handleModaleCategory,
+  closeModaleCategory,
+}: {
+  handleModaleCategory?: MouseEventHandler<HTMLButtonElement>;
+  closeModaleCategory?: () => void;
+}) {
 
-  /////
-  //  useStates
-  /////
   const [label, setLabel] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
-  /////
-  //  Code
-  /////
-  const [addCategoryInDb, { data }] = useMutation(ADD_CATEGORY, {
+  const [message, setMessage] = useState<string>("");
+
+  const [addCategoryInDb, { data:category }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Category", data);
+      setMessage("Vous avez ajouté la catégorie : ");
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
@@ -50,10 +50,6 @@ function AddCategory() {
       },
     });
   };
-
-  /////
-  //  Return
-  /////
   return (
     <div>
       <input
@@ -67,13 +63,13 @@ function AddCategory() {
         onChange={handleChangeField("imageUrl", setImageUrl)}
       />
       <button onClick={handleAddCategory}>Enregistrer</button>
-      {data && (
+      {category && (
         <p data-testid="paragraphe">
-          Vous avez ajouté la catégorie : {data.addCategory.label}
+          {message + category.addCategory.label}
         </p>
       )}
     </div>
   );
 }
 
-export default AddCategory;
+export default ModaleAddCategory;
