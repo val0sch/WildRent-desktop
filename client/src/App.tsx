@@ -1,4 +1,7 @@
 import { Routes, Route } from "react-router-dom";
+
+import Wrapper from "./Utils/wrapper";
+
 import NavBar from "./components/Navbar";
 import Accueil from "./pages/Accueil";
 import Inscription from "./pages/Inscription";
@@ -25,6 +28,7 @@ function App(): JSX.Element {
   return (
     <>
       <div className="App">
+        <Wrapper>
         <Routes>
           <Route path="/" element={<NavBar />}>
             <Route index element={<Accueil />} />
@@ -78,6 +82,7 @@ function App(): JSX.Element {
               <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
+        </Wrapper>
       </div>
       <Footer />
     </>

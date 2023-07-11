@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "../graphql/listCategories.query";
 
+import ButtonScrollToTop from "../Utils/ButtonScrollToTop";
+
 function Users(): JSX.Element {
 
   const [categoriesList, setCategoriesList] = useState([]);
@@ -43,6 +45,7 @@ function Users(): JSX.Element {
           {categoriesList.map((categories:any) => {
             return <CardSport key={categories.id} {...categories} />;
           })}
+          <ButtonScrollToTop />
         </div>
       </div>
     </section>
