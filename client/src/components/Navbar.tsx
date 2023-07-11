@@ -39,7 +39,6 @@ export default function Accueil(): JSX.Element {
 
   const [getList, { data: subMenu }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(subMenu) {
-      console.log("list categories subMenu", subMenu.categories);
       setCategoriesList(subMenu.categories);
     },
     onError(error) {
@@ -55,7 +54,6 @@ export default function Accueil(): JSX.Element {
   const [showCategories, setShowCategories] = useState(false);
 
   const toggleCategories = () => {
-    console.log("showCategories : ", showCategories);
     setShowCategories(!showCategories);
   };
 
@@ -79,7 +77,11 @@ export default function Accueil(): JSX.Element {
               onClick={toggleCategories}
             >
               <CaretCircleDown size={32} />
-              <p>Catégories</p>
+              {window.innerWidth < 768 ? (
+                <p>Catégories</p>
+              ) : (
+                <Link to="/all-categories">Catégories</Link>
+              )}
             </div>
 
             <div
@@ -88,7 +90,7 @@ export default function Accueil(): JSX.Element {
               {categoriesList &&
                 categoriesList.map((submenu: any) => {
                   return (
-                    <Link className="navlink" to="/" onClick={closeMenu}>
+                    <Link className="navlink" to={`/all-categories/${submenu.label}`} onClick={closeMenu}>
                       {submenu.label}
                     </Link>
                   );

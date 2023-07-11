@@ -1,4 +1,7 @@
 import { Routes, Route } from "react-router-dom";
+
+import Wrapper from "./Utils/wrapper";
+
 import NavBar from "./components/Navbar";
 import Accueil from "./pages/Accueil";
 import Inscription from "./pages/Inscription";
@@ -18,16 +21,21 @@ import Categories from "./pages/BackOffice/Categories";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
+import CategorieList from "./pages/CategorieList";
+import Subcategory from "./pages/Subcategory";
 
 function App(): JSX.Element {
   return (
     <>
       <div className="App">
+        <Wrapper>
         <Routes>
           <Route path="/" element={<NavBar />}>
             <Route index element={<Accueil />} />
             <Route path="inscription" element={<Inscription />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="all-categories" element={<CategorieList />} />
+            <Route path="/all-categories/:subcategory" element={<Subcategory />} />
             <Route
               path="conditions-generales"
               element={<ConditionsGenerales />}
@@ -71,8 +79,10 @@ function App(): JSX.Element {
               <Route path="404" element={<NotFound />} />
               <Route path="500" element={<InternalError />} />
             </Route>
+              <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
+        </Wrapper>
       </div>
       <Footer />
     </>
