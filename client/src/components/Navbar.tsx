@@ -21,6 +21,7 @@ export default function Accueil(): JSX.Element {
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
+  console.log("userinfos", userInfos);
 
   // gestion menu burger
   const [showMenu, setShowMenu] = useState(false);
@@ -56,7 +57,6 @@ export default function Accueil(): JSX.Element {
   const toggleCategories = () => {
     setShowCategories(!showCategories);
   };
-
   return (
     <div>
       <nav className="navigation">
@@ -101,6 +101,7 @@ export default function Accueil(): JSX.Element {
             <Link to="/compte/" onClick={closeMenu}>
               <UserCircle size={32} />
               <span>Profil</span>
+              <li><p>{userInfos?.email}</p></li>
             </Link>
           </li>
           <li className="navlink mobile">

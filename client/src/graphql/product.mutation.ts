@@ -13,6 +13,22 @@ mutation AddProduct($infos: ProductRegister!) {
   }
 }
 `
+export const UPDATE_PRODUCT = gql`
+mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
+  updateProduct(id: $updateProductId, infos: $infos) {
+    name
+    description
+    price
+    size
+    stock
+    isAvailable
+    category{
+      id
+    }
+  }
+}
+`
+
 export const DELETE_PRODUCT = gql`
 mutation deleteProduct($deleteProductId: String!) {
   deleteProduct(id: $deleteProductId) {
