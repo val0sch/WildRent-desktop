@@ -348,7 +348,7 @@ export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?:
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', label?: string | null } | null } | null> | null };
+export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null, label?: string | null } | null } | null> | null };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -368,7 +368,7 @@ export type UpdateProductMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
+export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null } | null } | null };
 
 export type DeleteProductMutationVariables = Exact<{
   deleteProductId: Scalars['String'];
@@ -929,6 +929,7 @@ export const ProductsDocument = gql`
     name
     description
     category {
+      id
       label
     }
     price
@@ -1054,6 +1055,9 @@ export const UpdateProductDocument = gql`
     size
     stock
     isAvailable
+    category {
+      id
+    }
   }
 }
     `;

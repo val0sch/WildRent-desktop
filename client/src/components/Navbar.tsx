@@ -21,6 +21,7 @@ export default function Accueil(): JSX.Element {
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
+  console.log("userinfos", userInfos);
 
   // gestion menu burger
   const [showMenu, setShowMenu] = useState(false);

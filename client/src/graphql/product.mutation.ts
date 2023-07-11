@@ -22,6 +22,9 @@ mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
     size
     stock
     isAvailable
+    category{
+      id
+    }
   }
 }
 `

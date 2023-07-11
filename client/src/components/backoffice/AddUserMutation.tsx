@@ -6,6 +6,7 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 
 import * as Yup from "yup";
+import { useLoginLazyQuery } from "../../generated";
 
 function AddUserMutation() {
   const validationSchema = Yup.object().shape({
@@ -33,13 +34,17 @@ function AddUserMutation() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
-
+  const { setUserData } = useAuth();
   const navigate: NavigateFunction = useNavigate();
 
   const [addUserInDb, { data }] = useMutation(ADD_USER, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add User", data);
-      navigate("/compte/infos");
+      login({
+        variables: {
+          infos: { email, password},
+        },
+      });
     },
     onError(error) {
       if (error.message.includes("Cet email est déjà pris")) {
@@ -47,6 +52,13 @@ function AddUserMutation() {
       } else {
         console.error("%c⧭", "color: #917399", error);
       }
+    },
+  });
+
+  const [login, { error, loading }] = useLoginLazyQuery({
+    onCompleted(data) {
+      setUserData(data.login);
+      navigate("/compte/infos");
     },
   });
 

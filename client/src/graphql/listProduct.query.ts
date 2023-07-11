@@ -7,6 +7,7 @@ query Products {
     name
     description
     category {
+      id
       label
     }
     price

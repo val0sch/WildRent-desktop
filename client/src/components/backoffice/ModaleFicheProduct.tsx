@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_PRODUCT } from "../../graphql/product.mutation";
 import { UPDATE_PRODUCT } from "../../graphql/product.mutation";
 import { MouseEventHandler, useState } from "react";
+import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -12,13 +13,23 @@ function ModaleFicheProduct({
   closeModaleFicheProduct?: (index: number) => void;
   product: any;
 }): JSX.Element {
+
+  const { data: categories } = useQuery(LIST_CATEGORIES, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+  
   const [name, setName] = useState<string>(product.name);
   const [description, setDescription] = useState<string>(product.description);
   const [price, setPrice] = useState<number>(product.price);
   const [size, setSize] = useState<string>(product.size);
   const [isAvailable, setIsAvailable] = useState<boolean>(product.isAvailable);
   const [stock, setStock] = useState<number>(product.stock);
-  const [categoryId, setCategoryId] = useState<string>(product.categoryId);
+  const [category, setCategoryId] = useState<any>(product?.category?.id);
   const [message, setMessage] = useState<string>("");
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +50,8 @@ function ModaleFicheProduct({
   const handleStock = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStock(Number(e.target.value));
   };
-  const handleCategoryId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategoryId(e.target.value);
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategoryId(event.target.value);
   };
 
   // SUPPRESSION PRODUCT
@@ -74,22 +85,19 @@ function ModaleFicheProduct({
   });
   const handleUpdateProduct = () => {
     const updatedName = name === "" ? product.name : name;
-    const updatedDescription =
-      description === "" ? product.description : description;
+    const updatedDescription = description === "" ? product.description : description;
     const updatedPrice = price === 0 ? product.price : price;
     const updatedSize = size === "" ? product.size : size;
-    const updatedIsAvailable =
-      isAvailable === false ? product.isAvailable : isAvailable;
+    const updatedIsAvailable = isAvailable;
     const updatedStock = stock === 0 ? product.stock : stock;
-    const updatedCategoryId =
-      categoryId === "" ? product.categoryId : categoryId;
+    const selectedCategoryId = category === "" ? null : category;
     updatedName == product.name &&
     updatedDescription == product.description &&
     updatedPrice == product.price &&
     updatedSize == product.size &&
     updatedIsAvailable == product.isAvailable &&
     updatedStock == product.stock &&
-    updatedCategoryId == product.categoryId
+    selectedCategoryId == product?.category?.id
       ? setMessage("Aucune modification n'a été apporté")
       : updateProductInDb({
           variables: {
@@ -101,7 +109,7 @@ function ModaleFicheProduct({
               size: updatedSize,
               stock: updatedStock,
               isAvailable: updatedIsAvailable,
-              categoryId: updatedCategoryId,
+              category: selectedCategoryId,
             },
           },
         });
@@ -166,13 +174,15 @@ function ModaleFicheProduct({
         onChange={handleIsAvailable}
       />
 
-      <label htmlFor="updateCategoryIdProduct"> Changer la catégorie : </label>
-      <input
-        value={categoryId}
-        id="updateCategoryIdProduct"
-        type="text"
-        onChange={handleCategoryId}
-      />
+      <label htmlFor="updateCategoryIdProduct"> Changer de catégorie : </label>
+      <select onChange={handleSelectChange} value={category?category:""}>
+        <option value="">Pas de catégorie</option>
+        {categories?.categories.map((selectedcategory: any, index: number) => (
+          <option key={index} value={selectedcategory.id} selected>
+            {selectedcategory.label}
+          </option>
+        ))}
+      </select>
 
       <button onClick={handleUpdateProduct}>modifier</button>
       <button
