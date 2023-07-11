@@ -18,7 +18,9 @@ import UserService from "./services/user.service";
 import { Server } from "socket.io";
 
 const app = express();
+const appIO = express();
 const httpServer = http.createServer(app);
+const IoHttpServer = http.createServer(appIO);
 
 const start = async () => {
   await datasource.initialize();
@@ -50,17 +52,30 @@ const start = async () => {
       },
     })
   );
-  const io = new Server(4004, {
+
+  const io = new Server(IoHttpServer, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "*",
+      methods: ["GET", "POST"],
     },
   });
-
   io.on("connection", (socket) => {
-    socket.on("send_message", (data) => {
+    // socket.on("join_room", (data) => {
+    //   socket.join(data);
+    // });
+    // socket.on("send_message", (data: any) => {
+    //   socket.to(data.room).emit("receive_message", data);
+    // });
+    // console.log("user join", socket.id);
+    console.log("userconnected");
+    socket.on("send_message", (data: any) => {
       socket.broadcast.emit("receive_message", data);
     });
   });
+
+  // IoHttpServer.listen(3001);
+  await new Promise<void>((resolve) => IoHttpServer.listen(3001, resolve));
+  console.log("🚀 Server ready at http://localhost:3001");
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)

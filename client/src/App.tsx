@@ -19,10 +19,7 @@ import Messaging from "./pages/BackOffice/Messaging";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
-import { io } from "socket.io-client";
 
-const socket = io();
-console.log("socket", socket);
 function App(): JSX.Element {
   return (
     <>
