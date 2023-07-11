@@ -1,4 +1,5 @@
-import AddUserMutation from '../components/backoffice/AddUserMutation';
+import { UserCirclePlus } from '@phosphor-icons/react';
+import AddUserMutation from '../components/AddUserMutation';
 
 function Inscription(): JSX.Element {
 /////
@@ -17,10 +18,11 @@ function Inscription(): JSX.Element {
 //  Return
 /////
   return (
-    <div>
-      Inscription
+    <section className="register-container">
+      <UserCirclePlus size={32} />
+      <p>Pas encore inscrit ?</p>
       <AddUserMutation />
-    </div>
+    </section>
   );
 }
 

@@ -1,13 +1,13 @@
-function CardSport(sportList:any) {
+function CardSport(categories:any) {
     const cardStyle = {
-        backgroundImage: `url(${sportList.imageUrl})`,
+        backgroundImage: `url(${categories.imageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       };
     
   return (
     <div style={cardStyle} className="home-sport-card">
-        <h4>{sportList.name}</h4>
+        <h4>{categories.label}</h4>
     </div>
   )
 }
