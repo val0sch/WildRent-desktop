@@ -124,6 +124,11 @@ a.navlink {
     color: var(--main-navy);
   }
 
+  .info-user{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .dropdown-content {
     display: none;
     flex-direction: column;
@@ -164,6 +169,13 @@ a.navlink {
   .navigation {
     display: flex;
     align-items: center;
+  }
+
+  .info-user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
   }
 
   .navigation h1 {

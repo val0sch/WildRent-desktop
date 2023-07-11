@@ -90,18 +90,26 @@ export default function Accueil(): JSX.Element {
               {categoriesList &&
                 categoriesList.map((submenu: any) => {
                   return (
-                    <Link className="navlink" to={`/all-categories/${submenu.label}`} onClick={closeMenu}>
+                    <Link
+                      className="navlink"
+                      to={`/all-categories/${submenu.label}`}
+                      onClick={closeMenu}
+                    >
                       {submenu.label}
                     </Link>
                   );
                 })}
             </div>
           </li>
-          <li className="navlink mobile">
+          <li className="navlink mobile info-user">
+            {userInfos.email && (
+              <li>
+                <p>{userInfos.email}</p>
+              </li>
+            )}
             <Link to="/compte/" onClick={closeMenu}>
               <UserCircle size={32} />
               <span>Profil</span>
-              <li><p>{userInfos?.email}</p></li>
             </Link>
           </li>
           <li className="navlink mobile">
