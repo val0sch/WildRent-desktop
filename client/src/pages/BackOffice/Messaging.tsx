@@ -1,46 +1,63 @@
 import { useEffect, useState } from "react";
 import socket from "../../Utils/socketService";
+import "../../style/messaging.css";
+import useAuth from "../../hooks/useAuth";
 const Messaging = () => {
+  const { userInfos } = useAuth();
   const [input, setInput] = useState("");
-  const [conversation, setConversation] = useState<any>([]);
-  const [messageReceived, setMessageReceived] = useState<string[]>([]);
+  const [messageReceived, setMessageReceived] = useState<any>([]);
   const sendMessage = () => {
-    // setConversation((prev: any) => [...prev, input]);
-    socket.emit("send_message", conversation);
+    if (input !== "") {
+      const messageData = {
+        room: userInfos.email,
+        author: userInfos.email,
+        message: input,
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
+      socket.emit("send_message", messageData);
+      setMessageReceived((prev: any) => [...prev, messageData]);
+    }
     setInput("");
-    console.log("yo");
-    console.log("input", input);
   };
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log("receive_message", data);
-      // setMessageReceived((prev) => [...prev, data]);
+      setMessageReceived((prev: any) => [...prev, data]);
     });
   }, [socket]);
-  console.log(socket.id);
-  console.log(input);
-  console.log(conversation);
+
   console.log(messageReceived);
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Message..."
-        value={input}
-        onChange={(event) => {
-          setInput(event.target.value);
-        }}
-        onKeyDown={(event) => {
-          event.key === "Enter" && sendMessage();
-        }}
-      />
-      <button onClick={sendMessage}>Envoyer</button>
-
-      {messageReceived.map((newMessage) => (
-        <ul>
-          <li>{newMessage}</li>
-        </ul>
-      ))}
+    <div className="container">
+      <div className="list-conversation">Liste des Discussions</div>
+      <div className="chat-container">
+        <div className="messages-container">
+          {messageReceived &&
+            messageReceived.map((message: any) => (
+              <div className="message-box">
+                <p>{message.author}</p>
+                <p>{message.message}</p>
+                <p>{message.time}</p>
+              </div>
+            ))}
+        </div>
+        <div className="writing-box">
+          <input
+            type="text"
+            placeholder="Message..."
+            value={input}
+            onChange={(event) => {
+              setInput(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              event.key === "Enter" && sendMessage();
+            }}
+          />
+          <button onClick={sendMessage}>Envoyer</button>
+        </div>{" "}
+      </div>
     </div>
   );
 };
