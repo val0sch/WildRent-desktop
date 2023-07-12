@@ -9,12 +9,11 @@ function ModaleAddCategory({
   handleModaleCategory?: MouseEventHandler<HTMLButtonElement>;
   closeModaleCategory?: () => void;
 }) {
-
   const [label, setLabel] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const [addCategoryInDb, { data:category }] = useMutation(ADD_CATEGORY, {
+  const [addCategoryInDb, { data: category }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Category", data);
       setMessage("Vous avez ajouté la catégorie : ");
@@ -45,29 +44,29 @@ function ModaleAddCategory({
       variables: {
         infos: {
           label,
-          imageUrl
+          imageUrl,
         },
       },
     });
   };
   return (
-    <div>
-      <input
-        data-testid="input-category"
-        placeholder="Nom de la catégorie"
-        onChange={handleChangeField("label", setLabel)}
-      />
-            <input
-        data-testid="input-category"
-        placeholder="Url de l'image"
-        onChange={handleChangeField("imageUrl", setImageUrl)}
-      />
-      <button onClick={handleAddCategory}>Enregistrer</button>
-      {category && (
-        <p data-testid="paragraphe">
-          {message + category.addCategory.label}
-        </p>
-      )}
+    <div className="modale-add-categorie">
+      <div className="modale-add-categorie-form">
+        <input
+          data-testid="input-category"
+          placeholder="Nom de la catégorie"
+          onChange={handleChangeField("label", setLabel)}
+        />
+        <input
+          data-testid="input-category"
+          placeholder="Url de l'image"
+          onChange={handleChangeField("imageUrl", setImageUrl)}
+        />
+        <button onClick={handleAddCategory}>Enregistrer</button>
+        {category && (
+          <p data-testid="paragraphe">{message + category.addCategory.label}</p>
+        )}
+      </div>
     </div>
   );
 }
