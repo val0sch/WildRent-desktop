@@ -13,6 +13,7 @@ function Categories(): JSX.Element {
   const closeModaleCategory: () => void = () => {
     setToggleModaleCategory(false);
   };
+  // query list catégorie
   return (
     <div>
       Catégories

@@ -54,7 +54,7 @@ function ListCategories(): JSX.Element {
         {data?.categories.map((category: any, index: number) => (
             <tr key={index}>
               <td>{category?.label}</td>
-              <td><img src={category?.imageUrl} alt="image de la catégorie" width={150}/></td>
+              <td><img src={category?.imageUrl} alt="image de la catégorie" height={75}/></td>
               <td>
                 <button
                   className="secondary"

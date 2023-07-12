@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { useState, MouseEventHandler } from "react";
 import { ADD_CATEGORY } from "../../graphql/category.mutation";
+import * as Yup from "yup";
 
 function ModaleAddCategory({
   handleModaleCategory,
@@ -9,12 +10,12 @@ function ModaleAddCategory({
   handleModaleCategory?: MouseEventHandler<HTMLButtonElement>;
   closeModaleCategory?: () => void;
 }) {
-
   const [label, setLabel] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [addCategoryInDb, { data:category }] = useMutation(ADD_CATEGORY, {
+  const [addCategoryInDb, { data: category }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Category", data);
       setMessage("Vous avez ajouté la catégorie : ");
@@ -40,35 +41,60 @@ function ModaleAddCategory({
     };
   };
 
-  const handleAddCategory = () => {
-    addCategoryInDb({
-      variables: {
-        infos: {
-          label,
-          imageUrl
+ const categorySchema = Yup.object({
+    label: Yup.string().required("Le nom de la catégorie est requis"),
+    imageUrl: Yup.string().url().matches(/\.(jpg|jpeg|png)$/ig, "le lien doit terminer par .jpg, .jpeg, .png").required("L'url de l'image est requise"),
+  });
+
+  const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await categorySchema.validate({ label, imageUrl }, { abortEarly: false });
+      await addCategoryInDb({
+        variables: {
+          infos: {
+            label,
+            imageUrl,
+          },
         },
-      },
-    });
-  };
+      });
+    } catch (err: any) {
+      if (Yup.ValidationError.isError(err)) {
+        const yupErrors: Record<string, string> = {};
+        err.inner.forEach((validationError:any) => {
+          yupErrors[validationError.path] = validationError.message;
+        });
+        setErrors(yupErrors);
+      } else    
+        setErrors({ label: "Une erreur est survenue" });  
+    };
+  }; 
+
   return (
-    <div>
+    <form onSubmit={handleAddCategory} className="addCategory-form">
       <input
+        name="label"
         data-testid="input-category"
         placeholder="Nom de la catégorie"
         onChange={handleChangeField("label", setLabel)}
       />
-            <input
+      {errors.label && <p className="register-error-message">{errors.label}</p>}
+
+      <input
+        name="imageUrl"
         data-testid="input-category"
         placeholder="Url de l'image"
         onChange={handleChangeField("imageUrl", setImageUrl)}
       />
-      <button onClick={handleAddCategory}>Enregistrer</button>
-      {category && (
-        <p data-testid="paragraphe">
-          {message + category.addCategory.label}
-        </p>
+      {errors.imageUrl && (
+        <p className="register-error-message">{errors.imageUrl}</p>
       )}
-    </div>
+
+      <button type="submit">Enregistrer</button>
+      {category && (
+        <p data-testid="paragraphe">{message + category.addCategory.label}</p>
+      )}
+    </form>
   );
 }
 

@@ -97,7 +97,7 @@ function AddUserMutation() {
     } catch (err:any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
-        err.inner.forEach((validationError) => {
+        err.inner.forEach((validationError:any) => {
           if (validationError.path) {
             yupErrors[validationError.path] = validationError.message;
           }

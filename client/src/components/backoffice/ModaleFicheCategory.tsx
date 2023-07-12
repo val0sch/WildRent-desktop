@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_CATEGORY } from "../../graphql/category.mutation";
 import { UPDATE_CATEGORY } from "../../graphql/category.mutation";
 import { MouseEventHandler, useState } from "react";
+import * as Yup from "yup";
 
 function ModaleFicheCategory({
   handleModaleFicheCategory,
@@ -54,7 +55,20 @@ function ModaleFicheCategory({
       console.error("%c⧭", "color: #917399", error);
     },
   });
-  const handleUpdateCategory = () => {
+
+  const categorySchema = Yup.object({
+    label: Yup.string().required("Le nom de la catégorie est requis"),
+    imageUrl: Yup.string()
+      .url()
+      .matches(
+        /\.(jpg|jpeg|png)$/gi,
+        "le lien doit terminer par .jpg, .jpeg, .png"
+      )
+      .required("L'url de l'image est requise"),
+  });
+
+  const handleUpdateCategory = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const updatedLabel = label === "" ? category.label : label;
     const updatedImageUrl = imageUrl === "" ? category.imageUrl : imageUrl;
     updatedLabel == category.label && updatedImageUrl == category.imageUrl
@@ -72,41 +86,47 @@ function ModaleFicheCategory({
 
   return (
     <div>
-      <div>Fiche catégorie</div>
-      <div>{category.label}</div>
-      <div>
-        <label htmlFor="updateLabelCategory">
-          {" "}
-          Changer le nom de la catégorie :{" "}
-        </label>
-        <input
-          value={label}
-          id="updateLabelCategory"
-          type="text"
-          onChange={handleLabel}
-        />
-      </div>
-      <div>
-        <img src={category.imageUrl} alt="image de la catégorie" width={150} />
-        <label htmlFor="updateImageUrlCategory">
-          {" "}
-          Changer l'image de la catégorie :{" "}
-        </label>
-        <input
-          value={imageUrl}
-          id="updateImageUrlCategory"
-          type="text"
-          onChange={handleImageUrl}
-        />
-      </div>
-      <button onClick={handleUpdateCategory}>modifier</button>
+      <form onSubmit={handleUpdateCategory}>
+        <div>Fiche catégorie</div>
+        <div>{category.label}</div>
+        <div>
+          <label htmlFor="updateLabelCategory">
+            {" "}
+            Changer le nom de la catégorie :{" "}
+          </label>
+          <input
+            value={label}
+            id="updateLabelCategory"
+            type="text"
+            onChange={handleLabel}
+          />
+        </div>
+        <div>
+          <img
+            src={category.imageUrl}
+            alt="image de la catégorie"
+            width={150}
+          />
+          <label htmlFor="updateImageUrlCategory">
+            {" "}
+            Changer l'url de l'image :{" "}
+          </label>
+          <input
+            value={imageUrl}
+            id="updateImageUrlCategory"
+            type="text"
+            onChange={handleImageUrl}
+          />
+        </div>
+        <button>modifier</button>
+        <div>{message}</div>
+      </form>
       <button
         className="secondary"
         onClick={() => handleDeleteCategory(category.id)}
       >
         Supprimer
       </button>
-      <div>{message}</div>
     </div>
   );
 }
