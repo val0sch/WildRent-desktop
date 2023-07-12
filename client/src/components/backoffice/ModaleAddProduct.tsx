@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { ADD_PRODUCT } from "../../graphql/product.mutation";
-import ListCategories from "./ListCategories";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 
+import "../../style/backoffice.css"
+
 function ModaleAddProduct({
-  handleModaleProduct,
   closeModaleProduct,
 }: {
   handleModaleProduct: MouseEventHandler<HTMLButtonElement>;
@@ -18,7 +18,6 @@ function ModaleAddProduct({
   const [size, setSize] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [stock, setStock] = useState<Number>(0);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("");
 
   const [message, setMessage] = useState<string>("");
 
@@ -81,50 +80,54 @@ function ModaleAddProduct({
     });
   };
   return (
-    <div>
-      <select onChange={handleSelectChange}>
-        <option value="">Choisir une catégorie</option>
-        {categories?.categories.map((selectedcategory: any, index: number) => (
-          <option key={index} value={selectedcategory.id}>
-            {selectedcategory.label}
-          </option>
-        ))}
-      </select>
-      <input
-        name="name"
-        type="text"
-        placeholder="Nom de l'equipement"
-        onChange={handleChangeName}
-      />
-      <input
-        name="description"
-        type="text"
-        placeholder="Description"
-        onChange={handleChangeDescription}
-      />
-      <input
-        name="price"
-        type="number"
-        placeholder="Prix"
-        onChange={handleChangePrice}
-      />
-      <input
-        name="size"
-        type="text"
-        placeholder="Taille"
-        onChange={handleChangeSize}
-      />
-      <input
-        name="stock"
-        type="number"
-        min="0"
-        placeholder="Quantité"
-        onChange={handleChangeStock}
-      />
-      <button onClick={handleAddProduct}>Ajouter un produit</button>
+    <div className="modale-add-product">
+      <div className="modale-add-product-form">
+        <select onChange={handleSelectChange}>
+          <option value="">Choisir une catégorie</option>
+          {categories?.categories.map(
+            (selectedcategory: any, index: number) => (
+              <option key={index} value={selectedcategory.id}>
+                {selectedcategory.label}
+              </option>
+            )
+          )}
+        </select>
+        <input
+          name="name"
+          type="text"
+          placeholder="Nom de l'equipement"
+          onChange={handleChangeName}
+        />
+        <input
+          name="description"
+          type="text"
+          placeholder="Description"
+          onChange={handleChangeDescription}
+        />
+        <input
+          name="price"
+          type="number"
+          placeholder="Prix"
+          onChange={handleChangePrice}
+        />
+        <input
+          name="size"
+          type="text"
+          placeholder="Taille"
+          onChange={handleChangeSize}
+        />
+        <input
+          name="stock"
+          type="number"
+          min="0"
+          placeholder="Quantité"
+          onChange={handleChangeStock}
+        />
+        <button onClick={handleAddProduct}>Ajouter un produit</button>
 
-      <div>{message}</div>
-      <button onClick={closeModaleProduct}>Fermer</button>
+        <div>{message}</div>
+      </div>
+      <button className="secondary" onClick={closeModaleProduct}>Fermer</button>
     </div>
   );
 }
