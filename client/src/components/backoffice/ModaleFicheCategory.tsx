@@ -95,8 +95,8 @@ function ModaleFicheCategory({
   };
 
   return (
-    <div className="modale-detail-category-container">
-      <form onSubmit={handleUpdateCategory} className="modale-detail-category">
+    <div className="modale-fiche-category-container">
+      <form onSubmit={handleUpdateCategory} className="modale-fiche-category">
         <div>Fiche catégorie</div>
         <div>{category.label}</div>
         <div>
