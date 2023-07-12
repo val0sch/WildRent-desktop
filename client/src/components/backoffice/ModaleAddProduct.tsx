@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { ADD_PRODUCT } from "../../graphql/product.mutation";
-import ListCategories from "./ListCategories";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import * as Yup from "yup";
 
+import "../../style/backoffice.css"
+
 function ModaleAddProduct({
-  handleModaleProduct,
   closeModaleProduct,
 }: {
   handleModaleProduct: MouseEventHandler<HTMLButtonElement>;
@@ -19,7 +19,6 @@ function ModaleAddProduct({
   const [size, setSize] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [stock, setStock] = useState<Number>(0);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("");
 
   const [message, setMessage] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -109,8 +108,8 @@ function ModaleAddProduct({
     }
   };
   return (
-    <div>
-      <form onSubmit={handleAddProduct}>
+    <div className="modale-add-product">
+      <form onSubmit={handleAddProduct} className="modale-add-product-form">
         <select onChange={handleSelectChange}>
           <option value="">Choisir une catégorie</option>
           {categories?.categories.map(
@@ -168,7 +167,7 @@ function ModaleAddProduct({
         <button>Ajouter un produit</button>
         <div>{message}</div>
       </form>
-      <button onClick={closeModaleProduct}>Fermer</button>
+      <button className="secondary" onClick={closeModaleProduct}>Fermer</button>
     </div>
   );
 }

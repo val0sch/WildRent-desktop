@@ -3,6 +3,8 @@ import ListProducts from "../../components/backoffice/ListProducts";
 import { MouseEventHandler, useState } from "react";
 import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
+import Plongeur from "../../assets/back-office.jpeg";
+
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
@@ -15,23 +17,31 @@ function Produits(): JSX.Element {
   };
 
   return (
-    <div>
-      Produits
-      <div>
-        <button onClick={handleModaleProduct}>Ajouter un produit</button>
-        {toggleModaleProduct && <ModaleAddProduct
-          handleModaleProduct={handleModaleProduct}
-          closeModaleProduct={closeModaleProduct}
-        />} 
+    <section className="back-office-product-section">
+      <div className="back-office-img-container">
+        <img src={Plongeur} alt="wildrent - plongeur" />
+      </div>
+      <div className="bo-products-container">
+        <h3>Produits</h3>
 
-        <ListProducts />
+        <div>
+          <button onClick={handleModaleProduct}>Ajouter un produit</button>
+          {toggleModaleProduct && (
+            <ModaleAddProduct
+              handleModaleProduct={handleModaleProduct}
+              closeModaleProduct={closeModaleProduct}
+            />
+          )}
+
+          <ListProducts />
+        </div>
+        <div>
+          <button>
+            <Link to={"/back-office/"}>Retour</Link>
+          </button>
+        </div>
       </div>
-      <div>
-        <button>
-          <Link to={"/back-office/"}>Retour</Link>
-        </button>
-      </div>
-    </div>
+    </section>
   );
 }
 

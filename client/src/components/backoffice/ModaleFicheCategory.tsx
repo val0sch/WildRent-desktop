@@ -85,14 +85,13 @@ function ModaleFicheCategory({
   };
 
   return (
-    <div>
-      <form onSubmit={handleUpdateCategory}>
+    <div className="modale-detail-category-container">
+      <form onSubmit={handleUpdateCategory} className="modale-detail-category">
         <div>Fiche catégorie</div>
         <div>{category.label}</div>
         <div>
           <label htmlFor="updateLabelCategory">
-            {" "}
-            Changer le nom de la catégorie :{" "}
+            Changer le nom de la catégorie :
           </label>
           <input
             value={label}
@@ -101,10 +100,10 @@ function ModaleFicheCategory({
             onChange={handleLabel}
           />
         </div>
-        <div>
+        <div className="bo-container-input-img">
           <img
             src={category.imageUrl}
-            alt="image de la catégorie"
+            alt={category.label}
             width={150}
           />
           <label htmlFor="updateImageUrlCategory">

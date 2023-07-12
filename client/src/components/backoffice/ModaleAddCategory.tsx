@@ -71,30 +71,35 @@ function ModaleAddCategory({
   }; 
 
   return (
-    <form onSubmit={handleAddCategory} className="addCategory-form">
-      <input
-        name="label"
-        data-testid="input-category"
-        placeholder="Nom de la catégorie"
-        onChange={handleChangeField("label", setLabel)}
-      />
-      {errors.label && <p className="register-error-message">{errors.label}</p>}
+    <div className="modale-add-categorie">
+      <form onSubmit={handleAddCategory} className="modale-add-categorie-form">
+        <input
+          name="label"
+          data-testid="input-category"
+          placeholder="Nom de la catégorie"
+          onChange={handleChangeField("label", setLabel)}
+        />
+        {errors.label && <p className="register-error-message">{errors.label}</p>}
 
-      <input
-        name="imageUrl"
-        data-testid="input-category"
-        placeholder="Url de l'image"
-        onChange={handleChangeField("imageUrl", setImageUrl)}
-      />
-      {errors.imageUrl && (
-        <p className="register-error-message">{errors.imageUrl}</p>
-      )}
+        <input
+          name="imageUrl"
+          data-testid="input-category"
+          placeholder="Url de l'image"
+          onChange={handleChangeField("imageUrl", setImageUrl)}
+        />
+        {errors.imageUrl && (
+          <span className="register-error-message">{errors.imageUrl}</span>
+        )}
 
-      <button type="submit">Enregistrer</button>
-      {category && (
-        <p data-testid="paragraphe">{message + category.addCategory.label}</p>
-      )}
-    </form>
+        <button type="submit">Enregistrer</button>
+        {category && (
+          <p data-testid="paragraphe">{message + category.addCategory.label}</p>
+        )}
+      </form>
+      <button className="secondary" onClick={closeModaleCategory}>
+        Fermer
+      </button>
+    </div>
   );
 }
 
