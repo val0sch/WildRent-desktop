@@ -129,3 +129,30 @@
     margin-inline: auto;
   }
 }
+
+/* Categories.tsx */
+
+.bo-categorie-container h3 {
+  text-align: center;
+  background: var(--main-orange);
+  padding: 0.5rem;
+  color: white;
+  font-family: "Exo";
+}
+
+@media screen and (min-width: 768px) {
+    .back-office-categorie-section {
+      display: flex;
+    }
+  
+    .bo-categorie-container {
+      display: flex;
+      padding: 2rem 0;
+    }
+  
+    .bo-categorie-container h3 {
+      height: fit-content;
+      margin-left: -1rem;
+      padding: 1rem 3rem;
+    }
+  }

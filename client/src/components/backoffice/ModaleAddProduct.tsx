@@ -1,13 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { ADD_PRODUCT } from "../../graphql/product.mutation";
-import ListCategories from "./ListCategories";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 
 import "../../style/backoffice.css"
 
 function ModaleAddProduct({
-  handleModaleProduct,
   closeModaleProduct,
 }: {
   handleModaleProduct: MouseEventHandler<HTMLButtonElement>;
@@ -20,7 +18,6 @@ function ModaleAddProduct({
   const [size, setSize] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [stock, setStock] = useState<Number>(0);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("");
 
   const [message, setMessage] = useState<string>("");
 
