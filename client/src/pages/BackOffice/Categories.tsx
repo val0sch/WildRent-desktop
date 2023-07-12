@@ -15,6 +15,7 @@ function Categories(): JSX.Element {
   const closeModaleCategory: () => void = () => {
     setToggleModaleCategory(false);
   };
+  // query list catégorie
   return (
     <section className="back-office-categorie-section">
       <div className="back-office-img-container">

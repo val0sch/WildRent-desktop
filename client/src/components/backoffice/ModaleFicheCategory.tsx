@@ -1,27 +1,29 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { DELETE_CATEGORY } from "../../graphql/category.mutation";
 import { UPDATE_CATEGORY } from "../../graphql/category.mutation";
-import { MouseEventHandler, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEventHandler, useState } from "react";
+import * as Yup from "yup";
 
 function ModaleFicheCategory({
   handleModaleFicheCategory,
   closeModaleFicheCategory,
   category,
+  index,
 }: {
-  handleModaleFicheCategory?: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheCategory?: (index: number) => void;
+  handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement>;
+  closeModaleFicheCategory: (index: number) => void;
   category: any;
+  index: number;
 }): JSX.Element {
-  console.log("%c⧭", "color: #0088cc", "categoryId", category);
-
   const [label, setLabel] = useState<string>(category.label);
   const [imageUrl, setImageUrl] = useState<string>(category.imageUrl);
   const [message, setMessage] = useState<string>("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
-  const handleImageUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUrl = (e: ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value);
   };
 
@@ -54,27 +56,49 @@ function ModaleFicheCategory({
       console.error("%c⧭", "color: #917399", error);
     },
   });
-  const handleUpdateCategory = () => {
-    const updatedLabel = label === "" ? category.label : label;
-    const updatedImageUrl = imageUrl === "" ? category.imageUrl : imageUrl;
-    updatedLabel == category.label && updatedImageUrl == category.imageUrl
-      ? setMessage("Aucune modification n'a été apporté")
-      : updateCategoryInDb({
-          variables: {
-            updateCategoryId: category.id,
-            infos: {
-              label: updatedLabel,
-              imageUrl: updatedImageUrl,
+
+  const categorySchema = Yup.object({
+    label: Yup.string().required("Le nom de la catégorie est requis"),
+    imageUrl: Yup.string()
+      .url()
+      .matches(
+        /\.(jpg|jpeg|png)$/gi,
+        "le lien doit terminer par .jpg, .jpeg, .png"
+      )
+      .required("L'url de l'image est requise"),
+  });
+
+  const handleUpdateCategory = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await categorySchema.validate({ label, imageUrl }, { abortEarly: false });
+      label == category.label && imageUrl == category.imageUrl
+        ? setMessage("Aucune modification n'a été apporté")
+        : await updateCategoryInDb({
+            variables: {
+              updateCategoryId: category.id,
+              infos: {
+                label: label,
+                imageUrl: imageUrl,
+              },
             },
-          },
+          });
+    } catch (err: any) {
+      if (Yup.ValidationError.isError(err)) {
+        const yupErrors: Record<string, string> = {};
+        err.inner.forEach((validationError: any) => {
+          yupErrors[validationError.path] = validationError.message;
         });
+        setErrors(yupErrors);
+      } else setErrors({ label: "Une erreur est survenue" });
+    }
   };
 
   return (
     <div className="modale-detail-category-container">
-      <div className="modale-detail-category">
+      <form onSubmit={handleUpdateCategory} className="modale-detail-category">
         <div>Fiche catégorie</div>
-        <h3>{category.label}</h3>
+        <div>{category.label}</div>
         <div>
           <label htmlFor="updateLabelCategory">
             Changer le nom de la catégorie :
@@ -85,11 +109,15 @@ function ModaleFicheCategory({
             type="text"
             onChange={handleLabel}
           />
+          {errors.label && (
+            <p className="register-error-message">{errors.label}</p>
+          )}
         </div>
         <div className="bo-container-input-img">
           <img src={category.imageUrl} alt={category.label} width={150} />
           <label htmlFor="updateImageUrlCategory">
-            Changer l'image de la catégorie :
+            {" "}
+            Changer l'url de l'image :{" "}
           </label>
           <input
             value={imageUrl}
@@ -97,16 +125,20 @@ function ModaleFicheCategory({
             type="text"
             onChange={handleImageUrl}
           />
+          {errors.imageUrl && (
+            <p className="register-error-message">{errors.imageUrl}</p>
+          )}
         </div>
-        <button onClick={handleUpdateCategory}>modifier</button>
+        <button>modifier</button>
+        <div>{message}</div>
         <button
           className="secondary"
           onClick={() => handleDeleteCategory(category.id)}
         >
           Supprimer
         </button>
-        <div>{message}</div>
-      </div>
+      </form>
+      <button onClick={() => closeModaleFicheCategory(index)}>Fermer</button>
     </div>
   );
 }
