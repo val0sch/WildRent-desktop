@@ -1,5 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { useState, MouseEventHandler } from "react";
+import {
+  useState,
+  MouseEventHandler,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+} from "react";
 import { ADD_CATEGORY } from "../../graphql/category.mutation";
 import * as Yup from "yup";
 
@@ -10,6 +17,7 @@ function ModaleAddCategory({
   handleModaleCategory?: MouseEventHandler<HTMLButtonElement>;
   closeModaleCategory?: () => void;
 }) {
+  
   const [label, setLabel] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -26,27 +34,33 @@ function ModaleAddCategory({
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<any>>
+    e: ChangeEvent<HTMLInputElement>,
+    setState: Dispatch<SetStateAction<any>>
   ) => {
     setState(e.target.value);
   };
 
   const handleChangeField = (
     field: string,
-    setState: React.Dispatch<React.SetStateAction<any>>
+    setState: Dispatch<SetStateAction<any>>
   ) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
       handleChange(e, setState);
     };
   };
 
- const categorySchema = Yup.object({
+  const categorySchema = Yup.object({
     label: Yup.string().required("Le nom de la catégorie est requis"),
-    imageUrl: Yup.string().url().matches(/\.(jpg|jpeg|png)$/ig, "le lien doit terminer par .jpg, .jpeg, .png").required("L'url de l'image est requise"),
+    imageUrl: Yup.string()
+      .url()
+      .matches(
+        /\.(jpg|jpeg|png)$/gi,
+        "le lien doit terminer par .jpg, .jpeg, .png"
+      )
+      .required("L'url de l'image est requise"),
   });
 
-  const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddCategory = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await categorySchema.validate({ label, imageUrl }, { abortEarly: false });
@@ -61,14 +75,13 @@ function ModaleAddCategory({
     } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
-        err.inner.forEach((validationError:any) => {
+        err.inner.forEach((validationError: any) => {
           yupErrors[validationError.path] = validationError.message;
         });
         setErrors(yupErrors);
-      } else    
-        setErrors({ label: "Une erreur est survenue" });  
-    };
-  }; 
+      } else setErrors({ label: "Une erreur est survenue" });
+    }
+  };
 
   return (
     <div className="modale-add-categorie">
@@ -79,7 +92,9 @@ function ModaleAddCategory({
           placeholder="Nom de la catégorie"
           onChange={handleChangeField("label", setLabel)}
         />
-        {errors.label && <p className="register-error-message">{errors.label}</p>}
+        {errors.label && (
+          <p className="register-error-message">{errors.label}</p>
+        )}
 
         <input
           name="imageUrl"

@@ -1,10 +1,16 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useState, useEffect, MouseEventHandler } from "react";
+import {
+  useState,
+  useEffect,
+  MouseEventHandler,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { ADD_PRODUCT } from "../../graphql/product.mutation";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import * as Yup from "yup";
 
-import "../../style/backoffice.css"
+import "../../style/backoffice.css";
 
 function ModaleAddProduct({
   closeModaleProduct,
@@ -42,25 +48,25 @@ function ModaleAddProduct({
     },
   });
 
-  function handleName(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleName(event: ChangeEvent<HTMLInputElement>) {
     setName(String(event.target.value));
   }
-  function handleDescription(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleDescription(event: ChangeEvent<HTMLInputElement>) {
     setDescription(String(event.target.value));
   }
-  function handlePrice(event: React.ChangeEvent<HTMLInputElement>) {
+  function handlePrice(event: ChangeEvent<HTMLInputElement>) {
     setPrice(Number(event.target.value));
   }
-  function handleSize(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSize(event: ChangeEvent<HTMLInputElement>) {
     setSize(String(event.target.value));
   }
-  function handleStock(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleStock(event: ChangeEvent<HTMLInputElement>) {
     setStock(Number(event.target.value));
   }
-  const handleIsAvailable = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIsAvailable = (e: ChangeEvent<HTMLInputElement>) => {
     setIsAvailable(e.target.checked);
   };
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
   };
 
@@ -76,7 +82,7 @@ function ModaleAddProduct({
     stock: Yup.number().required("La quantité est requise"),
   });
 
-  const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedCategoryId = category === "" ? null : category;
     try {
@@ -162,12 +168,21 @@ function ModaleAddProduct({
         {errors.stock && (
           <p className="register-error-message">{errors.stock}</p>
         )}
-<label htmlFor="isAvailable">Produit disponible</label>
-        <input name="isAvailable" type="checkbox" onChange={handleIsAvailable} />
+        <label htmlFor="isAvailable">
+          Produit disponible{" "}
+          <input
+            name="isAvailable"
+            type="checkbox"
+            onChange={handleIsAvailable}
+          />
+        </label>
+
         <button>Ajouter un produit</button>
         <div>{message}</div>
       </form>
-      <button className="secondary" onClick={closeModaleProduct}>Fermer</button>
+      <button className="secondary" onClick={closeModaleProduct}>
+        Fermer
+      </button>
     </div>
   );
 }

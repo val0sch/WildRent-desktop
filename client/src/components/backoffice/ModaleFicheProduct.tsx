@@ -8,10 +8,12 @@ function ModaleFicheProduct({
   handleModaleFicheProduct,
   closeModaleFicheProduct,
   product,
+  index
 }: {
-  handleModaleFicheProduct?: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheProduct?: (index: number) => void;
+  handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement>;
+  closeModaleFicheProduct: (index: number) => void;
   product: any;
+  index: number;
 }): JSX.Element {
 
   const { data: categories } = useQuery(LIST_CATEGORIES, {
@@ -192,6 +194,7 @@ function ModaleFicheProduct({
         Supprimer
       </button>
       <div>{message}</div>
+      <button onClick={()=>closeModaleFicheProduct(index)}>Fermer</button>
     </div>
   );
 }

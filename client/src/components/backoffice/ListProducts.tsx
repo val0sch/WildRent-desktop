@@ -75,6 +75,7 @@ function ListProducts(): JSX.Element {
                   handleModaleFicheProduct={handleModaleFicheProduct}
                   closeModaleFicheProduct={closeModaleFicheProduct}
                   product={product}
+                  index={index}
                 />
               )}
             </tr>

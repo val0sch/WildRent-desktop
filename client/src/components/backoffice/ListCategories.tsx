@@ -1,14 +1,13 @@
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
-import { DELETE_CATEGORY } from "../../graphql/category.mutation";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import ModaleFicheCategory from "./ModaleFicheCategory";
 
 function ListCategories(): JSX.Element {
 
   const [categoryModalStates, setCategoryModalStates] = useState<boolean[]>([]);
 
-  const handleModaleFicheCategory: React.MouseEventHandler<HTMLButtonElement> = (
+  const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     const index = Number((event.currentTarget as HTMLButtonElement).dataset.index);
@@ -69,6 +68,7 @@ function ListCategories(): JSX.Element {
                   handleModaleFicheCategory={handleModaleFicheCategory}
                   closeModaleFicheCategory={closeModaleFicheCategory}
                   category={category}
+                  index={index}
                 />
               )}
             </tr>
