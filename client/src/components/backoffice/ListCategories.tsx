@@ -2,15 +2,18 @@ import { useQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import { MouseEventHandler, useState } from "react";
 import ModaleFicheCategory from "./ModaleFicheCategory";
+import DataTable from "react-data-table-component";
+import { Category } from "../../generated";
+import { when } from "cypress/types/jquery";
 
 function ListCategories(): JSX.Element {
-
   const [categoryModalStates, setCategoryModalStates] = useState<boolean[]>([]);
+  const [index, setIndex] = useState<any>("");
 
   const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
-    const index = Number((event.currentTarget as HTMLButtonElement).dataset.index);
+    setIndex((event.currentTarget as HTMLButtonElement).dataset.index);
     setCategoryModalStates((prevState) => {
       const newState = [...prevState];
       newState[index] = !newState[index];
@@ -26,56 +29,60 @@ function ListCategories(): JSX.Element {
     });
   };
 
-  const [message, setMessage] = useState<string>("");
-
   /// LIST CATEGORIES
+  const [categories, setCategories] = useState<Category[]>([]);
   const { data } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);    
-      setCategoryModalStates(Array(data.categories.length).fill(false));
-    },      
+      console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
+      setCategories(data.categories);
+    },
     onError(error) {
       console.error(error);
     },
   });
- 
+
+  const columns: any = [
+    {
+      name: "Catégorie",
+      selector: "label",
+      sortable: true,
+    },
+    {
+      name: "Image",
+      selector: "imageUrl",
+      sortable: true,
+      cell: (row: any) => (
+        <img src={row.imageUrl} alt="image de la catégorie" height={75} />
+      ),
+    },
+    {
+      name: "Actions",
+      button: true,
+      ignoreRowClick: true,
+      cell: (row: any) => (
+        <button
+          style={{ fontSize: 14 }}
+          className="secondary"
+          onClick={handleModaleFicheCategory}
+          data-index={row.id}
+        >
+          Details
+        </button>
+      )
+    },
+  ];
+
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Catégorie</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        {data?.categories.map((category: any, index: number) => (
-            <tr key={index}>
-              <td>{category?.label}</td>
-              <td><img src={category?.imageUrl} alt="image de la catégorie" height={75}/></td>
-              <td>
-                <button
-                  className="secondary"
-                  onClick={handleModaleFicheCategory}
-                  data-index={index}
-                >
-                  Details
-                </button>
-              </td>
-              {categoryModalStates[index] && (
-                <ModaleFicheCategory
-                  handleModaleFicheCategory={handleModaleFicheCategory}
-                  closeModaleFicheCategory={closeModaleFicheCategory}
-                  category={category}
-                  index={index}
-                />
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div>{message}</div>
+      <DataTable columns={columns} data={categories} pagination />
+      {categoryModalStates[index] && (
+        <ModaleFicheCategory
+          handleModaleFicheCategory={handleModaleFicheCategory}
+          closeModaleFicheCategory={closeModaleFicheCategory}
+          category={categories.find((category: any) => category.id === index)}
+          index={index}
+        />
+      )}
     </div>
   );
 }

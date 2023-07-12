@@ -15,7 +15,7 @@ function Categories(): JSX.Element {
   const closeModaleCategory: () => void = () => {
     setToggleModaleCategory(false);
   };
-  // query list catégorie
+  // query list catégorie et utiliser un refetch pour mettre à jour la liste des catégories
   return (
     <section className="back-office-categorie-section">
       <div className="back-office-img-container">

@@ -11,9 +11,9 @@ function ModaleFicheCategory({
   index,
 }: {
   handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheCategory: (index: number) => void;
+  closeModaleFicheCategory: (index: any) => void;
   category: any;
-  index: number;
+  index: any;
 }): JSX.Element {
   const [label, setLabel] = useState<string>(category.label);
   const [imageUrl, setImageUrl] = useState<string>(category.imageUrl);

@@ -12,9 +12,9 @@ function ModaleFicheProduct({
   index,
 }: {
   handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheProduct: (index: number) => void;
+  closeModaleFicheProduct: (index: any) => void;
   product: any;
-  index: number;
+  index: any;
 }): JSX.Element {
   const { data: categories } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
