@@ -64,9 +64,14 @@ function ModaleAddCategory({
         />
         <button onClick={handleAddCategory}>Enregistrer</button>
         {category && (
-          <p data-testid="paragraphe">{message + category.addCategory.label}</p>
+          <span data-testid="paragraphe">
+            {message + category.addCategory.label}
+          </span>
         )}
       </div>
+      <button className="secondary" onClick={closeModaleCategory}>
+        Fermer
+      </button>
     </div>
   );
 }

@@ -71,42 +71,42 @@ function ModaleFicheCategory({
   };
 
   return (
-    <div>
-      <div>Fiche catégorie</div>
-      <div>{category.label}</div>
-      <div>
-        <label htmlFor="updateLabelCategory">
-          {" "}
-          Changer le nom de la catégorie :{" "}
-        </label>
-        <input
-          value={label}
-          id="updateLabelCategory"
-          type="text"
-          onChange={handleLabel}
-        />
+    <div className="modale-detail-category-container">
+      <div className="modale-detail-category">
+        <div>Fiche catégorie</div>
+        <h3>{category.label}</h3>
+        <div>
+          <label htmlFor="updateLabelCategory">
+            Changer le nom de la catégorie :
+          </label>
+          <input
+            value={label}
+            id="updateLabelCategory"
+            type="text"
+            onChange={handleLabel}
+          />
+        </div>
+        <div className="bo-container-input-img">
+          <img src={category.imageUrl} alt={category.label} width={150} />
+          <label htmlFor="updateImageUrlCategory">
+            Changer l'image de la catégorie :
+          </label>
+          <input
+            value={imageUrl}
+            id="updateImageUrlCategory"
+            type="text"
+            onChange={handleImageUrl}
+          />
+        </div>
+        <button onClick={handleUpdateCategory}>modifier</button>
+        <button
+          className="secondary"
+          onClick={() => handleDeleteCategory(category.id)}
+        >
+          Supprimer
+        </button>
+        <div>{message}</div>
       </div>
-      <div>
-        <img src={category.imageUrl} alt="image de la catégorie" width={150} />
-        <label htmlFor="updateImageUrlCategory">
-          {" "}
-          Changer l'image de la catégorie :{" "}
-        </label>
-        <input
-          value={imageUrl}
-          id="updateImageUrlCategory"
-          type="text"
-          onChange={handleImageUrl}
-        />
-      </div>
-      <button onClick={handleUpdateCategory}>modifier</button>
-      <button
-        className="secondary"
-        onClick={() => handleDeleteCategory(category.id)}
-      >
-        Supprimer
-      </button>
-      <div>{message}</div>
     </div>
   );
 }
