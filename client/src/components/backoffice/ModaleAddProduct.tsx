@@ -1,8 +1,8 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { ADD_PRODUCT } from "../../graphql/product.mutation";
-import ListCategories from "../ListCategories";
-import { UUID } from "crypto";
+import ListCategories from "./ListCategories";
+import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 
 function ModaleAddProduct({
   handleModaleProduct,
@@ -11,24 +11,30 @@ function ModaleAddProduct({
   handleModaleProduct: MouseEventHandler<HTMLButtonElement>;
   closeModaleProduct: () => void;
 }): JSX.Element {
-    
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string | null>(null);
   const [price, setPrice] = useState<Number>(0);
   const [size, setSize] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [stock, setStock] = useState<Number>(0);
+  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("");
 
-  const idCategories = (idCategoryId: string) => {
-    // On récupère l'id de la catégorie sélectionnée dans ListCategoriesQuery
-    setCategory(idCategoryId);
-  };
+  const [message, setMessage] = useState<string>("");
+
+  const { data: categories } = useQuery(LIST_CATEGORIES, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
 
   const [addProductInDb, { data }] = useMutation(ADD_PRODUCT, {
     onCompleted(data) {
-      closeModaleProduct();
       console.log("%c⧭", "color: #0088cc", "add Product", data);
+      setMessage("Vous avez ajouté le produit : " + data.addProduct.name);
     },
     onError(error) {
       console.log("%c⧭", "color: #917399", error);
@@ -50,33 +56,40 @@ function ModaleAddProduct({
   function handleChangeStock(event: React.ChangeEvent<HTMLInputElement>) {
     setStock(Number(event.target.value));
   }
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value);
+  };
 
   useEffect(() => {
     setIsAvailable(stock === 0 ? false : true);
   }, [stock]);
 
   const handleAddProduct = () => {
-    console.log(name, description, category, price, size, isAvailable, stock);
+    const selectedCategoryId = category === "" ? null : category;
     addProductInDb({
       variables: {
         infos: {
           name,
           description,
-          category,
           price,
           size,
-          isAvailable,
           stock,
+          isAvailable,
+          category: selectedCategoryId,
         },
       },
-    })
+    });
   };
   return (
     <div>
-      <button onClick={closeModaleProduct}>Fermer</button>
-      <div>
-        <ListCategories deletable={false} idCategories={idCategories} />
-      </div>
+      <select onChange={handleSelectChange}>
+        <option value="">Choisir une catégorie</option>
+        {categories?.categories.map((selectedcategory: any, index: number) => (
+          <option key={index} value={selectedcategory.id}>
+            {selectedcategory.label}
+          </option>
+        ))}
+      </select>
       <input
         name="name"
         type="text"
@@ -98,7 +111,7 @@ function ModaleAddProduct({
       <input
         name="size"
         type="text"
-        placeholder="Size"
+        placeholder="Taille"
         onChange={handleChangeSize}
       />
       <input
@@ -109,11 +122,9 @@ function ModaleAddProduct({
         onChange={handleChangeStock}
       />
       <button onClick={handleAddProduct}>Ajouter un produit</button>
-      {data && (
-        <p data-testid="paragraphe">
-          Vous avez ajouté l'equipement : {data.addProduct.name}
-        </p>
-      )}
+
+      <div>{message}</div>
+      <button onClick={closeModaleProduct}>Fermer</button>
     </div>
   );
 }

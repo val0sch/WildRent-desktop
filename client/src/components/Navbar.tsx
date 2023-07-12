@@ -21,6 +21,7 @@ export default function Accueil(): JSX.Element {
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
+  console.log("userinfos", userInfos);
 
   // gestion menu burger
   const [showMenu, setShowMenu] = useState(false);
@@ -39,7 +40,6 @@ export default function Accueil(): JSX.Element {
 
   const [getList, { data: subMenu }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(subMenu) {
-      console.log("list categories subMenu", subMenu.categories);
       setCategoriesList(subMenu.categories);
     },
     onError(error) {
@@ -55,10 +55,8 @@ export default function Accueil(): JSX.Element {
   const [showCategories, setShowCategories] = useState(false);
 
   const toggleCategories = () => {
-    console.log("showCategories : ", showCategories);
     setShowCategories(!showCategories);
   };
-
   return (
     <div>
       <nav className="navigation">
@@ -79,7 +77,11 @@ export default function Accueil(): JSX.Element {
               onClick={toggleCategories}
             >
               <CaretCircleDown size={32} />
-              <p>Catégories</p>
+              {window.innerWidth < 768 ? (
+                <p>Catégories</p>
+              ) : (
+                <Link to="/all-categories">Catégories</Link>
+              )}
             </div>
 
             <div
@@ -88,14 +90,23 @@ export default function Accueil(): JSX.Element {
               {categoriesList &&
                 categoriesList.map((submenu: any) => {
                   return (
-                    <Link className="navlink" to="/" onClick={closeMenu}>
+                    <Link
+                      className="navlink"
+                      to={`/all-categories/${submenu.label}`}
+                      onClick={closeMenu}
+                    >
                       {submenu.label}
                     </Link>
                   );
                 })}
             </div>
           </li>
-          <li className="navlink mobile">
+          <li className="navlink mobile info-user">
+            {userInfos.email && (
+              <li>
+                <p>{userInfos.email}</p>
+              </li>
+            )}
             <Link to="/compte/" onClick={closeMenu}>
               <UserCircle size={32} />
               <span>Profil</span>

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import { LIST_CATEGORIES } from "../graphql/listCategories.query";
-import ListCategories from "../components/ListCategories";
+import { LIST_CATEGORIES } from "../graphql/Categories.query";
+import ListCategories from "../components/backoffice/ListCategories";
 
 test("List of categories", async () => {
   render(

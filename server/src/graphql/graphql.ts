@@ -241,8 +241,10 @@ export type Query = {
   __typename?: 'Query';
   carts?: Maybe<Array<Maybe<Cart>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
+  category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']>;
   checkToken?: Maybe<Scalars['Boolean']>;
+  detailsConnectUser?: Maybe<DetailsUser>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
   images?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
@@ -250,6 +252,11 @@ export type Query = {
   products?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type QueryCategoryArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -492,8 +499,10 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   carts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cart']>>>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;

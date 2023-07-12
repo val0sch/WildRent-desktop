@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToOne, UpdateResult } from "typeorm";
 import Category from "./category.entity";
 import Item from "./item.entity";
 
@@ -25,10 +25,12 @@ export default class Product {
     @Column()
     stock: number
 
-    @ManyToOne(type => Category) 
-    category: Category
+    @ManyToOne(type => Category, { onDelete: "SET NULL" }) 
+    category: Category;
+    
 
     @OneToOne(() => Item, item => item.product)
     item: Item;
+
 
 }

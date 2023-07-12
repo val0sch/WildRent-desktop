@@ -1,15 +1,28 @@
 import { Link } from "react-router-dom";
-import AddCategory from "../../components/AddCategory";
-import ListCategories from "../../components/ListCategories";
+import ModaleAddCategory from "../../components/backoffice/ModaleAddCategory";
+import ListCategories from "../../components/backoffice/ListCategories";
+import { MouseEventHandler, useState } from "react";
 
 function Categories(): JSX.Element {
+  const [toggleModaleCategory, setToggleModaleCategory] = useState(false);
 
+  const handleModaleCategory: MouseEventHandler<HTMLButtonElement> = () => {
+    setToggleModaleCategory(!toggleModaleCategory);
+  };
+
+  const closeModaleCategory: () => void = () => {
+    setToggleModaleCategory(false);
+  };
   return (
     <div>
       Catégories
       <div>
-        <ListCategories deletable={true}/>
-        <AddCategory />
+      <button onClick={handleModaleCategory}>Ajouter une catégorie</button>
+      {toggleModaleCategory && <ModaleAddCategory
+          handleModaleCategory={handleModaleCategory}
+          closeModaleCategory={closeModaleCategory}
+        />} 
+        <ListCategories/>
       </div>
       <div>
         <button>

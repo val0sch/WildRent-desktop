@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ListProducts from "../../components/ListProducts";
+import ListProducts from "../../components/backoffice/ListProducts";
 import { MouseEventHandler, useState } from "react";
 import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
@@ -8,7 +8,6 @@ function Produits(): JSX.Element {
 
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);
-    console.log(toggleModaleProduct);
   };
 
   const closeModaleProduct: () => void = () => {

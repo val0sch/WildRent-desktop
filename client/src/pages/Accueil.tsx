@@ -5,14 +5,14 @@ import "../style/accueil.css";
 import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { LIST_CATEGORIES } from "../graphql/listCategories.query";
-import io from "socket.io-client";
+
+import ButtonScrollToTop from "../Utils/ButtonScrollToTop";
 
 function Users(): JSX.Element {
   const [categoriesList, setCategoriesList] = useState([]);
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      console.log("list categories", data.categories);
-      setCategoriesList(data.categories);
+      setCategoriesList(data.categories)
     },
     onError(error) {
       console.error(error);
@@ -32,7 +32,7 @@ function Users(): JSX.Element {
         </h2>
         <div className="home-button-container">
           <button>
-            <Link to={"/categories"}>Parcourir les catégories</Link>
+            <Link to={"/all-categories"}>Parcourir les catégories</Link>
           </button>
           <button className="navy">
             <Link to="/compte">Accéder à mon espace</Link>
@@ -43,6 +43,7 @@ function Users(): JSX.Element {
           {categoriesList.map((categories: any) => {
             return <CardSport key={categories.id} {...categories} />;
           })}
+          <ButtonScrollToTop />
         </div>
        
       </div>

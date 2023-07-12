@@ -9,6 +9,15 @@ mutation addCategory($infos: CategoryRegister!) {
   }
 }
 `
+export const UPDATE_CATEGORY = gql`
+mutation updateCategory($updateCategoryId: String!, $infos: CategoryRegister!) {
+  updateCategory(id: $updateCategoryId, infos: $infos) {
+    label
+    imageUrl
+  }
+}
+`
+
 export const DELETE_CATEGORY = gql`
 mutation deleteCategory($deleteCategoryId: String!) {
   deleteCategory(id: $deleteCategoryId) {

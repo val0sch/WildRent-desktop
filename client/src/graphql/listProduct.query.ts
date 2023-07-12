@@ -7,11 +7,13 @@ query Products {
     name
     description
     category {
+      id
       label
     }
     price
     size
     stock
+    isAvailable
   }
 }
 `;

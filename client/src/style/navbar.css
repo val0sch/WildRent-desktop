@@ -50,10 +50,6 @@ a.navlink {
   margin-bottom: 1rem;
 }
 
-.toggleCategories.toggleCategories.openCat {
-  margin-bottom: 0.5rem;
-}
-
 .toggleCategories svg {
   transition: all 0.3s linear;
 }
@@ -128,10 +124,19 @@ a.navlink {
     color: var(--main-navy);
   }
 
+  .info-user{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .dropdown-content {
     display: none;
     flex-direction: column;
     padding-left: 2.5rem;
+  }
+
+  .toggleCategories.toggleCategories.openCat {
+    margin-bottom: 0.5rem;
   }
 
   .dropdown-content.openCat {
@@ -157,9 +162,20 @@ a.navlink {
     height: 69.5px;
   }
 
+  .toggleCategories a {
+    color: white;
+  }
+
   .navigation {
     display: flex;
     align-items: center;
+  }
+
+  .info-user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
   }
 
   .navigation h1 {
@@ -184,6 +200,7 @@ a.navlink {
   }
 
   .dropdown-content {
+    z-index: 5;
     position: absolute;
     right: -100%;
     display: none;

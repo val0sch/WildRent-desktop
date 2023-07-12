@@ -1,6 +1,6 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import AddCategory from "../components/AddCategory";
+import AddCategory from "../components/backoffice/ModaleAddCategory";
 import { ADD_CATEGORY } from "../graphql/category.mutation";
 
 test("Add category", async () => {

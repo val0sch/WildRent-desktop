@@ -2,20 +2,10 @@ import { useLazyQuery } from "@apollo/client";
 import { LIST_USERS } from "../graphql/listUsers.query";
 
 function ListUsersQuery() {
-/////
-//  useEffect
-/////
 
-/////
-//  useState
-/////
-
-/////
-//  Code
-/////
   const [getList, { data }] = useLazyQuery(LIST_USERS, {
     onCompleted(data) {
-      console.log("list users", data);
+      console.log("%c⧭", "color: #0088cc", "Liste des utilisateurs : ", data);
     },
     onError(error) {
       console.error(error);
@@ -26,9 +16,7 @@ function ListUsersQuery() {
   const handleClick = () => {
     getList();
   };
-/////
-//  Return
-/////
+
   return (
     <div>
       <button onClick={handleClick}>Afficher la liste des Utilisateurs</button>

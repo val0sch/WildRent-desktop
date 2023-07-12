@@ -37,6 +37,10 @@
   padding: 2rem 0 1rem 0;
 }
 
+.home-sport-cards-container button.secondary{
+  align-self: center;
+}
+
 .home-sport-card {
   font-size: 24px;
   color: white;
@@ -86,5 +90,9 @@
     height: 100%;
     flex: 1 0 250px;
     scroll-snap-align: start;
+  }
+
+  .home-sport-cards-container button.secondary{
+    display: none;
   }
 }
