@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, useState } from "react";
 import { ADD_USER } from "../../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
@@ -42,7 +42,7 @@ function AddUserMutation() {
       console.log("%c⧭", "color: #0088cc", "add User", data);
       login({
         variables: {
-          infos: { email, password},
+          infos: { email, password },
         },
       });
     },
@@ -63,24 +63,24 @@ function AddUserMutation() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<any>>
+    e: ChangeEvent<HTMLInputElement>,
+    setState: Dispatch<React.SetStateAction<any>>
   ) => {
     setState(e.target.value);
   };
 
   const handleChangeField = (
     field: string,
-    setState: React.Dispatch<React.SetStateAction<any>>
+    setState: Dispatch<React.SetStateAction<any>>
   ) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
       handleChange(e, setState);
     };
   };
 
-  const handleAddUser = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       await validationSchema.validate(
         { email, password, passwordConfirmation },
@@ -94,10 +94,10 @@ function AddUserMutation() {
           },
         },
       });
-    } catch (err:any) {
+    } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
-        err.inner.forEach((validationError:any) => {
+        err.inner.forEach((validationError: any) => {
           if (validationError.path) {
             yupErrors[validationError.path] = validationError.message;
           }
@@ -108,7 +108,6 @@ function AddUserMutation() {
       }
     }
   };
-  
 
   return (
     <form onSubmit={handleAddUser} className="register-form">

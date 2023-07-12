@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { DELETE_CATEGORY } from "../../graphql/category.mutation";
 import { UPDATE_CATEGORY } from "../../graphql/category.mutation";
-import { FormEvent, MouseEventHandler, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEventHandler, useState } from "react";
 import * as Yup from "yup";
 
 function ModaleFicheCategory({
@@ -20,10 +20,10 @@ function ModaleFicheCategory({
   const [message, setMessage] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
-  const handleImageUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUrl = (e: ChangeEvent<HTMLInputElement>) => {
     setImageUrl(e.target.value);
   };
 

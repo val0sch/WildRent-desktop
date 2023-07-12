@@ -145,6 +145,7 @@ function ModaleAddProduct({
         <input
           name="price"
           type="number"
+          min="0"
           placeholder="Prix"
           onChange={handlePrice}
         />

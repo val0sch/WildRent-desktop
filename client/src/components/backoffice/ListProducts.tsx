@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { LIST_PRODUCT } from "../../graphql/listProduct.query";
 import ModaleFicheProduct from "./ModaleFicheProduct";
 
@@ -7,7 +7,7 @@ function ListProducts(): JSX.Element {
   
   const [productModalStates, setProductModalStates] = useState<boolean[]>([]);
 
-  const handleModaleFicheProduct: React.MouseEventHandler<HTMLButtonElement> = (
+  const handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     const index = Number((event.currentTarget as HTMLButtonElement).dataset.index);
