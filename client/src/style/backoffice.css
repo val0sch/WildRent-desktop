@@ -17,23 +17,23 @@
   font-family: "Exo";
 }
 
-.back-office-actions{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem 0;
+.back-office-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
 }
 
-.back-office-button-action{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: black;
-    border: 1px solid var(--main-orange);
-    border-radius: 8px;
-    padding: 1rem 2rem;
-    width: 80%;
+.back-office-button-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  border: 1px solid var(--main-orange);
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  width: 80%;
 }
 
 @media screen and (min-width: 768px) {
@@ -41,28 +41,54 @@
     flex-direction: row;
   }
 
-  .back-office-actions-container{
+  .back-office-actions-container {
     display: flex;
     padding: 2rem 0;
   }
 
-  .back-office-actions-container h3{
+  .back-office-actions-container h3 {
     height: fit-content;
     margin-left: -1rem;
     padding: 1rem 3rem;
   }
 
-  .back-office-actions{
+  .back-office-actions {
     flex-direction: revert;
     align-items: baseline;
     padding-top: 25%;
     gap: 2rem;
   }
 
-  .back-office-button-action{
+  .back-office-button-action {
     padding: 2rem 4rem;
     gap: 1rem;
     font-size: 18px;
+  }
+}
+
+/* Produits.tsx */
+.bo-products-container h3 {
+  text-align: center;
+  background: var(--main-orange);
+  padding: 0.5rem;
+  color: white;
+  font-family: "Exo";
+}
+
+@media screen and (min-width: 768px) {
+  .back-office-product-section {
+    display: flex;
+  }
+
+  .bo-products-container {
+    display: flex;
+    padding: 2rem 0;
+  }
+
+  .bo-products-container h3 {
+    height: fit-content;
+    margin-left: -1rem;
+    padding: 1rem 3rem;
   }
 }
 
