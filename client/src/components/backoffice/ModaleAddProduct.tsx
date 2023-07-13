@@ -14,9 +14,11 @@ import "../../style/backoffice.css";
 
 function ModaleAddProduct({
   closeModaleProduct,
+  updatedProduct,
 }: {
   handleModaleProduct: MouseEventHandler<HTMLButtonElement>;
   closeModaleProduct: () => void;
+  updatedProduct: () => void;
 }): JSX.Element {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -42,6 +44,7 @@ function ModaleAddProduct({
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Product", data);
       setMessage("Vous avez ajouté le produit : " + data.addProduct.name);
+      updatedProduct();
     },
     onError(error) {
       console.log("%c⧭", "color: #917399", error);

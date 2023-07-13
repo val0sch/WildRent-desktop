@@ -9,9 +9,11 @@ function ModaleFicheProduct({
   handleModaleFicheProduct,
   closeModaleFicheProduct,
   product,
+  updatedProduct,
 }: {
   handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement>;
   closeModaleFicheProduct: (index: any) => void;
+  updatedProduct: () => void;
   product: any;
 }): JSX.Element {
   const { data: categories } = useQuery(LIST_CATEGORIES, {
@@ -85,6 +87,7 @@ function ModaleFicheProduct({
 
   const [updateProductInDb] = useMutation(UPDATE_PRODUCT, {
     onCompleted(data) {
+      updatedProduct();
       console.log("%c⧭", "color: #0088cc", "update Product", data);
       setMessage("Vous avez modifié le produit");
     },

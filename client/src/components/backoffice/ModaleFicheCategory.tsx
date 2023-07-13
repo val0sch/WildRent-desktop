@@ -8,11 +8,15 @@ function ModaleFicheCategory({
   handleModaleFicheCategory,
   closeModaleFicheCategory,
   category,
+  updatedCategory,
 }: {
   handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement>;
   closeModaleFicheCategory: (index: any) => void;
   category: any;
+  updatedCategory: () => void;
 }): JSX.Element {
+
+
   const [label, setLabel] = useState<string>(category.label);
   const [imageUrl, setImageUrl] = useState<string>(category.imageUrl);
   const [message, setMessage] = useState<string>("");
@@ -47,6 +51,7 @@ function ModaleFicheCategory({
   // UPDATE CATEGORIE
   const [updateCategoryInDb] = useMutation(UPDATE_CATEGORY, {
     onCompleted(data) {
+      updatedCategory();
       console.log("%c⧭", "color: #0088cc", "update Category", data);
       setMessage("Vous avez modifié la catégorie");
     },

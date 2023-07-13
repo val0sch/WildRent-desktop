@@ -1,11 +1,15 @@
-import { useQuery } from "@apollo/client";
-import { MouseEventHandler, useEffect, useState } from "react";
-import { LIST_PRODUCT } from "../../graphql/listProduct.query";
+import { useState } from "react";
 import ModaleFicheProduct from "./ModaleFicheProduct";
 import DataTable from "react-data-table-component";
 import { Product } from "../../generated";
 
-function ListProducts(): JSX.Element {
+function ListProducts({
+  products,
+  updatedProduct,
+}: {
+  products: Product[];
+  updatedProduct: () => void;
+}): JSX.Element {
   const [productModalStates, setProductModalStates] = useState<boolean[]>([]);
   const [index, setIndex] = useState<any>("");
 
@@ -19,24 +23,13 @@ function ListProducts(): JSX.Element {
   };
 
   const closeModaleFicheProduct: (index: number) => void = (index: number) => {
+    updatedProduct();
     setProductModalStates((prevState) => {
       const newState = [...prevState];
       newState[index] = false;
       return newState;
     });
   };
-
-  /// LIST PRODUCTS
-  const [products, setProducts] = useState<Product[]>([]);
-  const { data } = useQuery(LIST_PRODUCT, {
-    onCompleted(data) {
-      console.log("list product", data);
-      setProducts(data.products);
-    },
-    onError(error) {
-      console.error(error);
-    },
-  });
 
   const columns: any = [
     {
@@ -51,7 +44,7 @@ function ListProducts(): JSX.Element {
     },
     {
       name: "Catégorie",
-      selector: "category.label",
+      selector: (row:any) => row.category?.label? row.category?.label:"",
       sortable: true,
     },
     {
@@ -113,6 +106,7 @@ function ListProducts(): JSX.Element {
           handleModaleFicheProduct={handleModaleFicheProduct}
           closeModaleFicheProduct={closeModaleFicheProduct}
           product={products.find((product: Product) => product.id === index)}
+          updatedProduct={updatedProduct}
         />
       )}
     </div>

@@ -13,9 +13,11 @@ import * as Yup from "yup";
 function ModaleAddCategory({
   handleModaleCategory,
   closeModaleCategory,
+  updatedCategory,
 }: {
   handleModaleCategory?: MouseEventHandler<HTMLButtonElement>;
   closeModaleCategory?: () => void;
+  updatedCategory: () => void;
 }) {
   
   const [label, setLabel] = useState<string>("");
@@ -25,6 +27,7 @@ function ModaleAddCategory({
 
   const [addCategoryInDb, { data: category }] = useMutation(ADD_CATEGORY, {
     onCompleted(data) {
+      updatedCategory();
       console.log("%c⧭", "color: #0088cc", "add Category", data);
       setMessage("Vous avez ajouté la catégorie : ");
     },

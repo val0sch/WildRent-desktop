@@ -6,7 +6,9 @@ import DataTable from "react-data-table-component";
 import { Category } from "../../generated";
 
 
-function ListCategories(): JSX.Element {
+function ListCategories(
+  { categories, updatedCategory }: { categories: Category[], updatedCategory: () => void },
+): JSX.Element {
   const [categoryModalStates, setCategoryModalStates] = useState<boolean[]>([]);
   const [index, setIndex] = useState<any>("");
 
@@ -21,24 +23,13 @@ function ListCategories(): JSX.Element {
   };
 
   const closeModaleFicheCategory: (index: number) => void = (index: number) => {
+    updatedCategory();
     setCategoryModalStates((prevState) => {
       const newState = [...prevState];
       newState[index] = false;
       return newState;
     });
   };
-
-  /// LIST CATEGORIES
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { data } = useQuery(LIST_CATEGORIES, {
-    onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
-      setCategories(data.categories);
-    },
-    onError(error) {
-      console.error(error);
-    },
-  });
 
   const columns: any = [
     {
@@ -79,6 +70,7 @@ function ListCategories(): JSX.Element {
           handleModaleFicheCategory={handleModaleFicheCategory}
           closeModaleFicheCategory={closeModaleFicheCategory}
           category={categories.find((category: any) => category.id === index)}
+          updatedCategory={updatedCategory}
         />
       )}
     </div>
