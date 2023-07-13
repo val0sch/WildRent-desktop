@@ -7,13 +7,11 @@ import Plongeur from "../../assets/back-office.jpeg";
 import { Product } from "../../generated";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCT } from "../../graphql/listProduct.query";
-import { update } from "cypress/types/lodash";
 
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
-const updatedProduct = () => {
-    console.log("updated product");
+  const updatedProduct = () => {
     refetch();
   };
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
@@ -23,6 +21,7 @@ const updatedProduct = () => {
   const closeModaleProduct: () => void = () => {
     setToggleModaleProduct(false);
   };
+
   // LIST PRODUCTS
   const [products, setProducts] = useState<Product[]>([]);
   const { data, refetch } = useQuery(LIST_PRODUCT, {
@@ -53,10 +52,7 @@ const updatedProduct = () => {
             />
           )}
 
-          <ListProducts 
-          products={products}
-          updatedProduct={updatedProduct}
-          />
+          <ListProducts products={products} updatedProduct={updatedProduct} />
         </div>
         <div>
           <button>

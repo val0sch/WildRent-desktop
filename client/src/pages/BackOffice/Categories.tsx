@@ -12,7 +12,6 @@ function Categories(): JSX.Element {
   const [toggleModaleCategory, setToggleModaleCategory] = useState(false);
 
   const updatedCategory = () => {
-    console.log("updated category");
     refetch();
   };
 

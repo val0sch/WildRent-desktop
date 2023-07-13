@@ -31,6 +31,7 @@ function ModaleAddProduct({
   const [message, setMessage] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // LIST CATEGORIES
   const { data: categories } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);

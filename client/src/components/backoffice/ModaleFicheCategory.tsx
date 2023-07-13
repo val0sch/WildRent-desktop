@@ -15,8 +15,6 @@ function ModaleFicheCategory({
   category: any;
   updatedCategory: () => void;
 }): JSX.Element {
-
-
   const [label, setLabel] = useState<string>(category.label);
   const [imageUrl, setImageUrl] = useState<string>(category.imageUrl);
   const [message, setMessage] = useState<string>("");
@@ -141,7 +139,9 @@ function ModaleFicheCategory({
           Supprimer
         </button>
       </form>
-      <button onClick={() => closeModaleFicheCategory(category.id)}>Fermer</button>
+      <button onClick={() => closeModaleFicheCategory(category.id)}>
+        Fermer
+      </button>
     </div>
   );
 }
