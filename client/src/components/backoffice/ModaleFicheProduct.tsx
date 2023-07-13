@@ -9,11 +9,14 @@ function ModaleFicheProduct({
   handleModaleFicheProduct,
   closeModaleFicheProduct,
   product,
+  updatedProduct,
 }: {
   handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement>;
   closeModaleFicheProduct: (index: any) => void;
+  updatedProduct: () => void;
   product: any;
 }): JSX.Element {
+  // LIST CATEGORIES
   const { data: categories } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
@@ -85,6 +88,7 @@ function ModaleFicheProduct({
 
   const [updateProductInDb] = useMutation(UPDATE_PRODUCT, {
     onCompleted(data) {
+      updatedProduct();
       console.log("%c⧭", "color: #0088cc", "update Product", data);
       setMessage("Vous avez modifié le produit");
     },
@@ -204,7 +208,7 @@ function ModaleFicheProduct({
         )}
 
         <label htmlFor="updateIsAvailableProduct">
-          Le produit est visible : 
+          Le produit est visible :
           <input
             id="updateIsAvailableProduct"
             type="checkbox"
@@ -214,7 +218,7 @@ function ModaleFicheProduct({
         </label>
 
         <label htmlFor="updateCategoryIdProduct">
-          Changer de catégorie : 
+          Changer de catégorie :
           <select
             onChange={handleSelectChange}
             value={category ? category : ""}
@@ -239,7 +243,9 @@ function ModaleFicheProduct({
           Supprimer
         </button>
       </form>
-      <button onClick={() => closeModaleFicheProduct(product.id)}>Fermer</button>
+      <button onClick={() => closeModaleFicheProduct(product.id)}>
+        Fermer
+      </button>
     </div>
   );
 }
