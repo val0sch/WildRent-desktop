@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { LIST_PRODUCT } from "../../graphql/listProduct.query";
 import ModaleFicheProduct from "./ModaleFicheProduct";
 import DataTable from "react-data-table-component";
@@ -9,10 +9,8 @@ function ListProducts(): JSX.Element {
   const [productModalStates, setProductModalStates] = useState<boolean[]>([]);
   const [index, setIndex] = useState<any>("");
 
-  const handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
-    setIndex((event.currentTarget as HTMLButtonElement).dataset.index);
+  const handleModaleFicheProduct = (index: any) => {
+    setIndex(index);
     setProductModalStates((prevState) => {
       const newState = [...prevState];
       newState[index] = !newState[index];
@@ -85,12 +83,11 @@ function ListProducts(): JSX.Element {
         <button
           style={{ fontSize: 14 }}
           className="secondary"
-          onClick={handleModaleFicheProduct}
-          data-index={row.id}
+          onClick={() => handleModaleFicheProduct(row.id)}
         >
           Details
         </button>
-      )
+      ),
     },
   ];
   const conditionalRowStyles = [
@@ -102,6 +99,7 @@ function ListProducts(): JSX.Element {
       },
     },
   ];
+
   return (
     <div>
       <DataTable
@@ -114,8 +112,7 @@ function ListProducts(): JSX.Element {
         <ModaleFicheProduct
           handleModaleFicheProduct={handleModaleFicheProduct}
           closeModaleFicheProduct={closeModaleFicheProduct}
-          product={products.find((product: any) => product.id === index)}
-          index={index}
+          product={products.find((product: Product) => product.id === index)}
         />
       )}
     </div>

@@ -4,18 +4,17 @@ import { MouseEventHandler, useState } from "react";
 import ModaleFicheCategory from "./ModaleFicheCategory";
 import DataTable from "react-data-table-component";
 import { Category } from "../../generated";
-import { when } from "cypress/types/jquery";
+
 
 function ListCategories(): JSX.Element {
   const [categoryModalStates, setCategoryModalStates] = useState<boolean[]>([]);
   const [index, setIndex] = useState<any>("");
 
-  const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (
-    event
-  ) => {
-    setIndex((event.currentTarget as HTMLButtonElement).dataset.index);
+  const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (index:any) => {
+    setIndex(index);
     setCategoryModalStates((prevState) => {
       const newState = [...prevState];
+      
       newState[index] = !newState[index];
       return newState;
     });
@@ -46,6 +45,7 @@ function ListCategories(): JSX.Element {
       name: "Catégorie",
       selector: "label",
       sortable: true,
+      className: "testForCss",
     },
     {
       name: "Image",
@@ -63,8 +63,7 @@ function ListCategories(): JSX.Element {
         <button
           style={{ fontSize: 14 }}
           className="secondary"
-          onClick={handleModaleFicheCategory}
-          data-index={row.id}
+          onClick={()=>handleModaleFicheCategory(row.id)}
         >
           Details
         </button>
@@ -80,7 +79,6 @@ function ListCategories(): JSX.Element {
           handleModaleFicheCategory={handleModaleFicheCategory}
           closeModaleFicheCategory={closeModaleFicheCategory}
           category={categories.find((category: any) => category.id === index)}
-          index={index}
         />
       )}
     </div>
