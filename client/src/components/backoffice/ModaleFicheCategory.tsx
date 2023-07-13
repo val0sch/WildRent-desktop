@@ -8,12 +8,10 @@ function ModaleFicheCategory({
   handleModaleFicheCategory,
   closeModaleFicheCategory,
   category,
-  index,
 }: {
   handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheCategory: (index: number) => void;
+  closeModaleFicheCategory: (index: any) => void;
   category: any;
-  index: number;
 }): JSX.Element {
   const [label, setLabel] = useState<string>(category.label);
   const [imageUrl, setImageUrl] = useState<string>(category.imageUrl);
@@ -95,8 +93,8 @@ function ModaleFicheCategory({
   };
 
   return (
-    <div className="modale-detail-category-container">
-      <form onSubmit={handleUpdateCategory} className="modale-detail-category">
+    <div className="modale-fiche-category-container">
+      <form onSubmit={handleUpdateCategory} className="modale-fiche-category">
         <div>Fiche catégorie</div>
         <div>{category.label}</div>
         <div>
@@ -138,7 +136,7 @@ function ModaleFicheCategory({
           Supprimer
         </button>
       </form>
-      <button onClick={() => closeModaleFicheCategory(index)}>Fermer</button>
+      <button onClick={() => closeModaleFicheCategory(category.id)}>Fermer</button>
     </div>
   );
 }

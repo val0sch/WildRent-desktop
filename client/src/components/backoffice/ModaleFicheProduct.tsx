@@ -9,12 +9,10 @@ function ModaleFicheProduct({
   handleModaleFicheProduct,
   closeModaleFicheProduct,
   product,
-  index,
 }: {
   handleModaleFicheProduct: MouseEventHandler<HTMLButtonElement>;
-  closeModaleFicheProduct: (index: number) => void;
+  closeModaleFicheProduct: (index: any) => void;
   product: any;
-  index: number;
 }): JSX.Element {
   const { data: categories } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
@@ -137,68 +135,76 @@ function ModaleFicheProduct({
   };
 
   return (
-    <div className="modale-detail-category-product">
-      <form onSubmit={handleUpdateProduct} className="modale-detail-product">
+    <div className="modale-fiche-product-container">
+      <form onSubmit={handleUpdateProduct} className="modale-fiche-product">
         <div>Fiche catégorie</div>
         <div>{product.name}</div>
 
-        <label htmlFor="updateNameProduct"> Changer le nom : </label>
-        <input
-          value={name}
-          id="updateNameProduct"
-          type="text"
-          onChange={handleName}
-        />
+        <label htmlFor="updateNameProduct">
+          Changer le nom :
+          <input
+            value={name}
+            id="updateNameProduct"
+            type="text"
+            onChange={handleName}
+          />
+        </label>
         {errors.name && <p className="register-error-message">{errors.name}</p>}
 
         <label htmlFor="updateDescriptionProduct">
           Changer la description :
+          <input
+            value={description}
+            id="updateDescriptionProduct"
+            type="text"
+            onChange={handleDescription}
+          />
         </label>
-        <input
-          value={description}
-          id="updateDescriptionProduct"
-          type="text"
-          onChange={handleDescription}
-        />
         {errors.description && (
           <p className="register-error-message">{errors.description}</p>
         )}
 
-        <label htmlFor="updatePriceProduct"> Changer le prix : </label>
-        <input
-          value={price}
-          id="updatePriceProduct"
-          type="number"
-          min={0}
-          onChange={handlePrice}
-        />
+        <label htmlFor="updatePriceProduct">
+          Changer le prix :
+          <input
+            value={price}
+            id="updatePriceProduct"
+            type="number"
+            min={0}
+            onChange={handlePrice}
+          />
+        </label>
         {errors.price && (
           <p className="register-error-message">{errors.price}</p>
         )}
 
-        <label htmlFor="updateSizeProduct"> Changer la taille : </label>
-        <input
-          value={size}
-          id="updateSizeProduct"
-          type="text"
-          onChange={handleSize}
-        />
+        <label htmlFor="updateSizeProduct">
+          Changer la taille :
+          <input
+            value={size}
+            id="updateSizeProduct"
+            type="text"
+            onChange={handleSize}
+          />
+        </label>
         {errors.size && <p className="register-error-message">{errors.size}</p>}
 
-        <label htmlFor="updateStockProduct"> Changer la quantité : </label>
-        <input
-          value={stock}
-          id="updateStockProduct"
-          type="number"
-          min={0}
-          onChange={handleStock}
-        />
+        <label htmlFor="updateStockProduct">
+          Changer la quantité :
+          <input
+            value={stock}
+            id="updateStockProduct"
+            type="number"
+            min={0}
+            onChange={handleStock}
+          />
+        </label>
         {errors.stock && (
           <p className="register-error-message">{errors.stock}</p>
         )}
 
         <label htmlFor="updateIsAvailableProduct">
-          Le produit est visible :
+          Le produit est visible : 
           <input
             id="updateIsAvailableProduct"
             type="checkbox"
@@ -207,28 +213,33 @@ function ModaleFicheProduct({
           />
         </label>
 
-        <label htmlFor="updateCategoryIdProduct">Changer de catégorie :</label>
-        <select onChange={handleSelectChange} value={category ? category : ""}>
-          <option value="">Pas de catégorie</option>
-          {categories?.categories.map(
-            (selectedcategory: any, index: number) => (
-              <option key={index} value={selectedcategory.id} selected>
-                {selectedcategory.label}
-              </option>
-            )
-          )}
-        </select>
+        <label htmlFor="updateCategoryIdProduct">
+          Changer de catégorie : 
+          <select
+            onChange={handleSelectChange}
+            value={category ? category : ""}
+          >
+            <option value="">Pas de catégorie</option>
+            {categories?.categories.map(
+              (selectedcategory: any, index: number) => (
+                <option key={index} value={selectedcategory.id} selected>
+                  {selectedcategory.label}
+                </option>
+              )
+            )}
+          </select>
+        </label>
 
         <button>modifier</button>
+        <div>{message}</div>
+        <button
+          className="secondary"
+          onClick={() => handleDeleteProduct(product.id)}
+        >
+          Supprimer
+        </button>
       </form>
-      <button
-        className="secondary"
-        onClick={() => handleDeleteProduct(product.id)}
-      >
-        Supprimer
-      </button>
-      <div>{message}</div>
-      <button onClick={() => closeModaleFicheProduct(index)}>Fermer</button>
+      <button onClick={() => closeModaleFicheProduct(product.id)}>Fermer</button>
     </div>
   );
 }
