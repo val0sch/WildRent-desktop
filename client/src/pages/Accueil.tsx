@@ -9,9 +9,7 @@ import { LIST_CATEGORIES } from "../graphql/listCategories.query";
 import ButtonScrollToTop from "../Utils/ButtonScrollToTop";
 
 function Users(): JSX.Element {
-
   const [categoriesList, setCategoriesList] = useState([]);
-
   const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       setCategoriesList(data.categories)
@@ -19,7 +17,7 @@ function Users(): JSX.Element {
     onError(error) {
       console.error(error);
     },
-  });  
+  });
 
   useEffect(() => {
     getList();
@@ -42,11 +40,12 @@ function Users(): JSX.Element {
         </div>
         <h3>Plus de {categoriesList.length} sports disponibles !</h3>
         <div className="home-sport-cards-container">
-          {categoriesList.map((categories:any) => {
+          {categoriesList.map((categories: any) => {
             return <CardSport key={categories.id} {...categories} />;
           })}
           <ButtonScrollToTop />
         </div>
+       
       </div>
     </section>
   );

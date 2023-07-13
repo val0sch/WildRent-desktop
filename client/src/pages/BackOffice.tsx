@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import "../style/backoffice.css";
 import Plongeur from "../assets/back-office.jpeg";
 import { DribbbleLogo, Football } from "@phosphor-icons/react";
@@ -28,7 +27,9 @@ function BackOffice(): JSX.Element {
             <DribbbleLogo size={32} />
             Produits
           </Link>
+          <Link to={"/back-office/messagerie"}>Messagerie</Link>
         </div>
+
       </div>
     </section>
   );

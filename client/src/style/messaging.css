@@ -1,0 +1,55 @@
+.container {
+  height: 93vh;
+  display: flex;
+}
+
+.list-conversation {
+  height: 100%;
+  /* background-color: rgba(201, 147, 255, 0.141); */
+  border-right: solid 2px grey;
+  width: 20%;
+}
+
+.chat-container {
+  height: 100%;
+  padding: 1em;
+  /* background-color: aqua; */
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.messages-container {
+  /* background-color: red; */
+  height: 100%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow-y: scroll;
+  gap: 2em;
+}
+.writing-box {
+  display: flex;
+  background-color: beige;
+  justify-content: space-between;
+}
+.message-box {
+  display: flex;
+  flex-direction: column;
+}
+p {
+  align-self: flex-end;
+  color: grey;
+}
+.message-box > p:nth-child(1) {
+  align-self: flex-start;
+}
+.message-box > p:nth-child(2) {
+  font-size: 2em;
+  color: black;
+}
+input {
+  width: 88%;
+}

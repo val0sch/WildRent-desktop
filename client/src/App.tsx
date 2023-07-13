@@ -18,6 +18,7 @@ import MesFactures from "./pages/MonCompte/MesFactures";
 import MesFavoris from "./pages/MonCompte/MesFavoris";
 import Produits from "./pages/BackOffice/Produits";
 import Categories from "./pages/BackOffice/Categories";
+import Messaging from "./pages/BackOffice/Messaging";
 import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
@@ -40,6 +41,7 @@ function App(): JSX.Element {
               path="conditions-generales"
               element={<ConditionsGenerales />}
             />
+
             <Route path="mentions-legales" element={<MentionsLegales />} />
             <Route path="panier" element={<Panier />} />
             <Route path="compte">
@@ -71,6 +73,14 @@ function App(): JSX.Element {
                 element={
                   <ProtectedArea role={"admin"}>
                     <Produits />
+                  </ProtectedArea>
+                }
+              />
+              <Route
+                path="messagerie"
+                element={
+                  <ProtectedArea role={"admin"}>
+                    <Messaging />
                   </ProtectedArea>
                 }
               />

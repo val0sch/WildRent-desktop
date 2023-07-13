@@ -15,9 +15,12 @@ import cors from "cors";
 import { json } from "body-parser";
 import resolvers from "./resolvers";
 import UserService from "./services/user.service";
+import { Server } from "socket.io";
 
 const app = express();
+const appIO = express();
 const httpServer = http.createServer(app);
+const IoHttpServer = http.createServer(appIO);
 
 const start = async () => {
   await datasource.initialize();
@@ -25,7 +28,6 @@ const start = async () => {
     resolvers,
     typeDefs,
   });
-
   await server.start();
 
   app.use(
@@ -50,6 +52,31 @@ const start = async () => {
       },
     })
   );
+
+  const io = new Server(IoHttpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+    },
+  });
+  io.on("connection", (socket) => {
+    // socket.on("join_room", (data) => {
+    //   socket.join(data);
+    //   console.log("USERJOIN ROOM");
+    // });
+    // socket.on("send_message", (data: any) => {
+    //   socket.to(data.room).emit("receive_message", data);
+    //   console.log("USER SEND MESSAGE");
+    // });
+    console.log(socket.id);
+    socket.on("send_message", (data: any) => {
+      socket.broadcast.emit("receive_message", data);
+    });
+  });
+
+  // IoHttpServer.listen(3001);
+  await new Promise<void>((resolve) => IoHttpServer.listen(3001, resolve));
+  console.log("🚀 Server ready at http://localhost:3001");
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)

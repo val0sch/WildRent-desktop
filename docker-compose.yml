@@ -14,8 +14,10 @@ services:
       - PORT=4000
     ports:
       - 4000:4000
+      - 3001:3001
     expose:
       - 4000
+      - 3001
     command: npm run start
     volumes:
       - ./server/src/:/app/src/
