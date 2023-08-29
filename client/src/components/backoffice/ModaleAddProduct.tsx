@@ -6,7 +6,7 @@ import {
   ChangeEvent,
   FormEvent,
 } from "react";
-import { ADD_PRODUCT } from "../../graphql/product.mutation";
+import { ADD_PRODUCT_WITH_IMAGES } from "../../graphql/product.mutation";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import * as Yup from "yup";
 
@@ -41,7 +41,7 @@ function ModaleAddProduct({
     },
   });
 
-  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT, {
+  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Product", data);
       setMessage("Vous avez ajouté le produit : " + data.addProduct.name);

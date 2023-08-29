@@ -12,7 +12,7 @@ export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: Non
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string | number; output: string; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -70,6 +70,11 @@ export type Image = {
   product?: Maybe<Product>;
 };
 
+export type ImageInput = {
+  isMain?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ImageRegister = {
   isMain?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
@@ -108,7 +113,7 @@ export type Mutation = {
   addCategory?: Maybe<Category>;
   addImage?: Maybe<Image>;
   addItem?: Maybe<Item>;
-  addProduct?: Maybe<Product>;
+  addProductWithImages?: Maybe<Product>;
   addUser?: Maybe<User>;
   deleteCart?: Maybe<Cart>;
   deleteCategory?: Maybe<Category>;
@@ -145,7 +150,7 @@ export type MutationAddItemArgs = {
 };
 
 
-export type MutationAddProductArgs = {
+export type MutationAddProductWithImagesArgs = {
   infos: ProductRegister;
 };
 
@@ -235,6 +240,7 @@ export type Product = {
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
+  images?: InputMaybe<Array<InputMaybe<ImageInput>>>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
@@ -355,12 +361,12 @@ export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', email?: string | null, isAdmin?: boolean | null, detailsUser?: { __typename?: 'DetailsUser', firstname?: string | null, lastname?: string | null, address?: string | null, birthday?: string | null } | null } | null> | null };
 
-export type AddProductMutationVariables = Exact<{
+export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProduct?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
+export type AddProductWithImagesMutation = { __typename?: 'Mutation', addProductWithImages?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
 
 export type UpdateProductMutationVariables = Exact<{
   updateProductId: Scalars['String'];
@@ -479,6 +485,7 @@ export type ResolversTypes = {
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
   Image: ResolverTypeWrapper<Image>;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Item: ResolverTypeWrapper<Item>;
@@ -505,6 +512,7 @@ export type ResolversParentTypes = {
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
   Image: Image;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: Scalars['Int'];
   Item: Item;
@@ -578,7 +586,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddCategoryArgs, 'infos'>>;
   addImage?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationAddImageArgs, 'infos'>>;
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'infos'>>;
-  addProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductArgs, 'infos'>>;
+  addProductWithImages?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductWithImagesArgs, 'infos'>>;
   addUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'infos'>>;
   deleteCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationDeleteCartArgs, 'id'>>;
   deleteCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'id'>>;
@@ -1007,9 +1015,9 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
-export const AddProductDocument = gql`
-    mutation AddProduct($infos: ProductRegister!) {
-  addProduct(infos: $infos) {
+export const AddProductWithImagesDocument = gql`
+    mutation AddProductWithImages($infos: ProductRegister!) {
+  addProductWithImages(infos: $infos) {
     id
     name
     description
@@ -1020,32 +1028,32 @@ export const AddProductDocument = gql`
   }
 }
     `;
-export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+export type AddProductWithImagesMutationFn = Apollo.MutationFunction<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>;
 
 /**
- * __useAddProductMutation__
+ * __useAddProductWithImagesMutation__
  *
- * To run a mutation, you first call `useAddProductMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddProductMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddProductWithImagesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductWithImagesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addProductMutation, { data, loading, error }] = useAddProductMutation({
+ * const [addProductWithImagesMutation, { data, loading, error }] = useAddProductWithImagesMutation({
  *   variables: {
  *      infos: // value for 'infos'
  *   },
  * });
  */
-export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
+export function useAddProductWithImagesMutation(baseOptions?: Apollo.MutationHookOptions<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, options);
+        return Apollo.useMutation<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>(AddProductWithImagesDocument, options);
       }
-export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
-export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
-export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
+export type AddProductWithImagesMutationHookResult = ReturnType<typeof useAddProductWithImagesMutation>;
+export type AddProductWithImagesMutationResult = Apollo.MutationResult<AddProductWithImagesMutation>;
+export type AddProductWithImagesMutationOptions = Apollo.BaseMutationOptions<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>;
 export const UpdateProductDocument = gql`
     mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
   updateProduct(id: $updateProductId, infos: $infos) {
