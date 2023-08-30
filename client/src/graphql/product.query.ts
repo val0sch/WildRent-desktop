@@ -10,6 +10,9 @@ export const GET_PRODUCT = gql`
       isAvailable
       size
       stock
+      category {
+        label
+      }
     }
   }
 `;
