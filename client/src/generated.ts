@@ -230,6 +230,7 @@ export type Product = {
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  images?: Maybe<Array<Maybe<Image>>>;
   isAvailable?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Scalars['Int']['output']>;
@@ -258,6 +259,7 @@ export type Query = {
   detailsConnectUser?: Maybe<DetailsUser>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
   images?: Maybe<Array<Maybe<Image>>>;
+  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
   products?: Maybe<Array<Maybe<Product>>>;
@@ -269,6 +271,11 @@ export type Query = {
 
 export type QueryCategoryArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryImagesByProductArgs = {
+  productId: Scalars['String']['input'];
 };
 
 
@@ -356,6 +363,13 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'Category', id?: string | null } | null };
+
+export type ImagesByProductQueryVariables = Exact<{
+  productId: Scalars['String'];
+}>;
+
+
+export type ImagesByProductQuery = { __typename?: 'Query', imagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -612,6 +626,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -629,6 +644,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
+  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
@@ -937,6 +953,43 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const ImagesByProductDocument = gql`
+    query ImagesByProduct($productId: String!) {
+  imagesByProduct(productId: $productId) {
+    id
+    isMain
+    name
+  }
+}
+    `;
+
+/**
+ * __useImagesByProductQuery__
+ *
+ * To run a query within a React component, call `useImagesByProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useImagesByProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useImagesByProductQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useImagesByProductQuery(baseOptions: Apollo.QueryHookOptions<ImagesByProductQuery, ImagesByProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ImagesByProductQuery, ImagesByProductQueryVariables>(ImagesByProductDocument, options);
+      }
+export function useImagesByProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ImagesByProductQuery, ImagesByProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ImagesByProductQuery, ImagesByProductQueryVariables>(ImagesByProductDocument, options);
+        }
+export type ImagesByProductQueryHookResult = ReturnType<typeof useImagesByProductQuery>;
+export type ImagesByProductLazyQueryHookResult = ReturnType<typeof useImagesByProductLazyQuery>;
+export type ImagesByProductQueryResult = Apollo.QueryResult<ImagesByProductQuery, ImagesByProductQueryVariables>;
 export const ProductsDocument = gql`
     query Products {
   products {

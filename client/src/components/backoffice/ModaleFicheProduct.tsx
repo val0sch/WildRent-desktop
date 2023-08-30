@@ -140,7 +140,7 @@ function ModaleFicheProduct({
     }
   };
 
-  const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
+  const { data: imagesData, refetch: refetchImages } = useQuery(GET_PRODUCT_IMAGES, {
     variables: {
       productId: product.id,
     },
@@ -155,11 +155,20 @@ function ModaleFicheProduct({
   const [deleteImage] = useMutation(DELETE_IMAGE, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "deleteImage", data);
+      refetchImages();
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
     },
   });
+
+  const handleDeleteImage = (deleteImageId:any) => {
+    deleteImage({
+      variables: {
+        deleteImageId: deleteImageId,
+      },
+    });
+  };
 
   const [updateImage] = useMutation(UPDATE_IMAGE, {
     onCompleted(data) {
@@ -176,10 +185,13 @@ function ModaleFicheProduct({
     return (
       <div>
         <h3>Images du produit</h3>
+        {imagesData.imagesByProduct.length === 0 && (
+          <div>Aucune image pour ce produit</div>
+        )}
         {imagesData.imagesByProduct.map((image: any) => (
           <div key={image.id}>
             <img src={image.name} alt={image.name} />
-            <button onClick={() => deleteImage(image.id)}>Supprimer</button>
+            <button onClick={() => handleDeleteImage(image.id)}>Supprimer</button>
             <button onClick={() => updateImage(image.id)}>Modifier</button>
           </div>
         ))}
