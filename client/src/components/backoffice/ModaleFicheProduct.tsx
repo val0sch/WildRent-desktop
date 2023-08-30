@@ -5,7 +5,7 @@ import { ChangeEvent, FormEvent, MouseEventHandler, useState } from "react";
 import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
 import * as Yup from "yup";
 import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
-import { DELETE_IMAGE, UPDATE_IMAGE } from "../../graphql/image.mutation";
+import { DELETE_IMAGE, ADD_IMAGE } from "../../graphql/image.mutation";
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -140,17 +140,20 @@ function ModaleFicheProduct({
     }
   };
 
-  const { data: imagesData, refetch: refetchImages } = useQuery(GET_PRODUCT_IMAGES, {
-    variables: {
-      productId: product.id,
-    },
-    onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "imagesData", data);
-    },
-    onError(error) {
-      console.error("%c⧭", "color: #917399", error);
-    },
-  });
+  const { data: imagesData, refetch: refetchImages } = useQuery(
+    GET_PRODUCT_IMAGES,
+    {
+      variables: {
+        productId: product.id,
+      },
+      onCompleted(data) {
+        console.log("%c⧭", "color: #0088cc", "imagesData", data);
+      },
+      onError(error) {
+        console.error("%c⧭", "color: #917399", error);
+      },
+    }
+  );
 
   const [deleteImage] = useMutation(DELETE_IMAGE, {
     onCompleted(data) {
@@ -162,7 +165,7 @@ function ModaleFicheProduct({
     },
   });
 
-  const handleDeleteImage = (deleteImageId:any) => {
+  const handleDeleteImage = (deleteImageId: any) => {
     deleteImage({
       variables: {
         deleteImageId: deleteImageId,
@@ -170,14 +173,39 @@ function ModaleFicheProduct({
     });
   };
 
-  const [updateImage] = useMutation(UPDATE_IMAGE, {
+  const [newImageName, setNewImageName] = useState("");
+  const [isNewImageMain, setIsNewImageMain] = useState(false);
+
+  const handleNewImageNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewImageName(e.target.value);
+  };
+
+  const handleNewImageMainChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsNewImageMain(e.target.checked);
+  };
+
+  const [addImage] = useMutation(ADD_IMAGE, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "updateImage", data);
+      console.log("%c⧭", "color: #0088cc", "addImage", data);
+      refetchImages();
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
     },
   });
+
+  const handleAddImage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    addImage({
+      variables: {
+        infos: {
+          isMain: isNewImageMain,
+          name: newImageName,
+          product: product.id,
+        },
+      },
+    });
+  };    
 
   const imagesSection = () => {
     if (!imagesData || !imagesData.imagesByProduct) return null;
@@ -188,11 +216,32 @@ function ModaleFicheProduct({
         {imagesData.imagesByProduct.length === 0 && (
           <div>Aucune image pour ce produit</div>
         )}
+        <div>
+          <h3>Ajouter une nouvelle image</h3>
+          <form onSubmit={handleAddImage}>
+            <label htmlFor="imageName">Nom de l'image:</label>
+            <input
+              type="text"
+              id="imageName"
+              value={newImageName}
+              onChange={handleNewImageNameChange}
+            />
+            <label htmlFor="isMainImage">Image principale:</label>
+            <input
+              type="checkbox"
+              id="isMainImage"
+              checked={isNewImageMain}
+              onChange={handleNewImageMainChange}
+            />
+            <button type="submit">Ajouter l'image</button>
+          </form>
+        </div>
         {imagesData.imagesByProduct.map((image: any) => (
           <div key={image.id}>
-            <img src={image.name} alt={image.name} />
-            <button onClick={() => handleDeleteImage(image.id)}>Supprimer</button>
-            <button onClick={() => updateImage(image.id)}>Modifier</button>
+            <img src={image.name} alt={image.name} width={"200px"} height={"200px"} />
+            <button onClick={() => handleDeleteImage(image.id)}>
+              Supprimer
+            </button>
           </div>
         ))}
       </div>
@@ -201,7 +250,8 @@ function ModaleFicheProduct({
 
   return (
     <div className="modale-fiche-product-container">
-      <form onSubmit={handleUpdateProduct} className="modale-fiche-product">
+      <div className="modale-fiche-product">
+      <form onSubmit={handleUpdateProduct} >
         <div>Fiche catégorie</div>
         <div>{product.name}</div>
 
@@ -304,8 +354,9 @@ function ModaleFicheProduct({
           Supprimer
         </button>
 
-        {imagesSection()}
       </form>
+        {imagesSection()}
+        </div>
       <button onClick={() => closeModaleFicheProduct(product.id)}>
         Fermer
       </button>
