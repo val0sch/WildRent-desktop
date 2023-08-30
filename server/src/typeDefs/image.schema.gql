@@ -13,6 +13,7 @@ type Query {
 type Mutation {
   addImage(infos: ImageRegister!): Image
   deleteImage(id: String!): Image
+  updateImageMainStatus(productId: String!, id: String!, isMain: Boolean!): Image
 }
 
 input ImageRegister {

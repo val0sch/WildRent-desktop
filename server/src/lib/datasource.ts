@@ -16,5 +16,5 @@ export default new DataSource({
   database: "wildrent",
   entities: [User, DetailsUser, Category, Cart, Item, Product, Image ],
   synchronize: true,
-  logging: false,
+  logging: ["error"],
 });

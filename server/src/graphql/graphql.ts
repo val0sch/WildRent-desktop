@@ -119,6 +119,7 @@ export type Mutation = {
   updateCart?: Maybe<Cart>;
   updateCategory?: Maybe<Category>;
   updateDetailsUser?: Maybe<DetailsUser>;
+  updateImageMainStatus?: Maybe<Image>;
   updateItem?: Maybe<Item>;
   updateProduct?: Maybe<Product>;
   updateUser?: Maybe<User>;
@@ -200,6 +201,13 @@ export type MutationUpdateCategoryArgs = {
 export type MutationUpdateDetailsUserArgs = {
   id: Scalars['String'];
   infos: DetailsUserRegister;
+};
+
+
+export type MutationUpdateImageMainStatusArgs = {
+  id: Scalars['String'];
+  isMain: Scalars['Boolean'];
+  productId: Scalars['String'];
 };
 
 
@@ -500,6 +508,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationUpdateCartArgs, 'id' | 'infos'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'id' | 'infos'>>;
   updateDetailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType, RequireFields<MutationUpdateDetailsUserArgs, 'id' | 'infos'>>;
+  updateImageMainStatus?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationUpdateImageMainStatusArgs, 'id' | 'isMain' | 'productId'>>;
   updateItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'id' | 'infos'>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'id' | 'infos'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'infos'>>;
