@@ -18,6 +18,7 @@ export default {
       return await new UserService().listUsers();
     },
     async user(id: string) {
+      console.log("userid", id);
       return await new UserService().findById(id);
     },
 

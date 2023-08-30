@@ -88,3 +88,16 @@ const start = async () => {
 };
 
 start();
+
+// Pour Valérie erreur de processus qui ne s'arrête pas correctement :
+process.stdout.on("error", function (err) {
+  console.log("process error", err);
+  if (err.code == "EPIPE") {
+    process.exit(0);
+    // process.stdin.resume();
+  }
+});
+
+process.on("SIGTERM", () => {
+  process.exit(0);
+});

@@ -9,23 +9,66 @@ export default class ProductService {
   }
 
   async listProduct() {
-    return await this.db.find({ relations: ['category'] });
+    return await this.db.find({ relations: ["category"] });
+  }
+
+  async productsFindByCategoryLabel(categoryLabel: string) {
+    return await this.db.find({
+      relations: ["category"],
+      where: { category: { label: categoryLabel } },
+    });
   }
 
   async findById(id: string) {
     return await this.db.findOneBy({ id });
   }
 
-  async addProduct({ name, price, description, isAvailable, size, stock, category, item }: any) {
-    return await this.db.save({ name, price, description, isAvailable, size, stock, category, item });
+  async addProduct({
+    name,
+    price,
+    description,
+    isAvailable,
+    size,
+    stock,
+    category,
+    item,
+  }: any) {
+    return await this.db.save({
+      name,
+      price,
+      description,
+      isAvailable,
+      size,
+      stock,
+      category,
+      item,
+    });
   }
 
-  async updateProduct({ id, name, price, description, isAvailable, size, stock, category, item }: any) {
-    return await this.db.update(id, { name, price, description, isAvailable, size, stock, category, item });
+  async updateProduct({
+    id,
+    name,
+    price,
+    description,
+    isAvailable,
+    size,
+    stock,
+    category,
+    item,
+  }: any) {
+    return await this.db.update(id, {
+      name,
+      price,
+      description,
+      isAvailable,
+      size,
+      stock,
+      category,
+      item,
+    });
   }
-  
+
   async deleteProduct({ id }: any) {
     return await this.db.delete({ id });
   }
-
 }
