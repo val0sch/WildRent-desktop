@@ -1,7 +1,13 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_PRODUCT } from "../../graphql/product.mutation";
 import { UPDATE_PRODUCT } from "../../graphql/product.mutation";
-import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
 import * as Yup from "yup";
 import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
@@ -234,7 +240,11 @@ function ModaleFicheProduct({
     },
   });
 
-  const handleImageMainStatus = (productId:string, imageId: any, isMain: boolean) => {
+  const handleImageMainStatus = (
+    productId: string,
+    imageId: any,
+    isMain: boolean
+  ) => {
     updateImageMainStatus({
       variables: {
         productId: productId,
@@ -248,15 +258,15 @@ function ModaleFicheProduct({
     if (!imagesData || !imagesData.imagesByProduct) return null;
 
     return (
-      <div>
+      <div className="form-images-product">
         <h3>Images du produit</h3>
         {imagesData.imagesByProduct.length === 0 && (
-          <div>Aucune image pour ce produit</div>
+          <div>Aucune image pour ce produit.</div>
         )}
         <div>
-          <h3>Ajouter une nouvelle image</h3>
-          <form onSubmit={handleAddImage}>
-            <label htmlFor="imageName">Nom de l'image:</label>
+          <h4>Ajouter une nouvelle image</h4>
+          <form onSubmit={handleAddImage} className="form-add-product-image">
+            <label htmlFor="imageName">Url de l'image:</label>
             <input
               type="text"
               id="imageName"
@@ -270,32 +280,40 @@ function ModaleFicheProduct({
               checked={isNewImageMain}
               onChange={handleNewImageMainChange}
             />
-            <button type="submit">Ajouter l'image</button>
+            <button className="add-image-product" type="submit">Ajouter l'image</button>
           </form>
         </div>
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-        {imagesData.imagesByProduct.map((image: any) => (
-          <div key={image.id}>
-            <img
-              src={image.name}
-              alt={image.name}
-              width={"200px"}
-              height={"200px"}
-            />
-            <input
-              type="checkbox"
-              checked={image.isMain}
-              onChange={(e) =>
-                handleImageMainStatus(product.id,image.id, e.target.checked)
-              }
-            />
-            <button onClick={() => handleDeleteImage(image.id)}>
-              Supprimer
-            </button>
+        <div className="listImagesProductContainer">
+          <h4>Images enregistrées</h4>
+          <div className="images-product-container">
+            {imagesData.imagesByProduct.map((image: any) => (
+              <div key={image.id} className="ImageProductContainer">
+                <img
+                  src={image.name}
+                  alt={image.name}
+                />
+                <label>Image principale :
+                <input
+                  type="checkbox"
+                  checked={image.isMain}
+                  onChange={(e) =>
+                    handleImageMainStatus(
+                      product.id,
+                      image.id,
+                      e.target.checked
+                    )
+                  }
+                />
+                </label>
+                <button onClick={() => handleDeleteImage(image.id)}>
+                  Supprimer
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     );
   };
@@ -303,9 +321,9 @@ function ModaleFicheProduct({
   return (
     <div className="modale-fiche-product-container">
       <div className="modale-fiche-product">
-        <form onSubmit={handleUpdateProduct}>
-          <div>Fiche catégorie</div>
-          <div>{product.name}</div>
+        <form onSubmit={handleUpdateProduct} className="form-fiche-product">
+          <h3>Fiche catégorie</h3>
+          <h4>{product.name}</h4>
 
           <label htmlFor="updateNameProduct">
             Changer le nom :
@@ -401,10 +419,10 @@ function ModaleFicheProduct({
             </select>
           </label>
 
-          <button>modifier</button>
+          <button className="update-product">Modifier</button>
           <div>{message}</div>
           <button
-            className="secondary"
+            className="secondary delete-product"
             onClick={() => handleDeleteProduct(product.id)}
           >
             Supprimer
