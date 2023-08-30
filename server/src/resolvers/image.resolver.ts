@@ -6,6 +6,10 @@ export default {
     async images() {
       return await new ImageService().listImage();
     },
+
+    async imagesByProduct(_: any, { productId }: any) {
+      return await new ImageService().listImagesByProductId(productId);
+    },
   },
 
   Mutation: {

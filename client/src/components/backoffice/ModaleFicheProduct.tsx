@@ -4,6 +4,8 @@ import { UPDATE_PRODUCT } from "../../graphql/product.mutation";
 import { ChangeEvent, FormEvent, MouseEventHandler, useState } from "react";
 import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
 import * as Yup from "yup";
+import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
+import { DELETE_IMAGE, UPDATE_IMAGE } from "../../graphql/image.mutation";
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -138,6 +140,53 @@ function ModaleFicheProduct({
     }
   };
 
+  const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
+    variables: {
+      productId: product.id,
+    },
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "imagesData", data);
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
+  const [deleteImage] = useMutation(DELETE_IMAGE, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "deleteImage", data);
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
+  const [updateImage] = useMutation(UPDATE_IMAGE, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "updateImage", data);
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
+  const imagesSection = () => {
+    if (!imagesData || !imagesData.imagesByProduct) return null;
+
+    return (
+      <div>
+        <h3>Images du produit</h3>
+        {imagesData.imagesByProduct.map((image: any) => (
+          <div key={image.id}>
+            <img src={image.name} alt={image.name} />
+            <button onClick={() => deleteImage(image.id)}>Supprimer</button>
+            <button onClick={() => updateImage(image.id)}>Modifier</button>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="modale-fiche-product-container">
       <form onSubmit={handleUpdateProduct} className="modale-fiche-product">
@@ -242,6 +291,8 @@ function ModaleFicheProduct({
         >
           Supprimer
         </button>
+
+        {imagesSection()}
       </form>
       <button onClick={() => closeModaleFicheProduct(product.id)}>
         Fermer

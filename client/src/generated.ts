@@ -261,6 +261,7 @@ export type Query = {
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
   products?: Maybe<Array<Maybe<Product>>>;
+  productsByCategory?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -273,6 +274,11 @@ export type QueryCategoryArgs = {
 
 export type QueryLoginArgs = {
   infos: UserLogin;
+};
+
+
+export type QueryProductsByCategoryArgs = {
+  categoryId: Scalars['String']['input'];
 };
 
 
@@ -626,6 +632,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };

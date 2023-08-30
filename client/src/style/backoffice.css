@@ -160,13 +160,15 @@
   padding: 2rem;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 90%;
+  overflow-y: scroll;
 }
 
 .modale-fiche-product-container h3{
     border: 1px solid var(--main-orange);
     background-color: white;
     color: var(--main-orange);
-} */
+}
 
 .modale-fiche-product input[type=text]{
     width: 100%;

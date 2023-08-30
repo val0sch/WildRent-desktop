@@ -24,4 +24,8 @@ export default class ImageService {
     return await this.db.delete({ id });
   }
 
+  async listImagesByProductId(productId: string) {
+    return await this.db.find({ relations: ['product'], where: { product: { id: productId } } });
+  }  
+
 }
