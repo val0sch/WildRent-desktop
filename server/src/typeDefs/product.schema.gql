@@ -11,6 +11,7 @@ type Product {
 
 type Query {
   products: [Product]
+  productsByCategory(categoryId: String!): [Product]
 }
 
 type Mutation {

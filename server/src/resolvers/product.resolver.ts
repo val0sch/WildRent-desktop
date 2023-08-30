@@ -6,6 +6,10 @@ export default {
     async products() {
       return await new ProductService().listProduct();
     },
+
+    async productsByCategory(_: any, { categoryId }: { categoryId: string }) {
+      return await new ProductService().listProductsByCategory(categoryId);
+    },
   },
 
   Mutation: {
