@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import datasource from "../lib/datasource";
 import Product from "../entities/product.entity";
+import ImageService from "./image.service";
 
 export default class ProductService {
   db: Repository<Product>;
@@ -32,8 +33,9 @@ export default class ProductService {
     stock,
     category,
     item,
+    images,
   }: any) {
-    return await this.db.save({
+    const product = await this.db.save({
       name,
       price,
       description,
@@ -43,6 +45,16 @@ export default class ProductService {
       category,
       item,
     });
+
+    const imageService = new ImageService();
+    const imagePromises = images.map(async (imageInfo: any) => {
+      const { isMain, name } = imageInfo;
+      return imageService.addImage({ isMain, name, product });
+    });
+
+    await Promise.all(imagePromises);
+
+    return product;
   }
 
   async updateProduct({

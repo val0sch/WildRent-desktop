@@ -1,9 +1,5 @@
 import ProductService from "../services/product.service";
-import {
-  MutationAddProductArgs,
-  MutationUpdateProductArgs,
-  MutationDeleteProductArgs,
-} from "../graphql/graphql";
+import { MutationAddProductWithImagesArgs, MutationUpdateProductArgs, MutationDeleteProductArgs } from "../graphql/graphql";
 
 export default {
   Query: {
@@ -27,21 +23,13 @@ export default {
   },
 
   Mutation: {
-    async addProduct(_: any, { infos }: MutationAddProductArgs) {
-      let {
-        name,
-        price,
-        description,
-        isAvailable = false,
-        size,
-        stock,
-        category,
-      } = infos;
+    async addProductWithImages(_: any, { infos }: MutationAddProductWithImagesArgs) {
+      let { name, price, description, isAvailable, size, stock, category, images } = infos;
 
       if (isAvailable == null) {
-        // assignation de la valeur false à isAvailable si elle n'est pas renseignée
         isAvailable = false;
       }
+
       return await new ProductService().addProduct({
         name,
         price,
@@ -50,6 +38,7 @@ export default {
         size,
         stock,
         category,
+        images
       });
     },
 

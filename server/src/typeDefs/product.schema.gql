@@ -7,6 +7,7 @@ type Product {
   size: String
   stock: Int
   category: Category
+  images: [Image]
 }
 
 type Query {
@@ -16,7 +17,7 @@ type Query {
 }
 
 type Mutation {
-  addProduct(infos: ProductRegister!): Product
+  addProductWithImages(infos: ProductRegister!): Product
   updateProduct(id: String!, infos: ProductRegister!): Product
   deleteProduct(id: String!): Product
 }
@@ -29,4 +30,10 @@ input ProductRegister {
   size: String!
   stock: Int!
   category: String
+  images: [ImageInput]
+}
+
+input ImageInput {
+  isMain: Boolean
+  name: String
 }

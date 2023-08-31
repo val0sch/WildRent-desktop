@@ -1,9 +1,22 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_PRODUCT } from "../../graphql/product.mutation";
 import { UPDATE_PRODUCT } from "../../graphql/product.mutation";
-import { ChangeEvent, FormEvent, MouseEventHandler, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
 import * as Yup from "yup";
+import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
+import {
+  DELETE_IMAGE,
+  ADD_IMAGE,
+  UPDATE_IMAGE_MAIN_STATUS,
+} from "../../graphql/image.mutation";
+import Swal from 'sweetalert2'
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -16,6 +29,30 @@ function ModaleFicheProduct({
   updatedProduct: () => void;
   product: any;
 }): JSX.Element {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
+  useEffect(() => {
+    if (errorMessage) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: errorMessage,
+      });
+    }
+  }, [errorMessage]);
+
   // LIST CATEGORIES
   const { data: categories } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
@@ -138,111 +175,299 @@ function ModaleFicheProduct({
     }
   };
 
+  const { data: imagesData, refetch: refetchImages } = useQuery(
+    GET_PRODUCT_IMAGES,
+    {
+      variables: {
+        productId: product.id,
+      },
+      onCompleted(data) {
+        console.log("%c⧭", "color: #0088cc", "imagesData", data);
+      },
+      onError(error) {
+        console.error("%c⧭", "color: #917399", error);
+      },
+    }
+  );
+
+  const [deleteImage] = useMutation(DELETE_IMAGE, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "deleteImage", data);
+      refetchImages();
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
+  const handleDeleteImage = (deleteImageId: any) => {
+    Swal.fire({
+      title: 'Voulez-vous supprimer cette image ?',
+      text: 'Cette action est irréversible !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteImage({
+          variables: {
+            deleteImageId: deleteImageId,
+          },
+        }).then(() => {
+          Swal.fire(
+            'Supprimé !',
+            'Votre image a été supprimée.',
+            'success'
+          );
+          refetchImages();
+        }).catch((error) => {
+          Swal.fire(
+            'Erreur',
+            'Une erreur est survenue lors de la suppression de l\'image.',
+            'error'
+          );
+          console.error(error);
+        });
+      }
+    });
+  };
+
+  const [newImageName, setNewImageName] = useState("");
+  const [isNewImageMain, setIsNewImageMain] = useState(false);
+
+  const handleNewImageNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewImageName(e.target.value);
+  };
+
+  const handleNewImageMainChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsNewImageMain(e.target.checked);
+  };
+
+  const [addImage] = useMutation(ADD_IMAGE, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "addImage", data);
+      refetchImages();
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
+  const handleAddImage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    addImage({
+      variables: {
+        infos: {
+          isMain: isNewImageMain,
+          name: newImageName,
+          product: product.id,
+        },
+      },
+    });
+  };
+
+  const [updateImageMainStatus] = useMutation(UPDATE_IMAGE_MAIN_STATUS, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "updateImageMainStatus", data);
+      refetchImages();
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", "updateImageMainStatus", error);
+      setErrorMessage(error.message + Date.now());
+    },
+  });
+
+  const handleImageMainStatus = (
+    productId: string,
+    imageId: any,
+    isMain: boolean
+  ) => {
+    updateImageMainStatus({
+      variables: {
+        productId: productId,
+        updateImageMainStatusId: imageId,
+        isMain: isMain,
+      },
+    });
+  };
+
+  const imagesSection = () => {
+    if (!imagesData || !imagesData.imagesByProduct) return null;
+
+    return (
+      <div className="form-images-product">
+        <h3>Images du produit</h3>
+        {imagesData.imagesByProduct.length === 0 && (
+          <div>Aucune image pour ce produit.</div>
+        )}
+        <div>
+          <h4>Ajouter une nouvelle image</h4>
+          <form onSubmit={handleAddImage} className="form-add-product-image">
+            <label htmlFor="imageName">Url de l'image:</label>
+            <input
+              type="text"
+              id="imageName"
+              value={newImageName}
+              onChange={handleNewImageNameChange}
+            />
+            <label htmlFor="isMainImage">Image principale:</label>
+            <input
+              type="checkbox"
+              id="isMainImage"
+              checked={isNewImageMain}
+              onChange={handleNewImageMainChange}
+            />
+            <button className="add-image-product" type="submit">Ajouter l'image</button>
+          </form>
+        </div>
+
+        <div className="listImagesProductContainer">
+          <h4>Images enregistrées :</h4>
+          <div className="images-product-container">
+            {imagesData.imagesByProduct.map((image: any) => (
+              <div key={image.id} className="ImageProductContainer">
+                <img
+                  src={image.name}
+                  alt={image.name}
+                />
+                <label>Image principale :
+                <input
+                  type="checkbox"
+                  checked={image.isMain}
+                  onChange={(e) =>
+                    handleImageMainStatus(
+                      product.id,
+                      image.id,
+                      e.target.checked
+                    )
+                  }
+                />
+                </label>
+                <button onClick={() => handleDeleteImage(image.id)}>
+                  Supprimer
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="modale-fiche-product-container">
-      <form onSubmit={handleUpdateProduct} className="modale-fiche-product">
-        <div>Fiche catégorie</div>
-        <div>{product.name}</div>
+      <div className="modale-fiche-product">
+        <form onSubmit={handleUpdateProduct} className="form-fiche-product">
+          <h3>Fiche catégorie</h3>
+          <h4>{product.name}</h4>
 
-        <label htmlFor="updateNameProduct">
-          Changer le nom :
-          <input
-            value={name}
-            id="updateNameProduct"
-            type="text"
-            onChange={handleName}
-          />
-        </label>
-        {errors.name && <p className="register-error-message">{errors.name}</p>}
+          <label htmlFor="updateNameProduct">
+            Changer le nom :
+            <input
+              value={name}
+              id="updateNameProduct"
+              type="text"
+              onChange={handleName}
+            />
+          </label>
+          {errors.name && (
+            <p className="register-error-message">{errors.name}</p>
+          )}
 
-        <label htmlFor="updateDescriptionProduct">
-          Changer la description :
-          <input
-            value={description}
-            id="updateDescriptionProduct"
-            type="text"
-            onChange={handleDescription}
-          />
-        </label>
-        {errors.description && (
-          <p className="register-error-message">{errors.description}</p>
-        )}
+          <label htmlFor="updateDescriptionProduct">
+            Changer la description :
+            <input
+              value={description}
+              id="updateDescriptionProduct"
+              type="text"
+              onChange={handleDescription}
+            />
+          </label>
+          {errors.description && (
+            <p className="register-error-message">{errors.description}</p>
+          )}
 
-        <label htmlFor="updatePriceProduct">
-          Changer le prix :
-          <input
-            value={price}
-            id="updatePriceProduct"
-            type="number"
-            min={0}
-            onChange={handlePrice}
-          />
-        </label>
-        {errors.price && (
-          <p className="register-error-message">{errors.price}</p>
-        )}
+          <label htmlFor="updatePriceProduct">
+            Changer le prix :
+            <input
+              value={price}
+              id="updatePriceProduct"
+              type="number"
+              min={0}
+              onChange={handlePrice}
+            />
+          </label>
+          {errors.price && (
+            <p className="register-error-message">{errors.price}</p>
+          )}
 
-        <label htmlFor="updateSizeProduct">
-          Changer la taille :
-          <input
-            value={size}
-            id="updateSizeProduct"
-            type="text"
-            onChange={handleSize}
-          />
-        </label>
-        {errors.size && <p className="register-error-message">{errors.size}</p>}
+          <label htmlFor="updateSizeProduct">
+            Changer la taille :
+            <input
+              value={size}
+              id="updateSizeProduct"
+              type="text"
+              onChange={handleSize}
+            />
+          </label>
+          {errors.size && (
+            <p className="register-error-message">{errors.size}</p>
+          )}
 
-        <label htmlFor="updateStockProduct">
-          Changer la quantité :
-          <input
-            value={stock}
-            id="updateStockProduct"
-            type="number"
-            min={0}
-            onChange={handleStock}
-          />
-        </label>
-        {errors.stock && (
-          <p className="register-error-message">{errors.stock}</p>
-        )}
+          <label htmlFor="updateStockProduct">
+            Changer la quantité :
+            <input
+              value={stock}
+              id="updateStockProduct"
+              type="number"
+              min={0}
+              onChange={handleStock}
+            />
+          </label>
+          {errors.stock && (
+            <p className="register-error-message">{errors.stock}</p>
+          )}
 
-        <label htmlFor="updateIsAvailableProduct">
-          Le produit est visible :
-          <input
-            id="updateIsAvailableProduct"
-            type="checkbox"
-            checked={isAvailable}
-            onChange={handleIsAvailable}
-          />
-        </label>
+          <label htmlFor="updateIsAvailableProduct">
+            Le produit est visible :
+            <input
+              id="updateIsAvailableProduct"
+              type="checkbox"
+              checked={isAvailable}
+              onChange={handleIsAvailable}
+            />
+          </label>
 
-        <label htmlFor="updateCategoryIdProduct">
-          Changer de catégorie :
-          <select
-            onChange={handleSelectChange}
-            value={category ? category : ""}
+          <label htmlFor="updateCategoryIdProduct">
+            Changer de catégorie :
+            <select
+              onChange={handleSelectChange}
+              value={category ? category : ""}
+            >
+              <option value="">Pas de catégorie</option>
+              {categories?.categories.map(
+                (selectedcategory: any, index: number) => (
+                  <option key={index} value={selectedcategory.id} selected>
+                    {selectedcategory.label}
+                  </option>
+                )
+              )}
+            </select>
+          </label>
+
+          <button className="update-product">Modifier</button>
+          <div>{message}</div>
+          <button
+            className="secondary delete-product"
+            onClick={() => handleDeleteProduct(product.id)}
           >
-            <option value="">Pas de catégorie</option>
-            {categories?.categories.map(
-              (selectedcategory: any, index: number) => (
-                <option key={index} value={selectedcategory.id} selected>
-                  {selectedcategory.label}
-                </option>
-              )
-            )}
-          </select>
-        </label>
-
-        <button>modifier</button>
-        <div>{message}</div>
-        <button
-          className="secondary"
-          onClick={() => handleDeleteProduct(product.id)}
-        >
-          Supprimer
-        </button>
-      </form>
+            Supprimer
+          </button>
+        </form>
+        {imagesSection()}
+      </div>
       <button onClick={() => closeModaleFicheProduct(product.id)}>
         Fermer
       </button>
