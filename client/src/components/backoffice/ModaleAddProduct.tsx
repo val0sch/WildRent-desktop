@@ -49,7 +49,6 @@ function ModaleAddProduct({
 
   const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "add Product", data);
       setMessage(
         "Vous avez ajouté le produit : " + data.addProductWithImages.name
       );
