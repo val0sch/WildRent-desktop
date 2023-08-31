@@ -53,12 +53,24 @@ function ProductSheet() {
   const product: Product = productInfos.product || {};
 
   var settings = {
+    customPaging: function (i: any) {
+      return (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <a>
+          <img
+            height="110px"
+            width="150px"
+            src={`${productImages[i]?.name}`}
+            alt="équipement"
+          />
+        </a>
+      );
+    },
     dots: true,
-    infinite: true,
+    dotsClass: "slick-dots slick-thumb",
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    objectFit: "cover",
   };
 
   const handleReservation = () => {
@@ -66,26 +78,19 @@ function ProductSheet() {
   };
   return (
     <div className="container">
-      <div className="left-container">
+      <div className="img-container">
         <button className="secondary" onClick={handleGoBack}>
           Retour
         </button>
-        <div className="image-container">
-          <Slider {...settings}>
-            {productImages.map(
-              (image: { id: string; name: string; isMain: boolean }) => (
-                <img
-                  className="slider-img"
-                  key={image.name}
-                  src={image.name}
-                  alt={image.name}
-                />
-              )
-            )}
-          </Slider>
-        </div>
+        <Slider {...settings}>
+          {productImages.map(
+            (image: { id: string; name: string; isMain: boolean }) => (
+              <img key={image.name} src={image.name} alt={image.name} />
+            )
+          )}
+        </Slider>
       </div>
-      <div className="right-container">
+      <div className="text-container">
         <h1>{product.name}</h1>
         <div>
           <h2>Description</h2>

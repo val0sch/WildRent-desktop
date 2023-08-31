@@ -2,41 +2,50 @@
   display: flex;
   flex-direction: column;
   padding: 2%;
-  gap: 2%;
 }
 
-.left-container {
-  padding: 2%;
+.img-container {
   display: flex;
   flex-direction: column;
+  padding: 2%;
+  gap: 2em;
+}
+/* slider */
+.slick-dots {
+  display: none !important;
 }
 
-.right-container {
+.text-container {
   display: flex;
   flex-direction: column;
   align-content: center;
   padding: 2%;
-  gap: 4%;
-  & > h1 {
-    font-size: 2em;
-    margin-bottom: 5%;
-  }
-  & > div {
-    & > h2 {
-      font-size: 1em;
-      margin-bottom: 1%;
-    }
-    > p {
-      font-size: 0.8;
-      color: black;
-    }
-  }
+  gap: 1em;
 }
 
-h1::first-letter,
-h2::first-letter {
+.text-container > h1 {
+  font-size: 1.5em;
+}
+
+.text-container > h2 {
+  font-size: 1em;
+  margin-bottom: 1%;
+}
+
+.text-container > p {
+  font-size: 0.8;
+  color: black;
+}
+
+.text-container .resa-btn {
+  align-self: center;
+}
+
+h1::first-letter {
   text-transform: uppercase;
 }
+
+/* DESKTOP */
 
 @media screen and (min-width: 768px) {
   .container {
@@ -46,35 +55,44 @@ h2::first-letter {
     font-size: 2.5em;
   }
 
-  .left-container {
+  .img-container {
     width: 60%;
   }
-  .left-container img {
-    height: 600px;
-    object-fit: contain;
-  }
-  .right-container {
-    padding-top: 6em;
-    width: 40%;
+
+  /* slider */
+  .slick-slide {
     position: relative;
+    height: 500px;
   }
-  .right-container > h1 {
-    font-size: 3em;
+
+  .slick-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: 18%;
+  }
+
+  .text-container {
+    padding-top: 7em;
+    gap: 2em;
+    width: 40%;
+  }
+
+  .text-container > h1 {
+    font-size: 2.2em;
     margin-bottom: 5%;
   }
-  .right-container > div > h2 {
-    font-size: 2em;
-    margin-bottom: 1%;
+
+  .text-container > div > h2 {
+    font-size: 1.6em;
+    margin-bottom: 2%;
   }
-  .right-container > div > p {
-    font-size: 1em;
+
+  .text-container > div > p {
+    font-size: 1.1em;
     color: black;
   }
+
   .resa-btn {
-    position: absolute;
-    bottom: 10%;
-    /*  centrer horizontalement */
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 10%;
   }
 }

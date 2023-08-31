@@ -124,7 +124,7 @@ a.navlink {
     color: var(--main-navy);
   }
 
-  .info-user{
+  .info-user {
     display: flex;
     flex-direction: column-reverse;
   }
@@ -171,11 +171,11 @@ a.navlink {
     align-items: center;
   }
 
-  .info-user{
+  .info-user {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
   }
 
   .navigation h1 {

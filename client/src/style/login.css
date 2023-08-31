@@ -86,7 +86,7 @@ button.back-home a p {
   color: darkred;
 }
 
-.register-container p.register-error-message{
+.register-container p.register-error-message {
   font-size: 18px;
   align-self: flex-start;
   color: darkred;
@@ -154,8 +154,8 @@ button.back-home a p {
   .login-form p.login-error-message {
     padding-left: 2rem;
   }
-  
-  .register-container p.register-error-message{
+
+  .register-container p.register-error-message {
     padding-left: 2rem;
   }
 }
