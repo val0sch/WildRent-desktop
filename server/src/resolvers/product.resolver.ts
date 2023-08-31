@@ -11,7 +11,6 @@ export default {
       _: any,
       { categoryLabel }: { categoryLabel: string }
     ) {
-      // console.log("categoryLabel", categoryLabel);
       return await new ProductService().productsFindByCategoryLabel(
         categoryLabel
       );

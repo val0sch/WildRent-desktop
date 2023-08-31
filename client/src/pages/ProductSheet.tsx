@@ -11,21 +11,12 @@ import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
 function ProductSheet() {
   const { productId } = useParams();
-
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate(`/all-categories/${product.category?.label}`);
-  };
+  // FETCH DATAS
   const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
     variables: {
       productId: productId,
-    },
-    onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "imagesData", data);
-    },
-    onError(error) {
-      console.error("%c⧭", "color: #917399", error);
     },
   });
 
@@ -52,6 +43,7 @@ function ProductSheet() {
 
   const product: Product = productInfos.product || {};
 
+// settings Slider
   var settings = {
     customPaging: function (i: any) {
       return (
@@ -73,8 +65,13 @@ function ProductSheet() {
     slidesToScroll: 1,
   };
 
+  // Handle functions
   const handleReservation = () => {
     console.log("hello");
+  };
+
+  const handleGoBack = () => {
+    navigate(`/all-categories/${product.category?.label}`);
   };
   return (
     <div className="container">
