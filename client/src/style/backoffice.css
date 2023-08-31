@@ -118,6 +118,8 @@
   padding: 2rem 2rem 0rem;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 90%;
+  overflow-y: scroll;
 }
 
 @media screen and (min-width: 768px) {
@@ -144,7 +146,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10;
   padding: 1rem;
 }
 
@@ -158,27 +160,130 @@
   padding: 2rem;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 90%;
+  overflow-y: scroll;
 }
 
-.modale-fiche-product-container h3{
-    border: 1px solid var(--main-orange);
-    background-color: white;
-    color: var(--main-orange);
-} */
-
-.modale-fiche-product input[type=text]{
-    width: 100%;
-    margin-top: .5rem;
+.form-fiche-product {
+  display: flex;
+  flex-direction: column;
 }
 
-.modale-fiche-product .bo-container-input-img{
+.modale-fiche-product-container h3 {
+  border: 1px solid var(--main-orange);
+  background-color: white;
+  color: var(--main-orange);
+  font-size: 18px;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.form-fiche-product h4 {
+  text-align: center;
+  padding: 1rem;
+  font-size: 24px;
+}
+
+.modale-fiche-product input {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modale-fiche-product select {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-fiche-product input[type="text"] {
+  width: 100%;
+}
+
+.modale-fiche-product input[type="checkbox"] {
+  width: fit-content;
+}
+
+.modale-fiche-product .bo-container-input-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modale-fiche-product .bo-container-input-img img {
+  margin-bottom: 0.5rem;
+}
+
+button.update-product,
+button.delete-product {
+  margin-inline: auto;
+}
+
+button.delete-product {
+  margin-top: 1rem;
+}
+
+.form-images-product h4 {
+  font-size: 18px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ImageProductContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ImageProductContainer img {
+  width: 200px;
+  height: auto;
+}
+
+/* alert suppression */
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
+  background-color: var(--main-orange)!important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel{
+  background-color: rgb(244, 244, 244)!important;
+  color:var(--main-orange);
+}
+
+@media screen and (min-width: 768px) {
+  .modale-fiche-product {
+    width: 90%;
+    padding: 2rem 1rem;
+  }
+
+  .form-fiche-product,
+  .form-images-product {
+    width: 90%;
+  }
+
+  .form-images-product h4 {
+    text-align: center;
+  }
+
+  .form-add-product-image {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+  }
 
-.modale-fiche-product .bo-container-input-img img{
-    margin-bottom: .5rem;
+  .images-product-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ImageProductContainer img {
+    width: 300px;
+    height: auto;
+  }
+
+  .modale-fiche-product select{
+    margin-top: 1rem;
+  }
 }
 
 /* Categories.tsx */
@@ -240,6 +345,27 @@
   color: darkgreen;
 }
 
+.label-product-isavailable{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.label-product-isavailable input{
+  width: fit-content;
+}
+
+.label-image-ismain{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.label-image-ismain input{
+  width: fit-content;
+}
+
 @media screen and (min-width: 768px) {
   .modale-add-categorie-form {
     margin-bottom: 2rem;
@@ -280,23 +406,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.modale-fiche-category-container h3{
-    border: 1px solid var(--main-orange);
-    background-color: white;
-    color: var(--main-orange);
+.modale-fiche-category-container h3 {
+  border: 1px solid var(--main-orange);
+  background-color: white;
+  color: var(--main-orange);
 }
 
-.modale-fiche-category input[type=text]{
-    width: 100%;
-    margin-top: .5rem;
+.modale-fiche-category input[type="text"] {
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
-.modale-fiche-category .bo-container-input-img{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.modale-fiche-category .bo-container-input-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.modale-fiche-category .bo-container-input-img img{
-    margin-bottom: .5rem;
+.modale-fiche-category .bo-container-input-img img {
+  margin-bottom: 0.5rem;
 }
