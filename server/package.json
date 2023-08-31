@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node-dev --respawn --watch src/**/*.ts,src/**/*.gql --poll src/index.ts",
     "codegen": "graphql-codegen --config codegen.ts --watch \"src/gen.temp\"",
-    "test": "jest"
+    "test": "jest",
+    "fixtures": "fixtures-ts-node-esm load ./src/fixtures -d ./src/lib/datasourceLocal.ts --sync "
   },
   "dependencies": {
     "@apollo/server": "^4.6.0",
@@ -38,6 +39,7 @@
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^29.1.0",
     "typeorm": "^0.3.16",
+    "typeorm-fixtures-cli": "^3.1.0",
     "typescript": "^5.0.4",
     "uuid": "^9.0.0"
   },

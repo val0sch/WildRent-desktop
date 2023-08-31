@@ -6,11 +6,17 @@ import {
   ChangeEvent,
   FormEvent,
 } from "react";
-import { ADD_PRODUCT } from "../../graphql/product.mutation";
+import { ADD_PRODUCT_WITH_IMAGES } from "../../graphql/product.mutation";
 import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import * as Yup from "yup";
 
 import "../../style/backoffice.css";
+import Swal from "sweetalert2";
+
+type ImageInput = {
+  name: string;
+  isMain: boolean;
+};
 
 function ModaleAddProduct({
   closeModaleProduct,
@@ -41,11 +47,13 @@ function ModaleAddProduct({
     },
   });
 
-  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT, {
+  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "add Product", data);
-      setMessage("Vous avez ajouté le produit : " + data.addProduct.name);
+      setMessage(
+        "Vous avez ajouté le produit : " + data.addProductWithImages.name
+      );
       updatedProduct();
+      closeModaleProduct();
     },
     onError(error) {
       console.log("%c⧭", "color: #917399", error);
@@ -78,6 +86,34 @@ function ModaleAddProduct({
     setIsAvailable(stock === 0 ? false : true);
   }, [stock]);
 
+  const [images, setImages] = useState<ImageInput[]>([
+    { name: "", isMain: false },
+  ]);
+
+  const handleImageChange = (
+    index: number,
+    field: keyof ImageInput,
+    value: string | boolean
+  ) => {
+    if (field === "isMain" && value === true) {
+      // Désélectionner toutes les autres images comme principales
+      const updatedImages = images.map((image, i) =>
+        i === index ? { ...image, [field]: value } : { ...image, isMain: false }
+      );
+      setImages(updatedImages);
+    } else {
+      setImages((prevImages) =>
+        prevImages.map((image, i) =>
+          i === index ? { ...image, [field]: value } : image
+        )
+      );
+    }
+  };
+
+  const addImageField = () => {
+    setImages([...images, { name: "", isMain: false }]);
+  };
+
   const productSchema = Yup.object({
     name: Yup.string().required("Le nom de l'equipement est requis"),
     description: Yup.string().required("La description est requise"),
@@ -86,9 +122,27 @@ function ModaleAddProduct({
     stock: Yup.number().required("La quantité est requise"),
   });
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
   const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedCategoryId = category === "" ? null : category;
+
+    const imagesInput = images.map((image) => ({
+      name: image.name,
+      isMain: image.isMain,
+    }));
+
     try {
       await productSchema.validate(
         { name, description, price, size, stock },
@@ -104,9 +158,14 @@ function ModaleAddProduct({
             stock,
             isAvailable,
             category: selectedCategoryId,
+            images: imagesInput,
           },
         },
       });
+      await Toast.fire({
+        icon: 'success',
+        title: 'Produit ajouté avec succès'
+      })
     } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
@@ -117,6 +176,7 @@ function ModaleAddProduct({
       } else setErrors({ label: "Une erreur est survenue" });
     }
   };
+
   return (
     <div className="modale-add-product">
       <form onSubmit={handleAddProduct} className="modale-add-product-form">
@@ -173,7 +233,7 @@ function ModaleAddProduct({
         {errors.stock && (
           <p className="register-error-message">{errors.stock}</p>
         )}
-        <label htmlFor="isAvailable">
+        <label htmlFor="isAvailable" className="label-product-isavailable">
           Produit disponible{" "}
           <input
             name="isAvailable"
@@ -181,6 +241,32 @@ function ModaleAddProduct({
             onChange={handleIsAvailable}
           />
         </label>
+
+        <h3>Images</h3>
+        {images.map((image, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder="Nom de l'image"
+              value={image.name}
+              onChange={(e) => handleImageChange(index, "name", e.target.value)}
+            />
+            <label className="label-image-ismain">
+              Image principale{" "}
+              <input
+                type="checkbox"
+                checked={image.isMain}
+                onChange={(e) =>
+                  handleImageChange(index, "isMain", e.target.checked)
+                }
+              />
+            </label>
+          </div>
+        ))}
+
+        <button type="button" onClick={addImageField}>
+          Ajouter une image
+        </button>
 
         <button>Ajouter un produit</button>
         <div>{message}</div>

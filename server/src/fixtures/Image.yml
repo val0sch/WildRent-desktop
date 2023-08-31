@@ -1,0 +1,14 @@
+entity: Image
+items:
+  image{1..100}:
+    isMain: true
+    name: '{{image.urlLoremFlickr({ width: 640, height: 480 })}}'
+    product: '@product($current)'
+  image{101..200}:
+    isMain: false
+    name: '{{image.urlLoremFlickr({ width: 640, height: 480 })}}'
+    product: '@product($current-100)'
+  image{201..300}:
+    isMain: false
+    name: '{{image.urlLoremFlickr({ width: 640, height: 480 })}}'
+    product: '@product($current-200)'

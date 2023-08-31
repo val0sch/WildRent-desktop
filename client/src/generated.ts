@@ -12,7 +12,7 @@ export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: Non
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string | number; output: string; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -70,6 +70,11 @@ export type Image = {
   product?: Maybe<Product>;
 };
 
+export type ImageInput = {
+  isMain?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ImageRegister = {
   isMain?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
@@ -108,7 +113,7 @@ export type Mutation = {
   addCategory?: Maybe<Category>;
   addImage?: Maybe<Image>;
   addItem?: Maybe<Item>;
-  addProduct?: Maybe<Product>;
+  addProductWithImages?: Maybe<Product>;
   addUser?: Maybe<User>;
   deleteCart?: Maybe<Cart>;
   deleteCategory?: Maybe<Category>;
@@ -119,6 +124,7 @@ export type Mutation = {
   updateCart?: Maybe<Cart>;
   updateCategory?: Maybe<Category>;
   updateDetailsUser?: Maybe<DetailsUser>;
+  updateImageMainStatus?: Maybe<Image>;
   updateItem?: Maybe<Item>;
   updateProduct?: Maybe<Product>;
   updateUser?: Maybe<User>;
@@ -145,7 +151,7 @@ export type MutationAddItemArgs = {
 };
 
 
-export type MutationAddProductArgs = {
+export type MutationAddProductWithImagesArgs = {
   infos: ProductRegister;
 };
 
@@ -203,6 +209,13 @@ export type MutationUpdateDetailsUserArgs = {
 };
 
 
+export type MutationUpdateImageMainStatusArgs = {
+  id: Scalars['String']['input'];
+  isMain: Scalars['Boolean']['input'];
+  productId: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateItemArgs = {
   id: Scalars['String']['input'];
   infos: ItemRegister;
@@ -225,6 +238,7 @@ export type Product = {
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  images?: Maybe<Array<Maybe<Image>>>;
   isAvailable?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Scalars['Int']['output']>;
@@ -235,6 +249,7 @@ export type Product = {
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
+  images?: InputMaybe<Array<InputMaybe<ImageInput>>>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
@@ -252,9 +267,11 @@ export type Query = {
   detailsConnectUser?: Maybe<DetailsUser>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
   images?: Maybe<Array<Maybe<Image>>>;
+  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
   products?: Maybe<Array<Maybe<Product>>>;
+  productsByCategory?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -265,8 +282,18 @@ export type QueryCategoryArgs = {
 };
 
 
+export type QueryImagesByProductArgs = {
+  productId: Scalars['String']['input'];
+};
+
+
 export type QueryLoginArgs = {
   infos: UserLogin;
+};
+
+
+export type QueryProductsByCategoryArgs = {
+  categoryId: Scalars['String']['input'];
 };
 
 
@@ -345,6 +372,36 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'Category', id?: string | null } | null };
 
+export type DeleteImageMutationVariables = Exact<{
+  deleteImageId: Scalars['String'];
+}>;
+
+
+export type DeleteImageMutation = { __typename?: 'Mutation', deleteImage?: { __typename?: 'Image', id?: string | null } | null };
+
+export type AddImageMutationVariables = Exact<{
+  infos: ImageRegister;
+}>;
+
+
+export type AddImageMutation = { __typename?: 'Mutation', addImage?: { __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null };
+
+export type UpdateImageMainStatusMutationVariables = Exact<{
+  productId: Scalars['String'];
+  updateImageMainStatusId: Scalars['String'];
+  isMain: Scalars['Boolean'];
+}>;
+
+
+export type UpdateImageMainStatusMutation = { __typename?: 'Mutation', updateImageMainStatus?: { __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null };
+
+export type ImagesByProductQueryVariables = Exact<{
+  productId: Scalars['String'];
+}>;
+
+
+export type ImagesByProductQuery = { __typename?: 'Query', imagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
+
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -355,12 +412,12 @@ export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', email?: string | null, isAdmin?: boolean | null, detailsUser?: { __typename?: 'DetailsUser', firstname?: string | null, lastname?: string | null, address?: string | null, birthday?: string | null } | null } | null> | null };
 
-export type AddProductMutationVariables = Exact<{
+export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
 }>;
 
 
-export type AddProductMutation = { __typename?: 'Mutation', addProduct?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
+export type AddProductWithImagesMutation = { __typename?: 'Mutation', addProductWithImages?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
 
 export type UpdateProductMutationVariables = Exact<{
   updateProductId: Scalars['String'];
@@ -479,6 +536,7 @@ export type ResolversTypes = {
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
   Image: ResolverTypeWrapper<Image>;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Item: ResolverTypeWrapper<Item>;
@@ -505,6 +563,7 @@ export type ResolversParentTypes = {
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
   Image: Image;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: Scalars['Int'];
   Item: Item;
@@ -578,7 +637,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddCategoryArgs, 'infos'>>;
   addImage?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationAddImageArgs, 'infos'>>;
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'infos'>>;
-  addProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductArgs, 'infos'>>;
+  addProductWithImages?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductWithImagesArgs, 'infos'>>;
   addUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'infos'>>;
   deleteCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationDeleteCartArgs, 'id'>>;
   deleteCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'id'>>;
@@ -589,6 +648,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationUpdateCartArgs, 'id' | 'infos'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'id' | 'infos'>>;
   updateDetailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType, RequireFields<MutationUpdateDetailsUserArgs, 'id' | 'infos'>>;
+  updateImageMainStatus?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationUpdateImageMainStatusArgs, 'id' | 'isMain' | 'productId'>>;
   updateItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'id' | 'infos'>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'id' | 'infos'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'infos'>>;
@@ -598,6 +658,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -615,9 +676,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
+  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
@@ -922,6 +985,152 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const DeleteImageDocument = gql`
+    mutation DeleteImage($deleteImageId: String!) {
+  deleteImage(id: $deleteImageId) {
+    id
+  }
+}
+    `;
+export type DeleteImageMutationFn = Apollo.MutationFunction<DeleteImageMutation, DeleteImageMutationVariables>;
+
+/**
+ * __useDeleteImageMutation__
+ *
+ * To run a mutation, you first call `useDeleteImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteImageMutation, { data, loading, error }] = useDeleteImageMutation({
+ *   variables: {
+ *      deleteImageId: // value for 'deleteImageId'
+ *   },
+ * });
+ */
+export function useDeleteImageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteImageMutation, DeleteImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteImageMutation, DeleteImageMutationVariables>(DeleteImageDocument, options);
+      }
+export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMutation>;
+export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
+export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
+export const AddImageDocument = gql`
+    mutation AddImage($infos: ImageRegister!) {
+  addImage(infos: $infos) {
+    id
+    isMain
+    name
+  }
+}
+    `;
+export type AddImageMutationFn = Apollo.MutationFunction<AddImageMutation, AddImageMutationVariables>;
+
+/**
+ * __useAddImageMutation__
+ *
+ * To run a mutation, you first call `useAddImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addImageMutation, { data, loading, error }] = useAddImageMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useAddImageMutation(baseOptions?: Apollo.MutationHookOptions<AddImageMutation, AddImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddImageMutation, AddImageMutationVariables>(AddImageDocument, options);
+      }
+export type AddImageMutationHookResult = ReturnType<typeof useAddImageMutation>;
+export type AddImageMutationResult = Apollo.MutationResult<AddImageMutation>;
+export type AddImageMutationOptions = Apollo.BaseMutationOptions<AddImageMutation, AddImageMutationVariables>;
+export const UpdateImageMainStatusDocument = gql`
+    mutation UpdateImageMainStatus($productId: String!, $updateImageMainStatusId: String!, $isMain: Boolean!) {
+  updateImageMainStatus(
+    productId: $productId
+    id: $updateImageMainStatusId
+    isMain: $isMain
+  ) {
+    id
+    isMain
+    name
+  }
+}
+    `;
+export type UpdateImageMainStatusMutationFn = Apollo.MutationFunction<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>;
+
+/**
+ * __useUpdateImageMainStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateImageMainStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateImageMainStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateImageMainStatusMutation, { data, loading, error }] = useUpdateImageMainStatusMutation({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *      updateImageMainStatusId: // value for 'updateImageMainStatusId'
+ *      isMain: // value for 'isMain'
+ *   },
+ * });
+ */
+export function useUpdateImageMainStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>(UpdateImageMainStatusDocument, options);
+      }
+export type UpdateImageMainStatusMutationHookResult = ReturnType<typeof useUpdateImageMainStatusMutation>;
+export type UpdateImageMainStatusMutationResult = Apollo.MutationResult<UpdateImageMainStatusMutation>;
+export type UpdateImageMainStatusMutationOptions = Apollo.BaseMutationOptions<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>;
+export const ImagesByProductDocument = gql`
+    query ImagesByProduct($productId: String!) {
+  imagesByProduct(productId: $productId) {
+    id
+    isMain
+    name
+  }
+}
+    `;
+
+/**
+ * __useImagesByProductQuery__
+ *
+ * To run a query within a React component, call `useImagesByProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useImagesByProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useImagesByProductQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useImagesByProductQuery(baseOptions: Apollo.QueryHookOptions<ImagesByProductQuery, ImagesByProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ImagesByProductQuery, ImagesByProductQueryVariables>(ImagesByProductDocument, options);
+      }
+export function useImagesByProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ImagesByProductQuery, ImagesByProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ImagesByProductQuery, ImagesByProductQueryVariables>(ImagesByProductDocument, options);
+        }
+export type ImagesByProductQueryHookResult = ReturnType<typeof useImagesByProductQuery>;
+export type ImagesByProductLazyQueryHookResult = ReturnType<typeof useImagesByProductLazyQuery>;
+export type ImagesByProductQueryResult = Apollo.QueryResult<ImagesByProductQuery, ImagesByProductQueryVariables>;
 export const ProductsDocument = gql`
     query Products {
   products {
@@ -1007,9 +1216,9 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
-export const AddProductDocument = gql`
-    mutation AddProduct($infos: ProductRegister!) {
-  addProduct(infos: $infos) {
+export const AddProductWithImagesDocument = gql`
+    mutation AddProductWithImages($infos: ProductRegister!) {
+  addProductWithImages(infos: $infos) {
     id
     name
     description
@@ -1020,32 +1229,32 @@ export const AddProductDocument = gql`
   }
 }
     `;
-export type AddProductMutationFn = Apollo.MutationFunction<AddProductMutation, AddProductMutationVariables>;
+export type AddProductWithImagesMutationFn = Apollo.MutationFunction<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>;
 
 /**
- * __useAddProductMutation__
+ * __useAddProductWithImagesMutation__
  *
- * To run a mutation, you first call `useAddProductMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddProductMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddProductWithImagesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductWithImagesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addProductMutation, { data, loading, error }] = useAddProductMutation({
+ * const [addProductWithImagesMutation, { data, loading, error }] = useAddProductWithImagesMutation({
  *   variables: {
  *      infos: // value for 'infos'
  *   },
  * });
  */
-export function useAddProductMutation(baseOptions?: Apollo.MutationHookOptions<AddProductMutation, AddProductMutationVariables>) {
+export function useAddProductWithImagesMutation(baseOptions?: Apollo.MutationHookOptions<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddProductMutation, AddProductMutationVariables>(AddProductDocument, options);
+        return Apollo.useMutation<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>(AddProductWithImagesDocument, options);
       }
-export type AddProductMutationHookResult = ReturnType<typeof useAddProductMutation>;
-export type AddProductMutationResult = Apollo.MutationResult<AddProductMutation>;
-export type AddProductMutationOptions = Apollo.BaseMutationOptions<AddProductMutation, AddProductMutationVariables>;
+export type AddProductWithImagesMutationHookResult = ReturnType<typeof useAddProductWithImagesMutation>;
+export type AddProductWithImagesMutationResult = Apollo.MutationResult<AddProductWithImagesMutation>;
+export type AddProductWithImagesMutationOptions = Apollo.BaseMutationOptions<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>;
 export const UpdateProductDocument = gql`
     mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
   updateProduct(id: $updateProductId, infos: $infos) {

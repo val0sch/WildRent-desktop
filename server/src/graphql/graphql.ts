@@ -65,6 +65,11 @@ export type Image = {
   product?: Maybe<Product>;
 };
 
+export type ImageInput = {
+  isMain?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type ImageRegister = {
   isMain?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
@@ -103,7 +108,7 @@ export type Mutation = {
   addCategory?: Maybe<Category>;
   addImage?: Maybe<Image>;
   addItem?: Maybe<Item>;
-  addProduct?: Maybe<Product>;
+  addProductWithImages?: Maybe<Product>;
   addUser?: Maybe<User>;
   deleteCart?: Maybe<Cart>;
   deleteCategory?: Maybe<Category>;
@@ -114,6 +119,7 @@ export type Mutation = {
   updateCart?: Maybe<Cart>;
   updateCategory?: Maybe<Category>;
   updateDetailsUser?: Maybe<DetailsUser>;
+  updateImageMainStatus?: Maybe<Image>;
   updateItem?: Maybe<Item>;
   updateProduct?: Maybe<Product>;
   updateUser?: Maybe<User>;
@@ -140,7 +146,7 @@ export type MutationAddItemArgs = {
 };
 
 
-export type MutationAddProductArgs = {
+export type MutationAddProductWithImagesArgs = {
   infos: ProductRegister;
 };
 
@@ -198,6 +204,13 @@ export type MutationUpdateDetailsUserArgs = {
 };
 
 
+export type MutationUpdateImageMainStatusArgs = {
+  id: Scalars['String'];
+  isMain: Scalars['Boolean'];
+  productId: Scalars['String'];
+};
+
+
 export type MutationUpdateItemArgs = {
   id: Scalars['String'];
   infos: ItemRegister;
@@ -220,6 +233,7 @@ export type Product = {
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<Image>>>;
   isAvailable?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
@@ -230,6 +244,7 @@ export type Product = {
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']>;
   description: Scalars['String'];
+  images?: InputMaybe<Array<InputMaybe<ImageInput>>>;
   isAvailable?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   price: Scalars['Int'];
@@ -247,9 +262,11 @@ export type Query = {
   detailsConnectUser?: Maybe<DetailsUser>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
   images?: Maybe<Array<Maybe<Image>>>;
+  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
   products?: Maybe<Array<Maybe<Product>>>;
+  productsByCategory?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
 };
@@ -260,8 +277,18 @@ export type QueryCategoryArgs = {
 };
 
 
+export type QueryImagesByProductArgs = {
+  productId: Scalars['String'];
+};
+
+
 export type QueryLoginArgs = {
   infos: UserLogin;
+};
+
+
+export type QueryProductsByCategoryArgs = {
+  categoryId: Scalars['String'];
 };
 
 
@@ -369,6 +396,7 @@ export type ResolversTypes = {
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
   Image: ResolverTypeWrapper<Image>;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Item: ResolverTypeWrapper<Item>;
@@ -395,6 +423,7 @@ export type ResolversParentTypes = {
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
   Image: Image;
+  ImageInput: ImageInput;
   ImageRegister: ImageRegister;
   Int: Scalars['Int'];
   Item: Item;
@@ -468,7 +497,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddCategoryArgs, 'infos'>>;
   addImage?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationAddImageArgs, 'infos'>>;
   addItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationAddItemArgs, 'infos'>>;
-  addProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductArgs, 'infos'>>;
+  addProductWithImages?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationAddProductWithImagesArgs, 'infos'>>;
   addUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'infos'>>;
   deleteCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationDeleteCartArgs, 'id'>>;
   deleteCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'id'>>;
@@ -479,6 +508,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateCart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType, RequireFields<MutationUpdateCartArgs, 'id' | 'infos'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'id' | 'infos'>>;
   updateDetailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType, RequireFields<MutationUpdateDetailsUserArgs, 'id' | 'infos'>>;
+  updateImageMainStatus?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType, RequireFields<MutationUpdateImageMainStatusArgs, 'id' | 'isMain' | 'productId'>>;
   updateItem?: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'id' | 'infos'>>;
   updateProduct?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<MutationUpdateProductArgs, 'id' | 'infos'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'infos'>>;
@@ -488,6 +518,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -505,9 +536,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
+  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
