@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../style/productSheet.css";
+import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
 function ProductSheet() {
   const { productId } = useParams();
@@ -16,8 +17,25 @@ function ProductSheet() {
   const handleGoBack = () => {
     navigate(`/all-categories/${product.category?.label}`);
   };
+  const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
+    variables: {
+      productId: productId,
+    },
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "imagesData", data);
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
 
-  const { data, loading, error } = useQuery(GET_PRODUCT, {
+  const productImages = imagesData?.imagesByProduct || [];
+
+  const {
+    data: productInfos,
+    loading,
+    error,
+  } = useQuery(GET_PRODUCT, {
     variables: {
       productId: productId,
     },
@@ -32,7 +50,7 @@ function ProductSheet() {
     return <div>Erreur de chargement de la fiche produit.</div>;
   }
 
-  const product: Product = data.product || {};
+  const product: Product = productInfos.product || {};
 
   var settings = {
     dots: true,
@@ -42,13 +60,6 @@ function ProductSheet() {
     slidesToScroll: 1,
     objectFit: "cover",
   };
-
-  const productImages = [
-    "https://contents.mediadecathlon.com/m11820182/k$4e971de325c6fc1d56f401c7cd557581/sq/masque-et-tuba-de-snorkeling-combo-keewee-adult-menthe.jpg?format=auto&f=969x969",
-    "https://contents.mediadecathlon.com/m11820185/k$0624aa8ed6df4b15b30fe4792532e93f/sq/masque-et-tuba-de-snorkeling-combo-keewee-adult-menthe.jpg?format=auto&f=969x969",
-    "https://contents.mediadecathlon.com/p2131458/k$6185b3e6d76770102bf16f96173e5a53/sq/velo-tout-chemin-riverside-500-bleu-nuit.jpg?format=auto&f=969x969",
-    "https://media.istockphoto.com/id/1205679466/fr/photo/ski-de-neige-poudreuse-le-jour-ensoleill%C3%A9.jpg?s=1024x1024&w=is&k=20&c=Cq4H3pFPVVfegsZSyOzVT-5J71ujsHOj42R2AfolP6I=",
-  ];
 
   const handleReservation = () => {
     console.log("hello");
@@ -61,9 +72,16 @@ function ProductSheet() {
         </button>
         <div className="image-container">
           <Slider {...settings}>
-            {productImages.map((image) => (
-              <img className="slider-img" key={image} src={image} alt={image} />
-            ))}
+            {productImages.map(
+              (image: { id: string; name: string; isMain: boolean }) => (
+                <img
+                  className="slider-img"
+                  key={image.name}
+                  src={image.name}
+                  alt={image.name}
+                />
+              )
+            )}
           </Slider>
         </div>
       </div>
