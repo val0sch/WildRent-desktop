@@ -1,0 +1,33 @@
+entity: Category
+items:
+  category1:
+    label: 'Natation'
+    imageUrl: 'https://images.pexels.com/photos/9030291/pexels-photo-9030291.jpeg'
+  category2:
+    label: 'Randonné'
+    imageUrl: 'https://images.pexels.com/photos/917510/pexels-photo-917510.jpeg'
+  category3:
+    label: 'Athletisme'
+    imageUrl: 'https://images.pexels.com/photos/1127120/pexels-photo-1127120.jpeg'
+  category4:
+    label: 'babyfoot'
+    imageUrl: 'https://images.pexels.com/photos/1276134/pexels-photo-1276134.jpeg'
+  category5:
+    label: 'Football'
+    imageUrl: 'https://images.pexels.com/photos/3886235/pexels-photo-3886235.jpeg'
+  category6:
+    label: 'Tennis'
+    imageUrl: 'https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg'
+  category7:
+    label: 'Golf'
+    imageUrl: 'https://images.pexels.com/photos/7758348/pexels-photo-7758348.jpeg'
+  category8:
+    label: 'Basketball'
+    imageUrl: 'https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg'
+  category9:
+    label: 'Ski'
+    imageUrl: 'https://images.pexels.com/photos/2433353/pexels-photo-2433353.jpeg'
+  category10:
+    label: 'Boxe'
+    imageUrl: 'https://images.pexels.com/photos/4162449/pexels-photo-4162449.jpeg'
+
