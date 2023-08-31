@@ -16,6 +16,7 @@ import {
   ADD_IMAGE,
   UPDATE_IMAGE_MAIN_STATUS,
 } from "../../graphql/image.mutation";
+import Swal from 'sweetalert2'
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -188,10 +189,36 @@ function ModaleFicheProduct({
   });
 
   const handleDeleteImage = (deleteImageId: any) => {
-    deleteImage({
-      variables: {
-        deleteImageId: deleteImageId,
-      },
+    Swal.fire({
+      title: 'Voulez-vous supprimer cette image ?',
+      text: 'Cette action est irréversible !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Supprimer'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteImage({
+          variables: {
+            deleteImageId: deleteImageId,
+          },
+        }).then(() => {
+          Swal.fire(
+            'Supprimé !',
+            'Votre image a été supprimée.',
+            'success'
+          );
+          refetchImages();
+        }).catch((error) => {
+          Swal.fire(
+            'Erreur',
+            'Une erreur est survenue lors de la suppression de l\'image.',
+            'error'
+          );
+          console.error(error);
+        });
+      }
     });
   };
 
