@@ -11,6 +11,7 @@ import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import * as Yup from "yup";
 
 import "../../style/backoffice.css";
+import Swal from "sweetalert2";
 
 type ImageInput = {
   name: string;
@@ -49,7 +50,9 @@ function ModaleAddProduct({
   const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add Product", data);
-      setMessage("Vous avez ajouté le produit : " + data.addProductWithImages.name);
+      setMessage(
+        "Vous avez ajouté le produit : " + data.addProductWithImages.name
+      );
       updatedProduct();
       closeModaleProduct();
     },
@@ -93,16 +96,24 @@ function ModaleAddProduct({
     field: keyof ImageInput,
     value: string | boolean
   ) => {
-    setImages((prevImages) =>
-      prevImages.map((image, i) =>
-        i === index ? { ...image, [field]: value } : image
-      )
-    );
+    if (field === "isMain" && value === true) {
+      // Désélectionner toutes les autres images comme principales
+      const updatedImages = images.map((image, i) =>
+        i === index ? { ...image, [field]: value } : { ...image, isMain: false }
+      );
+      setImages(updatedImages);
+    } else {
+      setImages((prevImages) =>
+        prevImages.map((image, i) =>
+          i === index ? { ...image, [field]: value } : image
+        )
+      );
+    }
   };
 
   const addImageField = () => {
     setImages([...images, { name: "", isMain: false }]);
-  }
+  };
 
   const productSchema = Yup.object({
     name: Yup.string().required("Le nom de l'equipement est requis"),
@@ -111,6 +122,18 @@ function ModaleAddProduct({
     size: Yup.string().required("La taille est requise"),
     stock: Yup.number().required("La quantité est requise"),
   });
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
 
   const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -140,6 +163,10 @@ function ModaleAddProduct({
           },
         },
       });
+      await Toast.fire({
+        icon: 'success',
+        title: 'Produit ajouté avec succès'
+      })
     } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
@@ -207,7 +234,7 @@ function ModaleAddProduct({
         {errors.stock && (
           <p className="register-error-message">{errors.stock}</p>
         )}
-        <label htmlFor="isAvailable">
+        <label htmlFor="isAvailable" className="label-product-isavailable">
           Produit disponible{" "}
           <input
             name="isAvailable"
@@ -216,6 +243,7 @@ function ModaleAddProduct({
           />
         </label>
 
+        <h3>Images</h3>
         {images.map((image, index) => (
           <div key={index}>
             <input
@@ -224,7 +252,7 @@ function ModaleAddProduct({
               value={image.name}
               onChange={(e) => handleImageChange(index, "name", e.target.value)}
             />
-            <label>
+            <label className="label-image-ismain">
               Image principale{" "}
               <input
                 type="checkbox"

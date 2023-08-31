@@ -345,6 +345,27 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel{
   color: darkgreen;
 }
 
+.label-product-isavailable{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.label-product-isavailable input{
+  width: fit-content;
+}
+
+.label-image-ismain{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.label-image-ismain input{
+  width: fit-content;
+}
+
 @media screen and (min-width: 768px) {
   .modale-add-categorie-form {
     margin-bottom: 2rem;

@@ -259,7 +259,7 @@ function ModaleFicheProduct({
   const [updateImageMainStatus] = useMutation(UPDATE_IMAGE_MAIN_STATUS, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "updateImageMainStatus", data);
-      refetchImages();
+      // refetchImages();
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", "updateImageMainStatus", error);
@@ -313,7 +313,7 @@ function ModaleFicheProduct({
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         <div className="listImagesProductContainer">
-          <h4>Images enregistrées</h4>
+          <h4>Images enregistrées :</h4>
           <div className="images-product-container">
             {imagesData.imagesByProduct.map((image: any) => (
               <div key={image.id} className="ImageProductContainer">
