@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
 import { Product } from "../generated";
+import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
 function ProductsList() {
   const { category } = useParams();
@@ -11,6 +12,11 @@ function ProductsList() {
       categoryLabel: category,
     },
   });
+
+
+  const products: Product[] = data?.productsByCategory || [];
+  console.log(products)
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -25,8 +31,6 @@ function ProductsList() {
       </div>
     );
   }
-
-  const products: Product[] = data?.productsByCategory || [];
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import ProductService from "../services/product.service";
+import ImageService from "../services/image.service";
 import { MutationAddProductWithImagesArgs, MutationUpdateProductArgs, MutationDeleteProductArgs } from "../graphql/graphql";
 
 export default {
@@ -7,14 +8,16 @@ export default {
       return await new ProductService().listProduct();
     },
 
-    async productsByCategory(
-      _: any,
-      { categoryLabel }: { categoryLabel: string }
-    ) {
-      // console.log("categoryLabel", categoryLabel);
+    async productsByCategory(_: any, { categoryLabel }: { categoryLabel: string }) {
       return await new ProductService().productsFindByCategoryLabel(
         categoryLabel
-      );
+      ).then(products => {
+        return products.map(product => {
+          const images = new ImageService().listImagesByProductId(product.id);
+          product.images = images;
+          return product;
+        });
+      });
     },
 
     async product(_: any, { productId }: { productId: string }) {
