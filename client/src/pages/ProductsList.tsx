@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
-import { Product } from "../generated";
 
 function ProductsList() {
   const { category } = useParams();
@@ -27,8 +26,11 @@ function ProductsList() {
   }
 
   return (
-    <div>
+    <section>
       <h2 className="productlist-title-category">Catégorie : {category}</h2>
+      <div>
+        
+      </div>
       <ul className="productlist-products-container">
         {data.productsByCategory.map((product:any) => (
           <li key={product.id}>
@@ -41,7 +43,7 @@ function ProductsList() {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 
