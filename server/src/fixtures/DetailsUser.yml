@@ -1,0 +1,7 @@
+entity: DetailsUser
+items:
+  detailsUser{1..20}:
+    birthday: '{{date.birthdate}}'
+    address: '{{location.streetAddress}}'
+    firstname: '{{person.firstName}}'
+    lastname: '{{person.lastName}}'
