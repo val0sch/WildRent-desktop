@@ -15,10 +15,51 @@ function ProductsList() {
   });
 
   const [toggleFilters, setToggleFilters] = useState(false);
-
   const handleToggleFilters = () => {
     setToggleFilters(!toggleFilters);
   };
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchQuery = (e: any) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const [isAvailableFilter, setIsAvailableFilter] = useState(false);
+  const handleIsAvailableFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsAvailableFilter(event.target.checked);
+  };
+
+  const [sizeFilters, setSizeFilters] = useState(new Set<string>());
+  const handleSizeFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const size = event.target.value;
+    if (sizeFilters.has(size)) {
+      sizeFilters.delete(size);
+    } else {
+      sizeFilters.add(size);
+    }
+    setSizeFilters(new Set(sizeFilters));
+  };
+
+  const filteredProducts = data?.productsByCategory.filter((product: any) => {
+    // Filtrage en fonction de la barre de recherche
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    // Filtrage en fonction des checkbox
+    const matchesIsAvailable = !isAvailableFilter || product.isAvailable;
+    const matchesSize = sizeFilters.size === 0 || sizeFilters.has(product.size);
+
+    return matchesSearch && matchesIsAvailable && matchesSize;
+  });
+
+  const uniqueSizes = Array.from(
+    new Set(data?.productsByCategory.map((product: any) => product.size))
+  );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -40,13 +81,52 @@ function ProductsList() {
       <div className="productlist-filters-container">
         <div className="title-filters-container" onClick={handleToggleFilters}>
           <p>Filtres</p>
-          <CaretCircleDown size={22} weight="bold" className={toggleFilters ? "filters-open" : "filters-close"} />
+          <CaretCircleDown
+            size={22}
+            weight="bold"
+            className={toggleFilters ? "filters-open" : "filters-close"}
+          />
         </div>
-        {toggleFilters && <div className="filters-container"></div>}
+        {toggleFilters && (
+          <div className="filters-container">
+            <input
+              className="productlist-searchbar"
+              type="text"
+              placeholder="Rechercher un produit"
+              value={searchQuery}
+              onChange={handleSearchQuery}
+            />
+
+            <div className="filter-section">
+              <label>
+                Disponible
+                <input
+                  type="checkbox"
+                  checked={isAvailableFilter}
+                  onChange={handleIsAvailableFilterChange}
+                />
+              </label>
+            </div>
+
+            <div className="filter-section">
+              {uniqueSizes.map((size: any) => (
+                <label key={size}>
+                  {size}
+                  <input
+                    type="checkbox"
+                    value={size}
+                    checked={sizeFilters.has(size)}
+                    onChange={handleSizeFilterChange}
+                  />
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <ul className="productlist-products-container">
-        {data.productsByCategory.map((product: any) => (
+        {filteredProducts.map((product: any) => (
           <li key={product.id}>
             <Link
               to={`/all-categories/${category}/${product.id}`}

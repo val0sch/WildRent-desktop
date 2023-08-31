@@ -85,13 +85,13 @@ h2::first-letter {
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   margin: 0.5rem;
   border-radius: 8px;
+  padding: 8px;
 }
 
 .title-filters-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
   margin: 0.5rem;
 }
 
@@ -111,9 +111,17 @@ h2::first-letter {
 }
 
 .filters-container {
-  height: 400px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productlist-searchbar{
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin: 0.5rem auto;
 }
 
 /* ProductsList.tsx : grid  */
