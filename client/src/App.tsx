@@ -1,5 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 
+import { useEffect, useState } from 'react';
+import { useCookies } from "react-cookie";
+import { ADD_CART } from "../src/graphql/cart.mutation";
+import { useMutation } from "@apollo/client";
 import Wrapper from "./Utils/wrapper";
 
 import NavBar from "./components/Navbar";
@@ -26,6 +30,39 @@ import CategorieList from "./pages/CategorieList";
 import Subcategory from "./pages/Subcategory";
 
 function App(): JSX.Element {
+
+  const [cookies, setCookie] = useCookies<any>(["cart"]);
+
+  const [addCartInDb] = useMutation(ADD_CART,{
+    onCompleted(data) {
+      console.log("data : ", data)
+      setCookie("cart", data.addCart.id, { maxAge: 3600 });
+    },
+    onError(){
+      console.log("Une erreur survenue")
+    }
+  });
+
+  useEffect(() => {
+    if (!cookies) {
+      try {
+        const currentDate = new Date().toISOString();
+
+        addCartInDb({
+          variables: {
+            infos: {
+              state: "en cours",
+              creation_date: currentDate,
+            },
+          },
+        });
+        console.log("cookie rempli :", cookies)
+      } catch (error) {
+        console.error("Error creating cart:", error);
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className="App">

@@ -7,6 +7,8 @@ import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@ap
 import { BrowserRouter } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
 
+import { CookiesProvider } from 'react-cookie';
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -41,7 +43,9 @@ root.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
       <AuthContextProvider>
-        <App />
+        <CookiesProvider defaultSetOptions={{ path: '/' }}>
+          <App />
+        </CookiesProvider>
       </AuthContextProvider>
     </ApolloProvider>
   </BrowserRouter>
