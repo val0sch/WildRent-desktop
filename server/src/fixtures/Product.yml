@@ -3,7 +3,7 @@ items:
   product{1..10}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -11,7 +11,7 @@ items:
   product{11..20}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -19,7 +19,7 @@ items:
   product{21..30}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -27,7 +27,7 @@ items:
   product{31..40}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -35,7 +35,7 @@ items:
   product{41..50}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -43,7 +43,7 @@ items:
   product{51..60}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -51,15 +51,15 @@ items:
   product{61..70}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
-    category: '@category6'
+    category: '@category7'
   product{71..80}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -67,7 +67,7 @@ items:
   product{81..90}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
@@ -75,7 +75,7 @@ items:
   product{91..100}:
     name: '{{helpers.arrayElement(["chaussure", "t-shirt", "bonnet", "pantalon", "gant", "lunette"])}}'
     price: '{{number.int(100)}}'
-    description: '{{helpers.arrayElement(["rouge", "vert", "jaune", "bleu", "blanc", "orange"])}}'
+    description: '{{lorem.paragraph(2)}}'
     isAvailable: '{{datatype.boolean({probability: 0.8})}}'
     size: '{{helpers.arrayElement(["XS", "S", "M", "L", "XL", "XXL"])}}'
     stock: '{{number.int(100)}}'
