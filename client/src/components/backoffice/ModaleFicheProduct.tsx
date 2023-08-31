@@ -31,13 +31,25 @@ function ModaleFicheProduct({
 }): JSX.Element {
   const [errorMessage, setErrorMessage] = useState("");
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
   useEffect(() => {
     if (errorMessage) {
-      const timeout = setTimeout(() => {
-        setErrorMessage("");
-      }, 5000);
-
-      return () => clearTimeout(timeout);
+      Toast.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: errorMessage,
+      });
     }
   }, [errorMessage]);
 
@@ -259,7 +271,7 @@ function ModaleFicheProduct({
   const [updateImageMainStatus] = useMutation(UPDATE_IMAGE_MAIN_STATUS, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "updateImageMainStatus", data);
-      // refetchImages();
+      refetchImages();
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", "updateImageMainStatus", error);
@@ -311,7 +323,6 @@ function ModaleFicheProduct({
           </form>
         </div>
 
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <div className="listImagesProductContainer">
           <h4>Images enregistrées :</h4>
           <div className="images-product-container">
