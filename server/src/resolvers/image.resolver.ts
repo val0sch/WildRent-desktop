@@ -1,6 +1,5 @@
 import ImageService from "../services/image.service";
 import { MutationAddImageArgs, MutationDeleteImageArgs, MutationUpdateImageMainStatusArgs } from "../graphql/graphql";
-import { log } from "console";
 
 export default {
   Query: {
