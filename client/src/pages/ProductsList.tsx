@@ -2,7 +2,6 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
 import { Product } from "../generated";
-import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
 function ProductsList() {
   const { category } = useParams();
@@ -12,11 +11,6 @@ function ProductsList() {
       categoryLabel: category,
     },
   });
-
-
-  const products: Product[] = data?.productsByCategory || [];
-  console.log(products)
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -34,12 +28,15 @@ function ProductsList() {
 
   return (
     <div>
-      <div>Je suis dans la categorie: {category}</div>
-      <ul>
-        {products.map((product) => (
+      <h2 className="productlist-title-category">Catégorie : {category}</h2>
+      <ul className="productlist-products-container">
+        {data.productsByCategory.map((product:any) => (
           <li key={product.id}>
-            <Link to={`/all-categories/${category}/${product.id}`}>
-              {product.name}
+            <Link to={`/all-categories/${category}/${product.id}`} className="productlist-thumbnails-card">
+              <img className="productlist-thumbnails" src={product.images[0].name} alt={product.name} />
+              <div className="productlist-product-description">
+                <span>{product.name}</span>
+              </div>
             </Link>
           </li>
         ))}
