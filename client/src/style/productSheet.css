@@ -40,7 +40,6 @@ h2::first-letter {
 
 @media screen and (min-width: 768px) {
   .container {
-    width: 100vw;
     flex-direction: row;
   }
   h1 {
@@ -50,23 +49,26 @@ h2::first-letter {
   .left-container {
     width: 60%;
   }
+  .left-container img {
+    height: 600px;
+    object-fit: contain;
+  }
   .right-container {
+    padding-top: 6em;
     width: 40%;
     position: relative;
-    & > h1 {
-      font-size: 2.5em;
-      margin-bottom: 5%;
-    }
-    & > div {
-      & > h2 {
-        font-size: 1.8em;
-        margin-bottom: 1%;
-      }
-      > p {
-        font-size: 1em;
-        color: black;
-      }
-    }
+  }
+  .right-container > h1 {
+    font-size: 3em;
+    margin-bottom: 5%;
+  }
+  .right-container > div > h2 {
+    font-size: 2em;
+    margin-bottom: 1%;
+  }
+  .right-container > div > p {
+    font-size: 1em;
+    color: black;
   }
   .resa-btn {
     position: absolute;
