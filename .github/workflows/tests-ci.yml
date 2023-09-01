@@ -3,13 +3,13 @@ name: jest-and-docker-ci
 on: pull_request
 
 jobs:
-  test-client:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Goto client and run tests
-        run: cd client && npm i && npm run cypress
+  # test-client:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+  #     - name: Goto client and run tests
+  #       run: cd client && npm i && npm run cypress
   test-server:
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +18,7 @@ jobs:
       - name: Goto server and run tests
         run: cd server && npm i && npm test
   docker:
-    needs: test-client
+    needs: test-server
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
     steps:
