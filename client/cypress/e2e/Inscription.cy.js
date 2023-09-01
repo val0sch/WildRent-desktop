@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 
+// NOT WORKING WORK IN PROGRESS
+
 describe("Register", () => {
   it("Une fois inscrit, l'utilisateur est redirigé", () => {
     cy.visit("http://localhost:3000/compte");

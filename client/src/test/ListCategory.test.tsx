@@ -3,6 +3,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { LIST_CATEGORIES } from "../graphql/Categories.query";
 import ListCategories from "../components/backoffice/ListCategories";
 
+// NOT WORKING WORK IN PROGRESS
 test("List of categories", async () => {
   render(
     <MockedProvider
