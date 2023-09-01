@@ -1,4 +1,4 @@
-name: jest-and-docker-ci
+name: tests-and-docker-ci
 
 on: pull_request
 
@@ -18,6 +18,7 @@ jobs:
       - name: Goto server and run tests
         run: cd server && npm i && npm test
   docker:
+    run: cd ..
     needs: test-server
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
@@ -40,4 +41,4 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:client"
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/quest_ci_dockerhub:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/wildrent_ci_dockerhub:latest
