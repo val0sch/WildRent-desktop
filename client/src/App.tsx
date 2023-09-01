@@ -44,10 +44,11 @@ function App(): JSX.Element {
   });
 
   useEffect(() => {
-    if (!cookies) {
+    console.log(cookies)
+    if (!cookies.cart) {
       try {
         const currentDate = new Date().toISOString();
-
+        console.log(cookies)
         addCartInDb({
           variables: {
             infos: {
