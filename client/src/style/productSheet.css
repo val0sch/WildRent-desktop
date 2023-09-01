@@ -1,0 +1,98 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+}
+
+.img-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  gap: 2em;
+}
+/* slider */
+.slick-dots {
+  display: none !important;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding: 2%;
+  gap: 1em;
+}
+
+.text-container > h1 {
+  font-size: 1.5em;
+}
+
+.text-container > h2 {
+  font-size: 1em;
+  margin-bottom: 1%;
+}
+
+.text-container > p {
+  font-size: 0.8;
+  color: black;
+}
+
+.text-container .resa-btn {
+  align-self: center;
+}
+
+h1::first-letter {
+  text-transform: uppercase;
+}
+
+/* DESKTOP */
+
+@media screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
+
+  .img-container {
+    width: 60%;
+  }
+
+  /* slider */
+  .slick-slide {
+    position: relative;
+    height: 500px;
+  }
+
+  .slick-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: 18%;
+  }
+
+  .text-container {
+    padding-top: 7em;
+    gap: 2em;
+    width: 40%;
+  }
+
+  .text-container > h1 {
+    font-size: 2.2em;
+    margin-bottom: 5%;
+  }
+
+  .text-container > div > h2 {
+    font-size: 1.6em;
+    margin-bottom: 2%;
+  }
+
+  .text-container > div > p {
+    font-size: 1.1em;
+    color: black;
+  }
+
+  .resa-btn {
+    margin-top: 10%;
+  }
+}

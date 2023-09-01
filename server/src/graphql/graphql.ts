@@ -265,6 +265,7 @@ export type Query = {
   imagesByProduct?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
+  product?: Maybe<Product>;
   products?: Maybe<Array<Maybe<Product>>>;
   productsByCategory?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
@@ -287,8 +288,13 @@ export type QueryLoginArgs = {
 };
 
 
+export type QueryProductArgs = {
+  productId: Scalars['String'];
+};
+
+
 export type QueryProductsByCategoryArgs = {
-  categoryId: Scalars['String'];
+  categoryLabel: Scalars['String'];
 };
 
 
@@ -539,8 +545,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryProductArgs, 'productId'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryId'>>;
+  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryLabel'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
