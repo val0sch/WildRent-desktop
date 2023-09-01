@@ -11,7 +11,6 @@ jobs:
       - name: Goto client and run tests
         run: cd client && npm i 
   test-server:
-    needs: test-client
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -19,7 +18,7 @@ jobs:
       - name: Goto server and run tests
         run: cd server && npm i && npm test
   docker:
-    needs: test-server
+    needs: [test-client, test-server]
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
     steps:
