@@ -23,7 +23,11 @@ jobs:
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - 
+        name: Check out code
+        uses: actions/checkout@v2
+      - 
+        name: Go to root
         run: cd ..
       -
         name: Set up QEMU
