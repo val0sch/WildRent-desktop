@@ -9,8 +9,7 @@ WORKDIR /app
 COPY public public
 COPY package.json ./
 COPY tsconfig.json ./
-# comment this line for now, because CI github Actions will fail
-# COPY .env ./
+
 RUN npm install
 
 COPY setup.js ./
