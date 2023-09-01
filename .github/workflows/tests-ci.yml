@@ -9,7 +9,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Goto client and run tests
-        run: cd client && npm i 
+        run: cd client && npm i && npm run cypress
   test-server:
     runs-on: ubuntu-latest
     steps:
