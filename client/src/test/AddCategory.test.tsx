@@ -1,7 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import AddCategory from "../components/backoffice/ModaleAddCategory";
 import { ADD_CATEGORY } from "../graphql/category.mutation";
+import ModaleAddCategory from "../components/backoffice/ModaleAddCategory";
 
 test("Add category", async () => {
   const component = (
@@ -28,7 +28,7 @@ test("Add category", async () => {
       ]}
       addTypename={false}
     >
-      {/* <AddCategory /> */}
+      <ModaleAddCategory />
     </MockedProvider>
   );
   render(component);
