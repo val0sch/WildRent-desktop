@@ -18,11 +18,13 @@ jobs:
       - name: Goto server and run tests
         run: cd server && npm i && npm test
   docker:
-    run: cd ..
+    
     needs: test-server
     if: github.base_ref == 'dev'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        run: cd ..
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
