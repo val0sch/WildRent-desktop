@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
 
 import { CaretCircleDown } from "@phosphor-icons/react";
-import { useState } from "react";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 function ProductsList() {
   const { category } = useParams();
@@ -44,6 +46,15 @@ function ProductsList() {
     setSizeFilters(new Set(sizeFilters));
   };
 
+  const priceList = data?.productsByCategory.map(
+    (product: any) => product.price
+  );
+  const prixMaxiTrouve = priceList.length > 0 ? Math.max(...priceList) : 0;
+  const [priceRange, setPriceRange] = useState([0, prixMaxiTrouve]);
+  const handleSliderChange = (value: any) => {
+    setPriceRange(value);
+  };
+
   const filteredProducts = data?.productsByCategory.filter((product: any) => {
     // Filtrage en fonction de la barre de recherche
     const matchesSearch = product.name
@@ -54,7 +65,11 @@ function ProductsList() {
     const matchesIsAvailable = !isAvailableFilter || product.isAvailable;
     const matchesSize = sizeFilters.size === 0 || sizeFilters.has(product.size);
 
-    return matchesSearch && matchesIsAvailable && matchesSize;
+    // Filtrage en fonction de la fourchette de prix
+    const priceInRange =
+      product.price >= priceRange[0] && product.price <= priceRange[1];
+
+    return matchesSearch && matchesIsAvailable && matchesSize && priceInRange;
   });
 
   const uniqueSizes = Array.from(
@@ -121,6 +136,21 @@ function ProductsList() {
                 </label>
               ))}
             </div>
+
+            <div className="filter-section">
+              <label>
+                Fourchette de prix : 0 - {prixMaxiTrouve} €
+                <Slider
+                  range
+                  defaultValue={[0, prixMaxiTrouve]}
+                  min={0}
+                  max={prixMaxiTrouve} // Remplacez par votre valeur maximale
+                  // value={priceRange}
+                  onChange={handleSliderChange}
+                  onAfterChange={handleSliderChange}
+                />
+              </label>
+            </div>
           </div>
         )}
       </div>
@@ -138,7 +168,9 @@ function ProductsList() {
                 alt={product.name}
               />
               <div className="productlist-product-description">
-                <span>{product.name}</span>
+                <span>
+                  {product.name} - {product.price} €
+                </span>
               </div>
             </Link>
           </li>
