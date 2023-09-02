@@ -9,15 +9,19 @@ import { Product } from "../generated";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 //************** */
-// import Swiper JS
-import Swiper from "swiper";
-// import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
 import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import { Navigation, Pagination } from "swiper/modules";
 
 import "../style/productSheet.css";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
-function ProductSheet() {
+function ProductSheet(): JSX.Element {
   const { productId } = useParams();
   const navigate = useNavigate();
 
@@ -72,29 +76,12 @@ function ProductSheet() {
   //   slidesToShow: 1,
   //   slidesToScroll: 1,
   // };
-
-  //Swiper
-  const swiper = new Swiper(".swiper", {
-    // Optional parameters
-    direction: "vertical",
-    loop: true,
-
-    // If we need pagination
-    pagination: {
-      el: ".swiper-pagination",
+  const pagination = {
+    clickable: true,
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
-
-    // Navigation arrows
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-
-    // And if we need scrollbar
-    scrollbar: {
-      el: ".swiper-scrollbar",
-    },
-  });
+  };
 
   // Handle functions
   const handleReservation = () => {
@@ -118,23 +105,23 @@ function ProductSheet() {
           )}
         </Slider> */}
 
-        <div className="swiper">
-          <div className="swiper-wrapper">
-            {productImages.map(
-              (image: { id: string; name: string; isMain: boolean }) => (
-                <div className="swiper-slide">
-                  <img key={image.name} src={image.name} alt={image.name} />
-                </div>
-              )
-            )}
-          </div>
-          <div className="swiper-pagination"></div>
-
-          <div className="swiper-button-prev"></div>
-          <div className="swiper-button-next"></div>
-
-          <div className="swiper-scrollbar"></div>
-        </div>
+        <Swiper
+          // pagination={{
+          //   type: "fraction",
+          // }}
+          pagination={pagination}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {productImages.map(
+            (image: { id: string; name: string; isMain: boolean }) => (
+              <SwiperSlide>
+                <img key={image.name} src={image.name} alt={image.name} />
+              </SwiperSlide>
+            )
+          )}
+        </Swiper>
       </div>
       <div className="text-container">
         <h1>{product.name}</h1>
