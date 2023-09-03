@@ -1,16 +1,9 @@
-// @ts-nocheck
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
-// *************
-//Slider slick
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-//************** */
+
 // Import Swiper styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -56,27 +49,6 @@ function ProductSheet(): JSX.Element {
 
   const product: Product = productInfos.product || {};
 
-  // settings Slider
-  // var settings = {
-  //   customPaging: function (i: any) {
-  //     return (
-  //       // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  //       <a>
-  //         <img
-  //           height="110px"
-  //           width="150px"
-  //           src={`${productImages[i]?.name}`}
-  //           alt="équipement"
-  //         />
-  //       </a>
-  //     );
-  //   },
-  //   dots: true,
-  //   dotsClass: "slick-dots slick-thumb",
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  // };
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {
@@ -98,13 +70,6 @@ function ProductSheet(): JSX.Element {
         <button className="secondary" onClick={handleGoBack}>
           Retour
         </button>
-        {/* <Slider {...settings}>
-          {productImages.map(
-            (image: { id: string; name: string; isMain: boolean }) => (
-              <img key={image.name} src={image.name} alt={image.name} />
-            )
-          )}
-        </Slider> */}
 
         <Swiper
           pagination={pagination}
@@ -149,5 +114,3 @@ function ProductSheet(): JSX.Element {
 }
 
 export default ProductSheet;
-
-// @ts-nocheck

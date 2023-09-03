@@ -11,10 +11,6 @@
   padding: 2%;
   gap: 1em;
 }
-/* slider */
-/* .slick-dots {
-  display: none !important;
-} */
 
 .text-container {
   display: flex;
@@ -124,18 +120,6 @@ h1::first-letter {
   .swiper-button-next:after {
     font-size: 2em;
   }
-
-  /* slider */
-  /* .slick-slide {
-    position: relative;
-    height: 500px;
-  }
-
-  .slick-dots {
-    display: flex !important;
-    justify-content: center;
-    gap: 18%;
-  } */
 
   .text-container {
     padding-top: 7em;

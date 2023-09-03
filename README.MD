@@ -28,8 +28,3 @@ To Do:
 - mise en page du front/tailwind
 - importer des "fixtures" / "fake datas"
 - update les infos du compte via page mes informations
-
-SUR BRANCHE swiper-carousel
-conflit entre version typescript et swiper
-Si j'update la version typescript probleme avec react-scripts et autres?
-pensez à supprimer tout ce qui concerne react-slick si utilisation de swiper
