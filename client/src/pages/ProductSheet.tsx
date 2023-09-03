@@ -4,24 +4,23 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
-// style
+import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 // *************
 //Slider slick
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 //************** */
-import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Navigation, Pagination } from "swiper/modules";
 
+// style
 import "../style/productSheet.css";
-import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
 function ProductSheet(): JSX.Element {
   const { productId } = useParams();
@@ -108,9 +107,6 @@ function ProductSheet(): JSX.Element {
         </Slider> */}
 
         <Swiper
-          // pagination={{
-          //   type: "fraction",
-          // }}
           pagination={pagination}
           navigation={true}
           modules={[Pagination, Navigation]}
