@@ -78,7 +78,7 @@ function ProductSheet(): JSX.Element {
   // };
   const pagination = {
     clickable: true,
-    renderBullet: function (index, className) {
+    renderBullet: function (index: number, className: string) {
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
