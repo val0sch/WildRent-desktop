@@ -98,7 +98,7 @@ button.back-home a p {
     background-image: url(../assets/home.jpeg);
     display: flex;
     min-height: calc(100vh - 104px);
-    justify-content: end;
+    justify-content: flex-end;
     gap: 2rem;
   }
 
