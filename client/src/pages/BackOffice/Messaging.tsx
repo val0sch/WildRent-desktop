@@ -26,7 +26,7 @@ const Messaging = () => {
     socket.on("receive_message", (data) => {
       setMessageReceived((prev: any) => [...prev, data]);
     });
-  }, [socket]);
+  }, []);
 
   console.log(messageReceived);
   return (

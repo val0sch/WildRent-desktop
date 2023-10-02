@@ -37,7 +37,7 @@
   padding: 2rem 0 1rem 0;
 }
 
-.home-sport-cards-container button.secondary{
+.home-sport-cards-container button.secondary {
   align-self: center;
 }
 
@@ -57,7 +57,7 @@
     background-position: center center;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .home-main {
@@ -92,7 +92,7 @@
     scroll-snap-align: start;
   }
 
-  .home-sport-cards-container button.secondary{
+  .home-sport-cards-container button.secondary {
     display: none;
   }
 }
