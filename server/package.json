@@ -9,7 +9,7 @@
     "test": "jest",
     "fixtures": "fixtures-ts-node-esm load ./src/fixtures -d ./src/lib/datasourceLocal.ts --sync ",
     "build": "tsc",
-    "prod": "node build/index.ts"
+    "prod": "node build/index.js"
   },
   "dependencies": {
     "@apollo/server": "^4.6.0",
