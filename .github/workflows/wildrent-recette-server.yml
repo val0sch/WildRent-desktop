@@ -64,4 +64,4 @@ jobs:
 
           push: true
 
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_IMAGE_NAME }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_IMAGE_RECETTE_NAME }}:latest
