@@ -39,4 +39,5 @@ export default class Product {
 
   @OneToOne(() => Item, (item) => item.product)
   item: Item;
+  images: any;
 }

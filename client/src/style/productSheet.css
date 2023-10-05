@@ -146,3 +146,116 @@ h1::first-letter {
     margin-top: 10%;
   }
 }
+
+/* ProductsList.tsx : filters  */
+.productlist-filters-container {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  margin: 0.5rem;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.title-filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.title-filters-container p {
+  font-size: 18px;
+  color: black;
+}
+
+.title-filters-container .filters-close {
+  transform: rotate(0);
+  transition: transform 0.5s;
+}
+
+.title-filters-container .filters-open {
+  transform: rotate(-180deg);
+  transition: transform 0.5s;
+}
+
+.filters-container {
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productlist-searchbar{
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin: 0.5rem auto;
+}
+
+/* ProductsList.tsx : grid  */
+
+.productlist-title-category {
+  font-size: 18px;
+  text-align: center;
+  background-color: var(--secondary-navy);
+  padding: 1rem;
+  color: white;
+}
+
+.productlist-products-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.productlist-products-container img.productlist-thumbnails {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productlist-thumbnails-card {
+  display: block;
+  background-color: white;
+  font-family: "Poppins", sans-serif;
+  color: var(--main-navy);
+  border-bottom: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.productlist-thumbnails-card:hover {
+  text-decoration: none;
+  box-shadow: #1a265abf 0px 1px 3px 0px, #1a265a59 0px 1px 2px 0px;
+}
+
+.productlist-product-description {
+  padding: 0.5rem;
+}
+
+.productlist-product-description span {
+  text-transform: capitalize;
+  margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .productlist-product-description {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .productlist-title-category {
+    text-align: left;
+    padding: 1rem 2rem;
+    font-size: 22px;
+  }
+
+  .productlist-products-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .productlist-product-description {
+    padding: 1rem;
+  }
+}

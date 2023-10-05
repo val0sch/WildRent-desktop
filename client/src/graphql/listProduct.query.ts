@@ -28,6 +28,11 @@ export const LIST_PRODUCTS_BY_CATEGORY = gql`
       isAvailable
       size
       stock
+      images {
+        id
+        isMain
+        name
+      }
     }
   }
 `;
