@@ -9,7 +9,7 @@ on:
 
   pull_request:
 
-    branches: "staging"
+    branches: "recette"
 
   # Allows you to run this workflow manually from the Actions tab
 
