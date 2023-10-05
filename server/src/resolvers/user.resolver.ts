@@ -18,7 +18,6 @@ export default {
       return await new UserService().listUsers();
     },
     async user(id: string) {
-      console.log("userid", id);
       return await new UserService().findById(id);
     },
 
@@ -51,7 +50,6 @@ export default {
       return user !== null;
     },
     async checkAdmin(_: any, {}, { user }: IContext) {
-      console.log("====> ", user);
       let isAdmin = false;
       if (user) {
         isAdmin = user.isAdmin;

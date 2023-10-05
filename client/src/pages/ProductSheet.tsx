@@ -2,30 +2,27 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
-// style
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "../style/productSheet.css";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
-function ProductSheet() {
-  const { productId } = useParams();
+// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import { Navigation, Pagination } from "swiper/modules";
 
+// style
+import "../style/productSheet.css";
+
+function ProductSheet(): JSX.Element {
+  const { productId } = useParams();
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate(`/all-categories/${product.category?.label}`);
-  };
+  // FETCH DATAS
   const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
     variables: {
       productId: productId,
-    },
-    onCompleted(data) {
-      console.log("%c⧭", "color: #0088cc", "imagesData", data);
-    },
-    onError(error) {
-      console.error("%c⧭", "color: #917399", error);
     },
   });
 
@@ -52,40 +49,44 @@ function ProductSheet() {
 
   const product: Product = productInfos.product || {};
 
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    objectFit: "cover",
+  const pagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return '<span class="' + className + '">' + (index + 1) + "</span>";
+    },
   };
 
+  // Handle functions
   const handleReservation = () => {
     console.log("hello");
   };
+
+  const handleGoBack = () => {
+    navigate(`/all-categories/${product.category?.label}`);
+  };
   return (
     <div className="container">
-      <div className="left-container">
+      <div className="img-container">
         <button className="secondary" onClick={handleGoBack}>
           Retour
         </button>
-        <div className="image-container">
-          <Slider {...settings}>
-            {productImages.map(
-              (image: { id: string; name: string; isMain: boolean }) => (
-                <img
-                  className="slider-img"
-                  key={image.name}
-                  src={image.name}
-                  alt={image.name}
-                />
-              )
-            )}
-          </Slider>
-        </div>
+
+        <Swiper
+          pagination={pagination}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {productImages.map(
+            (image: { id: string; name: string; isMain: boolean }) => (
+              <SwiperSlide>
+                <img key={image.name} src={image.name} alt={image.name} />
+              </SwiperSlide>
+            )
+          )}
+        </Swiper>
       </div>
-      <div className="right-container">
+      <div className="text-container">
         <h1>{product.name}</h1>
         <div>
           <h2>Description</h2>

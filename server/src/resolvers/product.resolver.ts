@@ -8,7 +8,10 @@ export default {
       return await new ProductService().listProduct();
     },
 
-    async productsByCategory(_: any, { categoryLabel }: { categoryLabel: string }) {
+    async productsByCategory(
+      _: any,
+      { categoryLabel }: { categoryLabel: string }
+    ) {
       return await new ProductService().productsFindByCategoryLabel(
         categoryLabel
       ).then(products => {

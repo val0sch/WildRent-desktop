@@ -1,81 +1,149 @@
 .container {
   display: flex;
   flex-direction: column;
+  height: fit-content;
   padding: 2%;
-  gap: 2%;
 }
 
-.left-container {
-  padding: 2%;
+.img-container {
   display: flex;
   flex-direction: column;
+  padding: 2%;
+  gap: 1em;
 }
 
-.right-container {
+.text-container {
   display: flex;
   flex-direction: column;
   align-content: center;
   padding: 2%;
-  gap: 4%;
-  & > h1 {
-    font-size: 2em;
-    margin-bottom: 5%;
-  }
-  & > div {
-    & > h2 {
-      font-size: 1em;
-      margin-bottom: 1%;
-    }
-    > p {
-      font-size: 0.8;
-      color: black;
-    }
-  }
+  gap: 1em;
 }
 
-h1::first-letter,
-h2::first-letter {
+.text-container > h1 {
+  font-size: 1.3em;
+}
+
+.text-container > div > h2 {
+  font-size: 1em;
+  margin-bottom: 1%;
+}
+
+.text-container .resa-btn {
+  align-self: center;
+}
+
+h1::first-letter {
   text-transform: uppercase;
 }
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  display: none;
+}
+
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8em;
+  gap: 1em;
+}
+
+.swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  color: #000;
+  font-family: Poppins, sans-serif;
+  border-radius: 50%;
+  opacity: 1;
+  background: rgba(78, 78, 78, 0.2);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: var(--main-navy);
+}
+
+/* DESKTOP */
 
 @media screen and (min-width: 768px) {
   .container {
     flex-direction: row;
   }
+  .img-container {
+    width: 60%;
+    height: 100%;
+    gap: 2em;
+  }
   h1 {
-    font-size: 2.5em;
+    font-size: 2.2em;
   }
 
-  .left-container {
-    width: 60%;
+  .swiper {
+    width: 100%;
+    height: 100%;
+    padding: 0 2em;
   }
-  .left-container img {
-    height: 600px;
-    object-fit: contain;
+  .swiper-wrapper {
+    height: 90%;
   }
-  .right-container {
-    padding-top: 6em;
+
+  .swiper-slide img {
+    width: 90%;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: block;
+    color: var(--main-navy);
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 2em;
+  }
+
+  .text-container {
+    padding-top: 7em;
+    gap: 2em;
     width: 40%;
-    position: relative;
   }
-  .right-container > h1 {
-    font-size: 3em;
+
+  .text-container > h1 {
+    font-size: 2.2em;
     margin-bottom: 5%;
   }
-  .right-container > div > h2 {
-    font-size: 2em;
-    margin-bottom: 1%;
+
+  .text-container > div > h2 {
+    font-size: 1.6em;
+    margin-bottom: 2%;
   }
-  .right-container > div > p {
-    font-size: 1em;
+
+  .text-container > div > p {
+    font-size: 1.1em;
     color: black;
   }
+
   .resa-btn {
-    position: absolute;
-    bottom: 10%;
-    /*  centrer horizontalement */
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 10%;
   }
 }
 
