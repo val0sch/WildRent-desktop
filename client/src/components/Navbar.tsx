@@ -66,7 +66,7 @@ export default function Accueil(): JSX.Element {
         </div>
 
         <h1>
-          <Link to="/">WILDRENT</Link>
+          <Link to="/">POULOULOU2</Link>
         </h1>
 
         <ul className={`${showMenu ? "open" : "desktop"}`}>
