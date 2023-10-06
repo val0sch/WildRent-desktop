@@ -83,3 +83,11 @@ jobs:
           push: true
 
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_IMAGE_PROD_NAME }}:latest
+        
+  deployment:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Hook update_prod
+        run: |
+          curl -X GET "https://ops.wildrent.jacquard2.wns.wilders.dev/hooks/update_prod"

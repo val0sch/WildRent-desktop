@@ -28,7 +28,7 @@ jobs:
   # This workflow contains a single job called "build"
 
   build:
-    
+
     if: github.event.pull_request.merged == true
  
     # The type of runner that the job will run on
@@ -83,3 +83,11 @@ jobs:
           push: true
 
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_IMAGE_RECETTE_NAME }}:latest
+
+  deployment:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Hook update_recette
+        run: |
+          curl -X GET "https://ops.wildrent.jacquard2.wns.wilders.dev/hooks/update_recette"
