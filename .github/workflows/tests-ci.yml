@@ -1,6 +1,7 @@
 name: tests-and-docker-ci
 
 on: pull_request
+  branches: "dev"
 
 jobs:
   test-client:
