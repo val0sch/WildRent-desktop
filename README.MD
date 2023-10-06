@@ -1,4 +1,4 @@
-résumé semaine du 9 au 12 mai :
+résumé semaine du 9 au 12 mai ::
 
 - setup Docker (reste à ajouter codegen dans le dockerfile?)
 - instal de graphql codegen côté serveur
