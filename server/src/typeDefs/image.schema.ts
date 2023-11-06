@@ -1,3 +1,4 @@
+export default `#graphql
 type Image {
   id: String
   isMain: Boolean
@@ -21,3 +22,4 @@ input ImageRegister {
   name: String!
   product: String!
 }
+`;

@@ -1,3 +1,4 @@
+export default `#graphql
 scalar Date
 
 type Item {
@@ -28,3 +29,4 @@ input ItemRegister {
   cart: String
   product: String
 }
+`;

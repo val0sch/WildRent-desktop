@@ -1,3 +1,4 @@
+export default `#graphql
 type Product {
   id: String
   name: String
@@ -37,3 +38,4 @@ input ImageInput {
   isMain: Boolean
   name: String
 }
+`;
