@@ -31,10 +31,10 @@ export default function Login() {
       .required("L'adresse e-mail est obligatoire.")
       .email("Veuillez entrer une adresse e-mail valide."),
     password: Yup.string()
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Minimum 8 caractères, au moins une majuscule, une minuscule et un chiffre"
-      )
+    .matches(
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Minimum 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial parmi @$!%*?&"
+    )
       .required("Le mot de passe est obligatoire.")
       .min(8, "Le mot de passe doit avoir au minimum 8 caractères."),
   });

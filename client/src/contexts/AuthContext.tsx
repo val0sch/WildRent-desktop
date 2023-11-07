@@ -1,4 +1,5 @@
 import { createContext, useReducer } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext({
   async setUserData(data: any) {},
@@ -33,6 +34,8 @@ export default function AuthContextProvider({
     }
   );
 
+  const  navigate:NavigateFunction = useNavigate();
+
   const authContext = {
     setUserData: async (data: any) => {
       const { token, ...userData } = data;
@@ -44,6 +47,7 @@ export default function AuthContextProvider({
       localStorage.removeItem("token");
       localStorage.removeItem("userData");
       dispatch({ type: "LOG_OUT" });
+      navigate("/");
     },
     userInfos: {
       ...state.userData,
