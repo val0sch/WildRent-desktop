@@ -45,7 +45,8 @@ function App(): JSX.Element {
 
   useEffect(() => {
     console.log(cookies)
-    if (!cookies.cart) {
+    
+    if (!cookies.cart ) {
       try {
         const currentDate = new Date().toISOString();
         console.log(cookies)
