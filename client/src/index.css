@@ -162,6 +162,9 @@ input {
   padding: 8px;
   border-radius: 8px;
 }
+input:focus {
+  outline: none;
+}
 
 @media screen and (min-width: 768px) {
   .App {
