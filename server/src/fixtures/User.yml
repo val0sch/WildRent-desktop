@@ -3,12 +3,12 @@ processor: ../processor/UserProcessor
 items:
   user1:
     email: 'admin@admin.fr'
-    password: 'AdminAdmin01'
+    password: 'AdminAdmin01!'
     isAdmin: true
     detailsUser: '@detailsUser($current)' 
     
   user{2..20}:
     email: '{{internet.email}}'
-    password: 'Azertyuiop01'
+    password: 'Azertyuiop01!'
     isAdmin: false
     detailsUser: '@detailsUser($current)'
