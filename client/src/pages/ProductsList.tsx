@@ -158,7 +158,7 @@ function ProductsList() {
                   range
                   defaultValue={[0, prixMaxiTrouve]}
                   min={0}
-                  max={prixMaxiTrouve} // Remplacez par votre valeur maximale
+                  max={prixMaxiTrouve}
                   // value={priceRange}
                   onChange={handleSliderChange}
                   onAfterChange={handleSliderChange}
