@@ -91,10 +91,8 @@ table {
 /* *** */
 
 :root {
-  /* --main-orange: #f1600d; */
-  --main-orange: #ac15f7;
-  /* --main-navy: #1a265a; */
-  --main-navy: #0d307a;
+  --main-orange: #f1600d;
+  --main-navy: #1a265a;
   --main-turquoise: #50a5b1;
   --secondary-navy: rgba(26, 38, 90, 0.5);
   --main-danger: #ff0000;
