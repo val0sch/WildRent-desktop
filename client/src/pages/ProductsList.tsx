@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
@@ -45,12 +45,26 @@ function ProductsList() {
     }
     setSizeFilters(new Set(sizeFilters));
   };
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
+  const [prixMaxiTrouve, setPrixMaxiTrouve] = useState<number>(0);
 
-  const priceList = data?.productsByCategory.map(
-    (product: any) => product.price
-  );
-  const prixMaxiTrouve = priceList.length > 0 ? Math.max(...priceList) : 0;
-  const [priceRange, setPriceRange] = useState([0, prixMaxiTrouve]);
+  const getMaxPrice = (data: any): number => {
+    const priceList = data?.productsByCategory?.map(
+      (product: any) => product.price
+    );
+    const maxPrice =
+      priceList && priceList.length > 0 ? Math.max(...priceList) : 0;
+    return maxPrice;
+  };
+
+  useEffect(() => {
+    if (data) {
+      const prixMaxiTrouve = getMaxPrice(data);
+      setPrixMaxiTrouve(prixMaxiTrouve);
+      setPriceRange([0, prixMaxiTrouve]);
+    }
+  }, [data]);
+
   const handleSliderChange = (value: any) => {
     setPriceRange(value);
   };
