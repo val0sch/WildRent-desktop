@@ -120,7 +120,7 @@ h6 {
   background-color: whitesmoke;
 }
 
-button {
+button.primary {
   font-size: 18px;
   border: none;
   background-color: var(--main-orange);

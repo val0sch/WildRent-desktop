@@ -1,31 +1,24 @@
-import { Link } from "react-router-dom";
-
 function MesReservations(): JSX.Element {
-/////
-//  useEffect
-/////
+  /////
+  //  useEffect
+  /////
 
-/////
-//  useState
-/////
+  /////
+  //  useState
+  /////
 
-/////
-//  Code
-/////
+  /////
+  //  Code
+  /////
 
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
-    <div>
-      Mes Réservations
-      <div>
-        <button>
-          <Link to={"/compte"}>Retour</Link>
-        </button>
-      </div>
-    </div>
-
+    <>
+      <h1>Mes Réservations</h1>
+      <div className="userInfosContent">Blablabla</div>
+    </>
   );
 }
 

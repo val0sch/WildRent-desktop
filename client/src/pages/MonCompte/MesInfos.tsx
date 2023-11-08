@@ -1,30 +1,35 @@
-import { Link } from "react-router-dom";
+interface MesInfosProps {
+  content: ContentProps;
+}
+interface ContentProps {
+  email: string;
+  name?: string;
+  adress?: string;
+  phoneNumber?: string;
+}
+function MesInfos({ content }: MesInfosProps): JSX.Element {
+  /////
+  //  useEffect
+  /////
 
-function MesInfos(): JSX.Element {
-/////
-//  useEffect
-/////
+  /////
+  //  useState
+  /////
 
-/////
-//  useState
-/////
+  /////
+  //  Code
+  /////
 
-/////
-//  Code
-/////
-
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
-    <div>
-      Mes informations personnelles
-      <div>
-        <button>
-          <Link to={"/compte"}>Retour</Link>
-        </button>
+    <>
+      <h1>Mon Profil</h1>
+      <div className="userInfosContent">
+        <div>{content.email}</div>
       </div>
-    </div>
+    </>
   );
 }
 

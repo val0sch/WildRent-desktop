@@ -1,22 +1,25 @@
-import { useQuery } from "@apollo/client";
-import { LIST_CATEGORIES } from "../../graphql/Categories.query";
 import { MouseEventHandler, useState } from "react";
 import ModaleFicheCategory from "./ModaleFicheCategory";
 import DataTable from "react-data-table-component";
 import { Category } from "../../generated";
 
-
-function ListCategories(
-  { categories, updatedCategory }: { categories: Category[], updatedCategory: () => void },
-): JSX.Element {
+function ListCategories({
+  categories,
+  updatedCategory,
+}: {
+  categories: Category[];
+  updatedCategory: () => void;
+}): JSX.Element {
   const [categoryModalStates, setCategoryModalStates] = useState<boolean[]>([]);
   const [index, setIndex] = useState<any>("");
 
-  const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (index:any) => {
+  const handleModaleFicheCategory: MouseEventHandler<HTMLButtonElement> = (
+    index: any
+  ) => {
     setIndex(index);
     setCategoryModalStates((prevState) => {
       const newState = [...prevState];
-      
+
       newState[index] = !newState[index];
       return newState;
     });
@@ -43,7 +46,7 @@ function ListCategories(
       selector: "imageUrl",
       sortable: true,
       cell: (row: any) => (
-        <img src={row.imageUrl} alt="image de la catégorie" height={75} />
+        <img src={row.imageUrl} alt="catégorie" height={75} />
       ),
     },
     {
@@ -54,11 +57,11 @@ function ListCategories(
         <button
           style={{ fontSize: 14 }}
           className="secondary"
-          onClick={()=>handleModaleFicheCategory(row.id)}
+          onClick={() => handleModaleFicheCategory(row.id)}
         >
           Details
         </button>
-      )
+      ),
     },
   ];
 

@@ -4,7 +4,7 @@ import { ADD_USER } from "../../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
 import useAuth from "../../hooks/useAuth";
-import { CaretLeft, UserCircle, Eye, EyeSlash } from "@phosphor-icons/react";
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 import * as Yup from "yup";
 import { useLoginLazyQuery } from "../../generated";
