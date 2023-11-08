@@ -27,6 +27,7 @@ del,
 dfn,
 em,
 img,
+input,
 ins,
 kbd,
 q,
@@ -161,6 +162,9 @@ input {
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   padding: 8px;
   border-radius: 8px;
+}
+input:focus {
+  outline: none;
 }
 
 @media screen and (min-width: 768px) {
