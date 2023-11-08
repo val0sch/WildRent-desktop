@@ -7,6 +7,7 @@ import * as Yup from "yup";
 
 import "../style/login.css";
 import { CaretLeft, UserCircle } from "@phosphor-icons/react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,19 +28,24 @@ export default function Login() {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
-      .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, "L'adresse e-mail est invalide")
+      .matches(
+        /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        "L'adresse e-mail est invalide"
+      )
       .required("L'adresse e-mail est obligatoire.")
       .email("Veuillez entrer une adresse e-mail valide."),
     password: Yup.string()
-    .matches(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Minimum 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial parmi @$!%*?&"
-    )
+      .matches(
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Minimum 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial parmi @$!%*?&"
+      )
       .required("Le mot de passe est obligatoire.")
       .min(8, "Le mot de passe doit avoir au minimum 8 caractères."),
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,17 +60,27 @@ export default function Login() {
           },
         });
       }
-    } catch (err:any) {
+    } catch (err: any) {
       const yupErrors: Record<string, string> = {};
-      err.inner.forEach((validationError: { path: string | number; message: any; }) => {
-        yupErrors[validationError.path] = validationError.message;
-      });
+      err.inner.forEach(
+        (validationError: { path: string | number; message: any }) => {
+          yupErrors[validationError.path] = validationError.message;
+        }
+      );
       setErrors(yupErrors);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const toggleVisibility = (field: string) => {
+    if (field === "password") {
+      setShowPassword(!showPassword);
+    } else if (field === "passwordConfirmation") {
+      setShowConfirmation(!showConfirmation);
+    }
   };
 
   return (
@@ -87,14 +103,38 @@ export default function Login() {
               type="text"
               placeholder="Email"
             />
-            {errors.email && <p className="login-error-message">{errors.email}</p>}
-            <input
+            {errors.email && (
+              <p className="login-error-message">{errors.email}</p>
+            )}
+            {/* <input
               onChange={handleChange}
               name="password"
               type="password"
               placeholder="Mot de passe"
-            />
-            {errors.password && <p className="login-error-message">{errors.password}</p>}
+            /> */}
+
+            <div className="password-field">
+              <input
+                name="password"
+                placeholder="Mot de passe"
+                type={showPassword ? "text" : "password"}
+                onChange={handleChange}
+              />
+              <i
+                className="toggle-password-button"
+                onClick={() => toggleVisibility("password")}
+              >
+                {showPassword ? (
+                  <AiOutlineEye size={25} />
+                ) : (
+                  <AiOutlineEyeInvisible size={25} />
+                )}
+                {/* Toggle eye icon */}
+              </i>
+            </div>
+            {errors.password && (
+              <p className="login-error-message">{errors.password}</p>
+            )}
             <button disabled={loading} type="submit" name="login">
               Se connecter
             </button>
