@@ -4,7 +4,7 @@ import { ADD_USER } from "../../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
 import useAuth from "../../hooks/useAuth";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import { CaretLeft, UserCircle, Eye, EyeSlash } from "@phosphor-icons/react";
 
 import * as Yup from "yup";
 import { useLoginLazyQuery } from "../../generated";
@@ -141,11 +141,7 @@ function AddUserMutation() {
           className="toggle-password-button"
           onClick={() => toggleVisibility("password")}
         >
-          {showPassword ? (
-            <AiOutlineEye size={25} />
-          ) : (
-            <AiOutlineEyeInvisible size={25} />
-          )}
+          {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
           {/* Toggle eye icon */}
         </i>
       </div>
@@ -167,11 +163,7 @@ function AddUserMutation() {
           className="toggle-password-button"
           onClick={() => toggleVisibility("passwordConfirmation")}
         >
-          {showConfirmation ? (
-            <AiOutlineEye size={25} />
-          ) : (
-            <AiOutlineEyeInvisible size={25} />
-          )}
+          {showConfirmation ? <Eye size={20} /> : <EyeSlash size={20} />}
           {/* Toggle eye icon */}
         </i>
       </div>

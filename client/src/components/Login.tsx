@@ -6,8 +6,7 @@ import Inscription from "../pages/Inscription";
 import * as Yup from "yup";
 
 import "../style/login.css";
-import { CaretLeft, UserCircle } from "@phosphor-icons/react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { CaretLeft, UserCircle, Eye, EyeSlash } from "@phosphor-icons/react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -117,11 +116,7 @@ export default function Login() {
                 className="toggle-password-button"
                 onClick={() => toggleVisibility("password")}
               >
-                {showPassword ? (
-                  <AiOutlineEye size={25} />
-                ) : (
-                  <AiOutlineEyeInvisible size={25} />
-                )}
+                {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
                 {/* Toggle eye icon */}
               </i>
             </div>
