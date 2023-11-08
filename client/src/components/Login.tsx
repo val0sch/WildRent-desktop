@@ -106,13 +106,6 @@ export default function Login() {
             {errors.email && (
               <p className="login-error-message">{errors.email}</p>
             )}
-            {/* <input
-              onChange={handleChange}
-              name="password"
-              type="password"
-              placeholder="Mot de passe"
-            /> */}
-
             <div className="password-field">
               <input
                 name="password"
