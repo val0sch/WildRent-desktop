@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
-import { useLayoutEffect } from "react";
+import { PropsWithChildren, useLayoutEffect } from "react";
 
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children }:PropsWithChildren) => {
   const location = useLocation();
   useLayoutEffect(() => {
     document.documentElement.scrollTo(0, 0);
