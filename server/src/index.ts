@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import datasource from "./lib/datasource";
+import datasourceSqlite from "./lib/datasourceSqlite";
 import typeDefs from "./typeDefs";
 import fs from "fs";
 
@@ -24,6 +25,7 @@ const IoHttpServer = http.createServer(appIO);
 
 const start = async () => {
   await datasource.initialize();
+  await datasourceSqlite.initialize();
   const server = new ApolloServer({
     resolvers,
     typeDefs,

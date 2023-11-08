@@ -31,41 +31,6 @@ import ProductsList from "./pages/ProductsList";
 import Product from "./pages/ProductSheet";
 
 function App(): JSX.Element {
-
-  const [cookies, setCookie] = useCookies<any>(["cart"]);
-
-  const [addCartInDb] = useMutation(ADD_CART,{
-    onCompleted(data) {
-      console.log("data : ", data)
-      setCookie("cart", data.addCart.id, { maxAge: 3600 });
-    },
-    onError(){
-      console.log("Une erreur survenue")
-    }
-  });
-
-  useEffect(() => {
-    console.log(cookies)
-    
-    if (!cookies.cart ) {
-      try {
-        const currentDate = new Date().toISOString();
-        console.log(cookies)
-        addCartInDb({
-          variables: {
-            infos: {
-              state: "en cours",
-              creation_date: currentDate,
-            },
-          },
-        });
-        console.log("cookie rempli :", cookies)
-      } catch (error) {
-        console.error("Error creating cart:", error);
-      }
-    }
-  }, []);
-
   return (
     <>
       <div className="App">
