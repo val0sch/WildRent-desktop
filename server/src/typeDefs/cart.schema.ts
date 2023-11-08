@@ -1,3 +1,4 @@
+export default `#graphql
 type Cart {
   id: String
   state: String
@@ -20,3 +21,4 @@ input CartRegister {
   creation_date: String!
   user: String
 }
+`;

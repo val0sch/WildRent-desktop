@@ -27,7 +27,8 @@ import BackOffice from "./pages/BackOffice";
 import Footer from "./components/Footer";
 import ProtectedArea from "./components/ProtectedArea";
 import CategorieList from "./pages/CategorieList";
-import Subcategory from "./pages/Subcategory";
+import ProductsList from "./pages/ProductsList";
+import Product from "./pages/ProductSheet";
 
 function App(): JSX.Element {
 
@@ -69,68 +70,75 @@ function App(): JSX.Element {
     <>
       <div className="App">
         <Wrapper>
-        <Routes>
-          <Route path="/" element={<NavBar />}>
-            <Route index element={<Accueil />} />
-            <Route path="inscription" element={<Inscription />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="all-categories" element={<CategorieList />} />
-            <Route path="/all-categories/:subcategory" element={<Subcategory />} />
-            <Route
-              path="conditions-generales"
-              element={<ConditionsGenerales />}
-            />
+          <Routes>
+            <Route path="/" element={<NavBar />}>
+              <Route index element={<Accueil />} />
+              <Route path="inscription" element={<Inscription />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="all-categories" element={<CategorieList />} />
+              <Route
+                path="/all-categories/:category"
+                element={<ProductsList />}
+              />
+              <Route
+                path="/all-categories/:category/:productId"
+                element={<Product />}
+              />
+              <Route
+                path="conditions-generales"
+                element={<ConditionsGenerales />}
+              />
 
-            <Route path="mentions-legales" element={<MentionsLegales />} />
-            <Route path="panier" element={<Panier />} />
-            <Route path="compte">
-              <Route path="" element={<MonCompte />} />
-              <Route path="infos" element={<MesInfos />} />
-              <Route path="reservations" element={<MesReservations />} />
-              <Route path="factures" element={<MesFactures />} />
-              <Route path="favoris" element={<MesFavoris />} />
-            </Route>
-            <Route path="back-office">
-              <Route
-                path=""
-                element={
-                  <ProtectedArea role={"admin"}>
-                    <BackOffice />
-                  </ProtectedArea>
-                }
-              />
-              <Route
-                path="categories"
-                element={
-                  <ProtectedArea role={"admin"}>
-                    <Categories />
-                  </ProtectedArea>
-                }
-              />
-              <Route
-                path="produits"
-                element={
-                  <ProtectedArea role={"admin"}>
-                    <Produits />
-                  </ProtectedArea>
-                }
-              />
-              <Route
-                path="messagerie"
-                element={
-                  <ProtectedArea role={"admin"}>
-                    <Messaging />
-                  </ProtectedArea>
-                }
-              />
-            </Route>
-            <Route path="errors">
-              <Route path="404" element={<NotFound />} />
-              <Route path="500" element={<InternalError />} />
-            </Route>
+              <Route path="mentions-legales" element={<MentionsLegales />} />
+              <Route path="panier" element={<Panier />} />
+              <Route path="compte">
+                <Route path="" element={<MonCompte />} />
+                <Route path="infos" element={<MesInfos />} />
+                <Route path="reservations" element={<MesReservations />} />
+                <Route path="factures" element={<MesFactures />} />
+                <Route path="favoris" element={<MesFavoris />} />
+              </Route>
+              <Route path="back-office">
+                <Route
+                  path=""
+                  element={
+                    <ProtectedArea role={"admin"}>
+                      <BackOffice />
+                    </ProtectedArea>
+                  }
+                />
+                <Route
+                  path="categories"
+                  element={
+                    <ProtectedArea role={"admin"}>
+                      <Categories />
+                    </ProtectedArea>
+                  }
+                />
+                <Route
+                  path="produits"
+                  element={
+                    <ProtectedArea role={"admin"}>
+                      <Produits />
+                    </ProtectedArea>
+                  }
+                />
+                <Route
+                  path="messagerie"
+                  element={
+                    <ProtectedArea role={"admin"}>
+                      <Messaging />
+                    </ProtectedArea>
+                  }
+                />
+              </Route>
+              <Route path="errors">
+                <Route path="404" element={<NotFound />} />
+                <Route path="500" element={<InternalError />} />
+              </Route>
               <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+            </Route>
+          </Routes>
         </Wrapper>
       </div>
       <Footer />

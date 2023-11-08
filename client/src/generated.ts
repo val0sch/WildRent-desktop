@@ -270,6 +270,7 @@ export type Query = {
   imagesByProduct?: Maybe<Array<Maybe<Image>>>;
   items?: Maybe<Array<Maybe<Item>>>;
   login?: Maybe<LoginInfo>;
+  product?: Maybe<Product>;
   products?: Maybe<Array<Maybe<Product>>>;
   productsByCategory?: Maybe<Array<Maybe<Product>>>;
   user?: Maybe<User>;
@@ -292,8 +293,13 @@ export type QueryLoginArgs = {
 };
 
 
+export type QueryProductArgs = {
+  productId: Scalars['String']['input'];
+};
+
+
 export type QueryProductsByCategoryArgs = {
-  categoryId: Scalars['String']['input'];
+  categoryLabel: Scalars['String']['input'];
 };
 
 
@@ -407,6 +413,13 @@ export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null, label?: string | null } | null } | null> | null };
 
+export type ProductsByCategoryQueryVariables = Exact<{
+  categoryLabel: Scalars['String'];
+}>;
+
+
+export type ProductsByCategoryQuery = { __typename?: 'Query', productsByCategory?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, images?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null } | null> | null };
+
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -433,6 +446,13 @@ export type DeleteProductMutationVariables = Exact<{
 
 
 export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct?: { __typename?: 'Product', id?: string | null } | null };
+
+export type GetProductQueryVariables = Exact<{
+  productId: Scalars['String'];
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', name?: string | null, id?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, category?: { __typename?: 'Category', label?: string | null } | null } | null };
 
 export type AddUserMutationVariables = Exact<{
   infos: UserRegister;
@@ -679,8 +699,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryProductArgs, 'productId'>>;
   products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryId'>>;
+  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryLabel'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
@@ -1175,6 +1196,52 @@ export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const ProductsByCategoryDocument = gql`
+    query ProductsByCategory($categoryLabel: String!) {
+  productsByCategory(categoryLabel: $categoryLabel) {
+    id
+    name
+    price
+    description
+    isAvailable
+    size
+    stock
+    images {
+      id
+      isMain
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useProductsByCategoryQuery__
+ *
+ * To run a query within a React component, call `useProductsByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsByCategoryQuery({
+ *   variables: {
+ *      categoryLabel: // value for 'categoryLabel'
+ *   },
+ * });
+ */
+export function useProductsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
+      }
+export function useProductsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
+        }
+export type ProductsByCategoryQueryHookResult = ReturnType<typeof useProductsByCategoryQuery>;
+export type ProductsByCategoryLazyQueryHookResult = ReturnType<typeof useProductsByCategoryLazyQuery>;
+export type ProductsByCategoryQueryResult = Apollo.QueryResult<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {
@@ -1330,6 +1397,50 @@ export function useDeleteProductMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
 export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
 export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
+export const GetProductDocument = gql`
+    query getProduct($productId: String!) {
+  product(productId: $productId) {
+    name
+    id
+    price
+    description
+    isAvailable
+    size
+    stock
+    category {
+      label
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProductQuery__
+ *
+ * To run a query within a React component, call `useGetProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductQuery({
+ *   variables: {
+ *      productId: // value for 'productId'
+ *   },
+ * });
+ */
+export function useGetProductQuery(baseOptions: Apollo.QueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
+      }
+export function useGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductQuery, GetProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductQuery, GetProductQueryVariables>(GetProductDocument, options);
+        }
+export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
+export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
+export type GetProductQueryResult = Apollo.QueryResult<GetProductQuery, GetProductQueryVariables>;
 export const AddUserDocument = gql`
     mutation AddUser($infos: UserRegister!) {
   addUser(infos: $infos) {

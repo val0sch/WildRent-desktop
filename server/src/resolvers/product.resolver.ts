@@ -1,4 +1,5 @@
 import ProductService from "../services/product.service";
+import ImageService from "../services/image.service";
 import { MutationAddProductWithImagesArgs, MutationUpdateProductArgs, MutationDeleteProductArgs } from "../graphql/graphql";
 
 export default {
@@ -7,8 +8,23 @@ export default {
       return await new ProductService().listProduct();
     },
 
-    async productsByCategory(_: any, { categoryId }: { categoryId: string }) {
-      return await new ProductService().listProductsByCategory(categoryId);
+    async productsByCategory(
+      _: any,
+      { categoryLabel }: { categoryLabel: string }
+    ) {
+      return await new ProductService().productsFindByCategoryLabel(
+        categoryLabel
+      ).then(products => {
+        return products.map(product => {
+          const images = new ImageService().listImagesByProductId(product.id);
+          product.images = images;
+          return product;
+        });
+      });
+    },
+
+    async product(_: any, { productId }: { productId: string }) {
+      return await new ProductService().findById(productId);
     },
   },
 
@@ -33,7 +49,8 @@ export default {
     },
 
     async updateProduct(_: any, { id, infos }: MutationUpdateProductArgs) {
-      const { name, price, description, isAvailable, size, stock, category } = infos;
+      const { name, price, description, isAvailable, size, stock, category } =
+        infos;
 
       return await new ProductService().updateProduct({
         id,
@@ -43,13 +60,12 @@ export default {
         isAvailable,
         size,
         stock,
-        category
+        category,
       });
     },
 
     async deleteProduct(_: any, { id }: MutationDeleteProductArgs) {
       return await new ProductService().deleteProduct({ id });
-    }
+    },
   },
-
 };

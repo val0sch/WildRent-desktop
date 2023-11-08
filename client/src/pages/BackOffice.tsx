@@ -27,9 +27,13 @@ function BackOffice(): JSX.Element {
             <DribbbleLogo size={32} />
             Produits
           </Link>
-          <Link to={"/back-office/messagerie"}>Messagerie</Link>
+          <Link
+            className="back-office-button-action"
+            to={"/back-office/messagerie"}
+          >
+            Messagerie
+          </Link>
         </div>
-
       </div>
     </section>
   );

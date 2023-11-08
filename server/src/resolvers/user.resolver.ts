@@ -50,7 +50,6 @@ export default {
       return user !== null;
     },
     async checkAdmin(_: any, {}, { user }: IContext) {
-      console.log("====> ", user);
       let isAdmin = false;
       if (user) {
         isAdmin = user.isAdmin;

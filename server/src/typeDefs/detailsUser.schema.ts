@@ -1,3 +1,4 @@
+export default `#graphql
 type DetailsUser {
   id: String
   birthday: String
@@ -21,6 +22,7 @@ input DetailsUserRegister {
   firstname: String!
   lastname: String!
 }
+`;
 
 
 

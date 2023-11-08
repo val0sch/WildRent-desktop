@@ -1,0 +1,261 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 2%;
+}
+
+.img-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  gap: 1em;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding: 2%;
+  gap: 1em;
+}
+
+.text-container > h1 {
+  font-size: 1.3em;
+}
+
+.text-container > div > h2 {
+  font-size: 1em;
+  margin-bottom: 1%;
+}
+
+.text-container .resa-btn {
+  align-self: center;
+}
+
+h1::first-letter {
+  text-transform: uppercase;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  display: none;
+}
+
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8em;
+  gap: 1em;
+}
+
+.swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  color: #000;
+  font-family: Poppins, sans-serif;
+  border-radius: 50%;
+  opacity: 1;
+  background: rgba(78, 78, 78, 0.2);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: var(--main-navy);
+}
+
+/* DESKTOP */
+
+@media screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+  .img-container {
+    width: 60%;
+    height: 100%;
+    gap: 2em;
+  }
+  h1 {
+    font-size: 2.2em;
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+    padding: 0 2em;
+  }
+  .swiper-wrapper {
+    height: 90%;
+  }
+
+  .swiper-slide img {
+    width: 90%;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: block;
+    color: var(--main-navy);
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 2em;
+  }
+
+  .text-container {
+    padding-top: 7em;
+    gap: 2em;
+    width: 40%;
+  }
+
+  .text-container > h1 {
+    font-size: 2.2em;
+    margin-bottom: 5%;
+  }
+
+  .text-container > div > h2 {
+    font-size: 1.6em;
+    margin-bottom: 2%;
+  }
+
+  .text-container > div > p {
+    font-size: 1.1em;
+    color: black;
+  }
+
+  .resa-btn {
+    margin-top: 10%;
+  }
+}
+
+/* ProductsList.tsx : filters  */
+.productlist-filters-container {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  margin: 0.5rem;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.title-filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.title-filters-container p {
+  font-size: 18px;
+  color: black;
+}
+
+.title-filters-container .filters-close {
+  transform: rotate(0);
+  transition: transform 0.5s;
+}
+
+.title-filters-container .filters-open {
+  transform: rotate(-180deg);
+  transition: transform 0.5s;
+}
+
+.filters-container {
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.productlist-searchbar{
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin: 0.5rem auto;
+}
+
+/* ProductsList.tsx : grid  */
+
+.productlist-title-category {
+  font-size: 18px;
+  text-align: center;
+  background-color: var(--secondary-navy);
+  padding: 1rem;
+  color: white;
+}
+
+.productlist-products-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.productlist-products-container img.productlist-thumbnails {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productlist-thumbnails-card {
+  display: block;
+  background-color: white;
+  font-family: "Poppins", sans-serif;
+  color: var(--main-navy);
+  border-bottom: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.productlist-thumbnails-card:hover {
+  text-decoration: none;
+  box-shadow: #1a265abf 0px 1px 3px 0px, #1a265a59 0px 1px 2px 0px;
+}
+
+.productlist-product-description {
+  padding: 0.5rem;
+}
+
+.productlist-product-description span {
+  text-transform: capitalize;
+  margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .productlist-product-description {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .productlist-title-category {
+    text-align: left;
+    padding: 1rem 2rem;
+    font-size: 22px;
+  }
+
+  .productlist-products-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .productlist-product-description {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,52 @@
+name: tests-and-docker-ci
+
+on:
+
+  # Triggers the workflow on push or pull request events but only for the master branch
+
+  pull_request:
+    branches: "dev"
+
+
+  # Allows you to run this workflow manually from the Actions tab
+
+  workflow_dispatch:
+
+jobs:
+  test-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Goto client and run tests
+      # add command npm run cypress after adding test with cypress
+        run: cd client && npm i
+  test-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Goto server and run tests
+        run: cd server && npm i && npm test
+  docker:
+    needs: [test-client, test-server]
+    if: github.base_ref == 'dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: "{{defaultContext}}:client"
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/wildrent_ci_dockerhub:latest

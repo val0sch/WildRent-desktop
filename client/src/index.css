@@ -27,6 +27,7 @@ del,
 dfn,
 em,
 img,
+input,
 ins,
 kbd,
 q,
@@ -162,6 +163,9 @@ input {
   padding: 8px;
   border-radius: 8px;
 }
+input:focus {
+  outline: none;
+}
 
 @media screen and (min-width: 768px) {
   .App {
@@ -178,10 +182,10 @@ input {
   background-repeat: no-repeat;
   display: flex;
   justify-content: center;
-  min-height: calc(100vh - 104px );
+  min-height: calc(100vh - 104px);
 }
 
-.page-404-div{
+.page-404-div {
   background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
@@ -191,33 +195,34 @@ input {
   width: 80%;
 }
 
-.page-404-div p{
+.page-404-div p {
   color: var(--main-orange);
   font-size: 64px;
   font-family: exo;
   margin-bottom: 1rem;
 }
 
-.page-404-div span{
+.page-404-div span {
   font-size: 18px;
 }
 
-.page-404-div a{
+.page-404-div a {
   color: var(--main-orange);
   margin-top: 4rem;
 }
 
-@media screen and (min-width: 768px){
-  .page-404-container{
+@media screen and (min-width: 768px) {
+  .page-404-container {
     min-height: calc(100vh - 69.5px);
     background-image: url(./assets/home.jpeg);
   }
-  
-  .page-404-div p{
+
+  .page-404-div p {
     font-size: 96px;
   }
 
-  .page-404-div span, .page-404-div a {
+  .page-404-div span,
+  .page-404-div a {
     font-size: 24px;
-}
+  }
 }

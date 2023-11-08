@@ -16,7 +16,7 @@ import {
   ADD_IMAGE,
   UPDATE_IMAGE_MAIN_STATUS,
 } from "../../graphql/image.mutation";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function ModaleFicheProduct({
   handleModaleFicheProduct,
@@ -33,21 +33,21 @@ function ModaleFicheProduct({
 
   const Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   useEffect(() => {
     if (errorMessage) {
       Toast.fire({
-        icon: 'error',
-        title: 'Erreur',
+        icon: "error",
+        title: "Erreur",
         text: errorMessage,
       });
     }
@@ -202,34 +202,32 @@ function ModaleFicheProduct({
 
   const handleDeleteImage = (deleteImageId: any) => {
     Swal.fire({
-      title: 'Voulez-vous supprimer cette image ?',
-      text: 'Cette action est irréversible !',
-      icon: 'warning',
+      title: "Voulez-vous supprimer cette image ?",
+      text: "Cette action est irréversible !",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Supprimer'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Supprimer",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteImage({
           variables: {
             deleteImageId: deleteImageId,
           },
-        }).then(() => {
-          Swal.fire(
-            'Supprimé !',
-            'Votre image a été supprimée.',
-            'success'
-          );
-          refetchImages();
-        }).catch((error) => {
-          Swal.fire(
-            'Erreur',
-            'Une erreur est survenue lors de la suppression de l\'image.',
-            'error'
-          );
-          console.error(error);
-        });
+        })
+          .then(() => {
+            Swal.fire("Supprimé !", "Votre image a été supprimée.", "success");
+            refetchImages();
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Erreur",
+              "Une erreur est survenue lors de la suppression de l'image.",
+              "error"
+            );
+            console.error(error);
+          });
       }
     });
   };
@@ -319,7 +317,9 @@ function ModaleFicheProduct({
               checked={isNewImageMain}
               onChange={handleNewImageMainChange}
             />
-            <button className="add-image-product" type="submit">Ajouter l'image</button>
+            <button className="add-image-product" type="submit">
+              Ajouter l'image
+            </button>
           </form>
         </div>
 
@@ -328,22 +328,20 @@ function ModaleFicheProduct({
           <div className="images-product-container">
             {imagesData.imagesByProduct.map((image: any) => (
               <div key={image.id} className="ImageProductContainer">
-                <img
-                  src={image.name}
-                  alt={image.name}
-                />
-                <label>Image principale :
-                <input
-                  type="checkbox"
-                  checked={image.isMain}
-                  onChange={(e) =>
-                    handleImageMainStatus(
-                      product.id,
-                      image.id,
-                      e.target.checked
-                    )
-                  }
-                />
+                <img src={image.name} alt={image.name} />
+                <label>
+                  Image principale :
+                  <input
+                    type="checkbox"
+                    checked={image.isMain}
+                    onChange={(e) =>
+                      handleImageMainStatus(
+                        product.id,
+                        image.id,
+                        e.target.checked
+                      )
+                    }
+                  />
                 </label>
                 <button onClick={() => handleDeleteImage(image.id)}>
                   Supprimer

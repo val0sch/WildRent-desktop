@@ -13,6 +13,13 @@ export default class ProductService {
     return await this.db.find({ relations: ["category"] });
   }
 
+  async productsFindByCategoryLabel(categoryLabel: string) {
+    return await this.db.find({
+      relations: ["category"],
+      where: { category: { label: categoryLabel } },
+    });
+  }
+
   async findById(id: string) {
     return await this.db.findOneBy({ id });
   }
@@ -75,9 +82,5 @@ export default class ProductService {
 
   async deleteProduct({ id }: any) {
     return await this.db.delete({ id });
-  }
-
-  async listProductsByCategory(categoryId: string) {
-    return await this.db.find({ where: { category: { id: categoryId } }, relations: ['category'] });
   }
 }

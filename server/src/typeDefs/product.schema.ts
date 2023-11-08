@@ -1,3 +1,4 @@
+export default `#graphql
 type Product {
   id: String
   name: String
@@ -12,7 +13,8 @@ type Product {
 
 type Query {
   products: [Product]
-  productsByCategory(categoryId: String!): [Product]
+  productsByCategory(categoryLabel: String!): [Product]
+  product(productId: String!): Product
 }
 
 type Mutation {
@@ -36,3 +38,4 @@ input ImageInput {
   isMain: Boolean
   name: String
 }
+`;

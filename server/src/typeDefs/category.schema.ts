@@ -1,3 +1,4 @@
+export default `#graphql
 type Category {
   id: String
   label: String
@@ -19,4 +20,5 @@ input CategoryRegister {
   label: String!
   imageUrl: String!
 }
+`; 
 

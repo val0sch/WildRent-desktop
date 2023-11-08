@@ -1,3 +1,4 @@
+export default `#graphql
 type User {
   id: String
   email: String
@@ -36,3 +37,4 @@ input UserRegister {
   password: String!
   isAdmin: Boolean
 }
+`;

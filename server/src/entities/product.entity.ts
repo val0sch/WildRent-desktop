@@ -1,36 +1,43 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, OneToOne, UpdateResult } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  UpdateResult,
+  JoinColumn,
+} from "typeorm";
 import Category from "./category.entity";
 import Item from "./item.entity";
 
 @Entity()
 export default class Product {
-    @PrimaryGeneratedColumn("uuid")
-    id: string
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    name: string
-    
-    @Column()
-    price: number
+  @Column()
+  name: string;
 
-    @Column()
-    description: string
+  @Column()
+  price: number;
 
-    @Column()
-    isAvailable: boolean 
+  @Column()
+  description: string;
 
-    @Column()
-    size: string
+  @Column()
+  isAvailable: boolean;
 
-    @Column()
-    stock: number
+  @Column()
+  size: string;
 
-    @ManyToOne(type => Category, { onDelete: "SET NULL" }) 
-    category: Category;
-    
+  @Column()
+  stock: number;
 
-    @OneToOne(() => Item, item => item.product)
-    item: Item;
+  @ManyToOne((type) => Category, { onDelete: "SET NULL", eager: true })
+  @JoinColumn()
+  category: Category;
 
-
+  @OneToOne(() => Item, (item) => item.product)
+  item: Item;
+  images: any;
 }
