@@ -6,6 +6,8 @@ export interface IPayload {
 
 export interface IContext {
   user: User | null;
+  res: Response;
+  // session: any;
 }
 
 export interface IUserLogin {

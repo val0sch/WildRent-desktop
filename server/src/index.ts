@@ -17,7 +17,8 @@ import { json } from "body-parser";
 import resolvers from "./resolvers";
 import UserService from "./services/user.service";
 import { Server } from "socket.io";
-
+import cookieParser from "cookie-parser";
+import { v4 as uuidv4 } from "uuid";
 const app = express();
 const appIO = express();
 const httpServer = http.createServer(app);
@@ -31,7 +32,7 @@ const start = async () => {
     typeDefs,
   });
   await server.start();
-
+  app.use(cookieParser());
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
@@ -39,8 +40,13 @@ const start = async () => {
     }),
     json(),
     expressMiddleware(server, {
-      context: async ({ req }) => {
+      context: async ({ req, res }) => {
+        console.log("REQUEST", req.cookies);
+
+        console.log("REQUEST HEADERS", req.headers);
+        let session = null;
         let user = null;
+
         if (req.headers.authorization) {
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
@@ -50,7 +56,24 @@ const start = async () => {
             user = await new UserService().findByEmail(email);
           }
         }
-        return { user };
+
+        if (!req.cookies.sessionId) {
+          //ça pourra aller plus loin si le user est connecté, on ira récupérer la sessionId depuis la base si elle existe
+
+          //créer la session
+          const date = new Date();
+          const time = date.getTime();
+          const expireTime = time + 3600 * 1000;
+          date.setTime(expireTime);
+          const sessionId = uuidv4().toString();
+          
+          res.cookie("sessionId", sessionId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            expires: date,
+          });
+        }
+        return { user, res };
       },
     })
   );

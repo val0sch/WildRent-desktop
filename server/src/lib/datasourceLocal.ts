@@ -14,7 +14,7 @@ export default new DataSource({
   username: "postgres",
   password: "postgres",
   database: "wildrent",
-  entities: [User, DetailsUser, Category, Cart, Item, Product, Image ],
+  entities: [User, DetailsUser, Category, Cart, Item, Product, Image],
   synchronize: true,
   // logging: ["query", "error"],
   logging: false,
