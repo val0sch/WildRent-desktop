@@ -1,13 +1,15 @@
-import Login from "../../components/Login";
-import useAuth from "../../hooks/useAuth";
-
-import "../../style/moncompte.css";
 import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import { useQuery } from "@apollo/client";
+import { GET_USERDETAILS } from "../../graphql/detailsUserConnect.query";
+
+import Login from "../../components/Login";
 import MesInfos from "./MesInfos";
 import MesFactures from "./MesFactures";
 import MesFavoris from "./MesFavoris";
 import MesReservations from "./MesReservations";
 
+import "../../style/moncompte.css";
 function MonCompte(): JSX.Element {
   /////
   //  useEffect
@@ -26,7 +28,25 @@ function MonCompte(): JSX.Element {
   /////
   const { userInfos } = useAuth();
 
-  console.log(userInfos);
+  const [userData, setUserData] = useState({});
+
+  const [key, setKey] = useState(0); // Ajout de la clé
+
+  const updatedUser = () => {
+    console.log("hello");
+    setKey((prevKey) => prevKey + 1); // Changement de la clé à chaque mise à jour
+  };
+
+  const { data, refetch } = useQuery(GET_USERDETAILS, {
+    onCompleted(data) {
+      console.log("Details du user", data);
+      setUserData(data.detailsConnectUser);
+    },
+    onError(error) {
+      console.error(error);
+    },
+    fetchPolicy: "no-cache",
+  });
 
   const handleClick = (component: string) => {
     switch (component) {
@@ -105,8 +125,10 @@ function MonCompte(): JSX.Element {
               </button>
             </div>
           </div>
-          <div className="rightContainerUserInfos">
-            {isProfileInfosComponent && <MesInfos content={userInfos} />}
+          <div className="rightContainerUserInfos" key={key}>
+            {isProfileInfosComponent && (
+              <MesInfos content={userData} updatedUser={updatedUser} />
+            )}
             {isReservationComponent && <MesReservations />}
             {isBillComponent && <MesFactures />}
             {isFavorisComponent && <MesFavoris />}

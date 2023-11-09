@@ -378,6 +378,11 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'Category', id?: string | null } | null };
 
+export type GetDetailsConnectUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDetailsConnectUserQuery = { __typename?: 'Query', detailsConnectUser?: { __typename?: 'DetailsUser', address?: string | null, birthday?: string | null, firstname?: string | null, lastname?: string | null, id?: string | null } | null };
+
 export type DeleteImageMutationVariables = Exact<{
   deleteImageId: Scalars['String'];
 }>;
@@ -1006,6 +1011,44 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const GetDetailsConnectUserDocument = gql`
+    query GetDetailsConnectUser {
+  detailsConnectUser {
+    address
+    birthday
+    firstname
+    lastname
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetDetailsConnectUserQuery__
+ *
+ * To run a query within a React component, call `useGetDetailsConnectUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDetailsConnectUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDetailsConnectUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetDetailsConnectUserQuery(baseOptions?: Apollo.QueryHookOptions<GetDetailsConnectUserQuery, GetDetailsConnectUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDetailsConnectUserQuery, GetDetailsConnectUserQueryVariables>(GetDetailsConnectUserDocument, options);
+      }
+export function useGetDetailsConnectUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDetailsConnectUserQuery, GetDetailsConnectUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDetailsConnectUserQuery, GetDetailsConnectUserQueryVariables>(GetDetailsConnectUserDocument, options);
+        }
+export type GetDetailsConnectUserQueryHookResult = ReturnType<typeof useGetDetailsConnectUserQuery>;
+export type GetDetailsConnectUserLazyQueryHookResult = ReturnType<typeof useGetDetailsConnectUserLazyQuery>;
+export type GetDetailsConnectUserQueryResult = Apollo.QueryResult<GetDetailsConnectUserQuery, GetDetailsConnectUserQueryVariables>;
 export const DeleteImageDocument = gql`
     mutation DeleteImage($deleteImageId: String!) {
   deleteImage(id: $deleteImageId) {
