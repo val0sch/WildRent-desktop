@@ -12,12 +12,13 @@ import {
   ShoppingCartSimple,
 } from "@phosphor-icons/react";
 import { LIST_CATEGORIES } from "../graphql/listCategories.query";
+import useCart from "../hooks/useCart";
 
 export default function Accueil(): JSX.Element {
   // gestion login admin
   const { data, refetch } = useQuery(CHECK_ISADMIN);
   const { userInfos, logout } = useAuth();
-
+  const { cart } = useCart();
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
@@ -50,6 +51,7 @@ export default function Accueil(): JSX.Element {
     getList();
   }, []);
 
+  console.log("CART",cart )
   // gestion affichage categories et sous-categories
   const [showCategories, setShowCategories] = useState(false);
 
@@ -66,7 +68,7 @@ export default function Accueil(): JSX.Element {
         </div>
 
         <h1>
-          <Link to="/">WILDRENT</Link>
+          <Link to="/">WILDRENT {cart?.length}</Link>
         </h1>
 
         <ul className={`${showMenu ? "open" : "desktop"}`}>

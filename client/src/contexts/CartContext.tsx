@@ -1,6 +1,6 @@
 import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 import { Item } from "../generated";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { CHECK_SESSION } from "../graphql/session.query";
 
 interface ICartContext {
@@ -10,16 +10,27 @@ interface ICartContext {
 }
 export const CartContext = createContext({} as ICartContext);
 
-function CartContextProvider({ children }: PropsWithChildren) {
-  const [checkSession] = useLazyQuery(CHECK_SESSION);
-
-  useEffect(() => {
-    checkSession({
-      onCompleted(data) {
-        console.log(data);
-      },
-    });
-  }, [checkSession]);
+function IntermediateProvider({ children }: PropsWithChildren) {
+  const { data } = useQuery(CHECK_SESSION, {
+    fetchPolicy: "no-cache",
+  });
+  return data ? (
+    <CartContextProvider initialData={data.checkSession}>
+      {children}
+    </CartContextProvider>
+  ) : null;
+}
+function CartContextProvider({
+  children,
+  initialData,
+}: PropsWithChildren & { initialData: Item[] }) {
+  // useEffect(() => {
+  //   checkSession({
+  //     onCompleted(data) {
+  //       console.log(data);
+  //     },
+  //   });
+  // }, [checkSession]);
   const [state, dispatch] = useReducer(
     (prevState: any, action: any) => {
       switch (action.type) {
@@ -32,10 +43,7 @@ function CartContextProvider({ children }: PropsWithChildren) {
       }
     },
     {
-      cart: [], //viendra du localStorage
-    },
-    () => {
-      return;
+      cart: initialData,
     }
   );
   const cartContext = {
@@ -48,4 +56,4 @@ function CartContextProvider({ children }: PropsWithChildren) {
   );
 }
 
-export default CartContextProvider;
+export default IntermediateProvider;

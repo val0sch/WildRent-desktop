@@ -480,7 +480,7 @@ export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: '
 export type CheckSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CheckSessionQuery = { __typename?: 'Query', checkSession?: Array<{ __typename?: 'Item', start_rent_date?: any | null, quantity?: number | null, productId?: string | null, isFavorite?: boolean | null, id?: string | null, due_rent_date?: any | null, cart?: { __typename?: 'Cart', user?: { __typename?: 'User', id?: string | null } | null } | null } | null> | null };
+export type CheckSessionQuery = { __typename?: 'Query', checkSession?: Array<{ __typename?: 'Item', start_rent_date?: any | null, quantity?: number | null, productId?: string | null, isFavorite?: boolean | null, id?: string | null, due_rent_date?: any | null } | null> | null };
 
 export type AddUserMutationVariables = Exact<{
   infos: UserRegister;
@@ -1537,11 +1537,6 @@ export const CheckSessionDocument = gql`
     isFavorite
     id
     due_rent_date
-    cart {
-      user {
-        id
-      }
-    }
   }
 }
     `;

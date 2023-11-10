@@ -1,23 +1,17 @@
-import UserService from "../services/user.service";
-import DetailsUserService from "../services/detailsUser.service";
-import { GraphQLError } from "graphql";
-import { ApolloServerErrorCode } from "@apollo/server/errors";
-import { hash, verify } from "argon2";
-import * as jwt from "jsonwebtoken";
+
 import { IContext } from "../index.d";
-import {
-  MutationAddUserArgs,
-  MutationUpdateUserArgs,
-  MutationDeleteUserArgs,
-  QueryLoginArgs,
-} from "../graphql/graphql";
+
+import Item from "../entities/item.entity";
 
 export default {
-  Query: {    
-    async checkSession(_: any, {}, { user }: IContext) {
-
-
-      return [];
-    }    
-  }  
+  Query: {
+    async checkSession(_: any, {}, { user, session }: IContext) {
+      let data: Item[] = [];
+      const cart = session?.cart;
+      if (cart) {
+        data = cart.items;
+      }
+      return data;
+    },
+  },
 };

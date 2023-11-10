@@ -19,6 +19,7 @@ import UserService from "./services/user.service";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import { v4 as uuidv4 } from "uuid";
+import SessionService from "./services/session.service";
 const app = express();
 const appIO = express();
 const httpServer = http.createServer(app);
@@ -37,6 +38,7 @@ const start = async () => {
     "/graphql",
     cors<cors.CorsRequest>({
       origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+      credentials: true,
     }),
     json(),
     expressMiddleware(server, {
@@ -56,7 +58,8 @@ const start = async () => {
             user = await new UserService().findByEmail(email);
           }
         }
-
+        console.log("SESSION ID IN COOKIES", req.cookies.sessionId);
+        // res.clearCookie("sessionId");
         if (!req.cookies.sessionId) {
           //ça pourra aller plus loin si le user est connecté, on ira récupérer la sessionId depuis la base si elle existe
 
@@ -65,15 +68,20 @@ const start = async () => {
           const time = date.getTime();
           const expireTime = time + 3600 * 1000;
           date.setTime(expireTime);
-          const sessionId = uuidv4().toString();
-          
-          res.cookie("sessionId", sessionId, {
+          // const sessionId = uuidv4().toString();
+          session = await new SessionService().createSession(user?.id);
+          console.log("%c⧭", "color: #ff0000", session);
+
+          res.cookie("sessionId", session.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV !== "development",
             expires: date,
           });
+        } else {
+          const sessionId = req.cookies.sessionId;
+          session = await new SessionService().findSession(sessionId);
         }
-        return { user, res };
+        return { user, res, session };
       },
     })
   );
@@ -93,7 +101,7 @@ const start = async () => {
     //   socket.to(data.room).emit("receive_message", data);
     //   console.log("USER SEND MESSAGE");
     // });
-    console.log(socket.id);
+    console.log("socket", socket.id);
     socket.on("send_message", (data: any) => {
       socket.broadcast.emit("receive_message", data);
     });

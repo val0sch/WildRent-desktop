@@ -20,8 +20,6 @@ export default class CartSession {
     @OneToMany(() => Item, item => item.cart )
     items: Item[];
 
-    @OneToOne(() => Session)
-    session: Session;
 
 }
 

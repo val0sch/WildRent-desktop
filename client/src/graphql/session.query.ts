@@ -9,11 +9,7 @@ export const CHECK_SESSION = gql`
     isFavorite
     id
     due_rent_date
-    cart {
-      user {
-        id
-      }
-    }
+    
   }
 }
 `;
