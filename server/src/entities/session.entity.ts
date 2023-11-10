@@ -1,11 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne,JoinColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
 import CartSession from "./cartSession.entity";
+import User from "./user.entity";
 
 @Entity()
 export default class Session {
-    @PrimaryGeneratedColumn("uuid")
-    id: string
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @OneToOne(() => CartSession, cartSession => cartSession.session, {eager:true}) @JoinColumn()
-    cartSession: CartSession
+  @Column({nullable: false})
+  userId?: string;
 }

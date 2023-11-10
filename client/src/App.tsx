@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 import { useEffect, useState } from 'react';
-import { useCookies } from "react-cookie";
 import { ADD_CART } from "../src/graphql/cart.mutation";
 import { useMutation } from "@apollo/client";
 import Wrapper from "./Utils/wrapper";

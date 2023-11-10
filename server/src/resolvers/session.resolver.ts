@@ -14,9 +14,10 @@ import {
 
 export default {
   Query: {    
-
     async checkSession(_: any, {}, { user }: IContext) {
-      return  null;
+
+
+      return [];
     }    
   }  
 };

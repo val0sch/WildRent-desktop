@@ -37,7 +37,7 @@ export default class Product {
   @JoinColumn()
   category: Category;
 
-  @OneToOne(() => Item, (item) => item.product)
-  item: Item;
-  images: any;
+  // @OneToOne(() => Item, (item) => item.product)
+  // item: Item;
+  // images: any;
 }
