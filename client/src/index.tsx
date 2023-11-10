@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-  credentials: "same-origin",
+  credentials: "include",
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -15,8 +15,8 @@ export default {
       return await new ProductService().productsFindByCategoryLabel(
         categoryLabel
       ).then(products => {
-        return products.map(product => {
-          const images = new ImageService().listImagesByProductId(product.id);
+        return products.map(async (product) => {
+          const images = await new ImageService().listImagesByProductId(product.id);
           product.images = images;
           return product;
         });

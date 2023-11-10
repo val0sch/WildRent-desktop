@@ -1,4 +1,11 @@
 export default `#graphql
+type CartSession {
+  id: String
+  state: String
+  creation_date: String
+  items: [Item]
+  session: Session
+}
 type Cart {
   id: String
   state: String

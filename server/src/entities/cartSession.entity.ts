@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, Check, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, Check, OneToMany, JoinColumn } from "typeorm";
 import Session from "./session.entity";
 import Item from "./item.entity";
 
@@ -17,7 +17,7 @@ export default class CartSession {
     @Column()
     creation_date: Date;   
     
-    @OneToMany(() => Item, item => item.cart.id )
+    @OneToMany(() => Item, item => item.cart )
     items: Item[];
 
     @OneToOne(() => Session)

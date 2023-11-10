@@ -15,7 +15,7 @@ export default class ProductService {
 
   async productsFindByCategoryLabel(categoryLabel: string) {
     return await this.db.find({
-      relations: ["category"],
+      relations: ["category", "images"],
       where: { category: { label: categoryLabel } },
     });
   }
@@ -76,7 +76,7 @@ export default class ProductService {
       size,
       stock,
       category,
-      item,
+      
     });
   }
 
