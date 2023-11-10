@@ -66,7 +66,7 @@ const start = async () => {
           //créer la session
           const date = new Date();
           const time = date.getTime();
-          const expireTime = time + 3600 * 1000;
+          const expireTime = time + 3600 * 24;
           date.setTime(expireTime);
           // const sessionId = uuidv4().toString();
           session = await new SessionService().createSession(user?.id);
@@ -78,6 +78,7 @@ const start = async () => {
             expires: date,
           });
         } else {
+          // reinitialiser le temps du cookie
           const sessionId = req.cookies.sessionId;
           session = await new SessionService().findSession(sessionId);
         }
