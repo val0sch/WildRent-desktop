@@ -46,8 +46,7 @@
     "ts-jest": "^29.1.0",
     "typeorm": "^0.3.16",
     "typeorm-fixtures-cli": "^3.1.0",
-    "typescript": "^5.0.4",
-    "uuid": "^9.0.0"
+    "typescript": "^5.0.4"
   },
   "author": "",
   "license": "ISC"
