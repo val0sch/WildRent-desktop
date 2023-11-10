@@ -12,7 +12,7 @@ function Categories(): JSX.Element {
   const [toggleModaleCategory, setToggleModaleCategory] = useState(false);
 
   const updatedCategory = () => {
-    refetch();
+    // refetch();
   };
 
   const handleModaleCategory: MouseEventHandler<HTMLButtonElement> = () => {

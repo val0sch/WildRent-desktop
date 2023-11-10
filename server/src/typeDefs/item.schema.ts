@@ -8,7 +8,7 @@ type Item {
   due_rent_date: Date
   isFavorite: Boolean
   cart: Cart
-  product: Product
+  productId: String
 }
 
 type Query {

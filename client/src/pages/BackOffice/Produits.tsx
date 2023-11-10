@@ -12,7 +12,7 @@ function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
   const updatedProduct = () => {
-    refetch();
+    // refetch();
   };
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);

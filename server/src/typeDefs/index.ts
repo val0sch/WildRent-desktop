@@ -6,5 +6,6 @@ import detailsUserSchema from "./detailsUser.schema";
 import itemSchema from "./item.schema";
 import productSchema from "./product.schema";
 import userSchema from "./user.schema";
+import sessionSchema from "./session.schema";
 
-export default mergeTypeDefs([imageSchema, cartSchema, categorySchema, detailsUserSchema, itemSchema, productSchema, userSchema]);
+export default mergeTypeDefs([imageSchema, cartSchema, categorySchema, detailsUserSchema, itemSchema, productSchema, userSchema, sessionSchema]);
