@@ -10,22 +10,16 @@ interface DetailsUser {
   address?: string;
   birthday?: string;
 }
-function MesInfos({
-  content,
-  updatedUser,
-}: {
-  content: DetailsUser;
-  updatedUser: () => void;
-}): JSX.Element {
+function MesInfos({ content }: { content: DetailsUser }): JSX.Element {
   const [isInputName, setIsInputName] = useState(false);
   const [isInputAddress, setIsInputAddress] = useState(false);
   const [isInputBirthday, setIsInputBirthday] = useState(false);
   const [detailsUser, setDetailsUser] = useState<DetailsUser>({
     ...content,
   });
-
+  console.log(detailsUser);
   useEffect(() => {
-    // Obliger de setter dans le useEffect car sinon il ne se set pas automatiquement dans le state plus haut.
+    // Obliger de setter dans le useEffect car il ne se set pas automatiquement dans le state plus haut.
     setDetailsUser({ ...content });
   }, [content]);
 
@@ -94,114 +88,111 @@ function MesInfos({
     return formattedDate;
   };
 
-  /////
-  //  Return
-  /////
   return (
     <>
       <h1>Mon Profil</h1>
       <div className="userInfosContent">
         <div className="userInfosRow">
-          <div>
-            <h2>Prénom et nom</h2>
-            {isInputName ? (
-              <>
-                <>
-                  <>
-                    <input
-                      type="text"
-                      placeholder={detailsUser.firstname}
-                      onChange={handleChangeField("firstname")}
-                    />
-                    <input
-                      type="text"
-                      placeholder={detailsUser.lastname}
-                      onChange={handleChangeField("lastname")}
-                    />
-                  </>
-                  <button
-                    className="btn-modify"
-                    onClick={() => {
-                      handleUpdateDetails();
-                      handleClick("name");
-                    }}
-                  >
-                    Valider
-                  </button>
-                </>
-              </>
-            ) : (
-              <>
-                <p>
-                  {detailsUser.firstname} {detailsUser.lastname}
-                </p>
-                <button
-                  className="btn-modify"
-                  onClick={() => handleClick("name")}
-                >
-                  Modifier
-                </button>
-              </>
-            )}
-          </div>
+          <h2>Prénom et nom</h2>
+          {isInputName ? (
+            <div className="dynamic-row">
+              <div>
+                <input
+                  type="text"
+                  placeholder={detailsUser.firstname}
+                  onChange={handleChangeField("firstname")}
+                />
+                <input
+                  type="text"
+                  placeholder={detailsUser.lastname}
+                  onChange={handleChangeField("lastname")}
+                />
+              </div>
+              <button
+                className="btn-modify"
+                onClick={() => {
+                  handleUpdateDetails();
+                  handleClick("name");
+                }}
+              >
+                Valider
+              </button>
+            </div>
+          ) : (
+            <div className="dynamic-row">
+              <p>
+                {detailsUser.firstname} {detailsUser.lastname}
+              </p>
+              <button
+                className="btn-modify"
+                onClick={() => handleClick("name")}
+              >
+                Modifier
+              </button>
+            </div>
+          )}
         </div>
         <div className="userInfosRow">
-          <div>
-            <h2>Date de naissance</h2>
-            {isInputBirthday ? (
-              <>
-                <input type="date" placeholder={content.birthday} />
-                <button
-                  className="btn-modify"
-                  onClick={() => {
-                    handleUpdateDetails();
-                    handleClick("birthday");
-                  }}
-                >
-                  Valider
-                </button>
-              </>
-            ) : (
-              <>
-                <p>{handleDateFormat(content.birthday)}</p>
-                <button
-                  className="btn-modify"
-                  onClick={() => handleClick("birthday")}
-                >
-                  Modifier
-                </button>
-              </>
-            )}
-          </div>
+          <h2>Date de naissance</h2>
+          {isInputBirthday ? (
+            <div className="dynamic-row">
+              <input
+                type="date"
+                placeholder={detailsUser.birthday}
+                onChange={handleChangeField("birthday")}
+              />
+              <button
+                className="btn-modify"
+                onClick={() => {
+                  handleUpdateDetails();
+                  handleClick("birthday");
+                }}
+              >
+                Valider
+              </button>
+            </div>
+          ) : (
+            <div className="dynamic-row">
+              <p>{handleDateFormat(detailsUser.birthday)}</p>
+              <button
+                className="btn-modify"
+                onClick={() => handleClick("birthday")}
+              >
+                Modifier
+              </button>
+            </div>
+          )}
         </div>
         <div className="userInfosRow">
-          <div>
-            <h2>Adresse Postale</h2>
-            {isInputAddress ? (
-              <>
-                <input type="text" />
-                <button
-                  className="btn-modify"
-                  onClick={() => {
-                    handleClick("address");
-                    handleUpdateDetails();
-                  }}
-                >
-                  Valider
-                </button>
-              </>
-            ) : (
-              <>
-                <p>{content.address}</p>{" "}
-                <button
-                  className="btn-modify"
-                  onClick={() => handleClick("address")}
-                >
-                  Modifier
-                </button>
-              </>
-            )}
-          </div>
+          <h2>Adresse Postale</h2>
+          {isInputAddress ? (
+            <div className="dynamic-row">
+              <input
+                type="text"
+                placeholder={detailsUser.address}
+                onChange={handleChangeField("address")}
+              />
+              <button
+                className="btn-modify"
+                onClick={() => {
+                  handleClick("address");
+                  handleUpdateDetails();
+                }}
+              >
+                Valider
+              </button>
+            </div>
+          ) : (
+            <div className="dynamic-row">
+              <p>{detailsUser.address}</p>
+              <button
+                className="btn-modify"
+                onClick={() => handleClick("address")}
+              >
+                Modifier
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

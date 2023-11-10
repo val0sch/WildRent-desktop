@@ -11,33 +11,17 @@ import MesReservations from "./MesReservations";
 
 import "../../style/moncompte.css";
 function MonCompte(): JSX.Element {
-  /////
-  //  useEffect
-  /////
-
-  /////
-  //  useState
-  /////
 
   const [isBillComponent, setIsBillComponent] = useState(false);
   const [isProfileInfosComponent, setIsProfileInfosComponent] = useState(true);
   const [isReservationComponent, setIsReservationComponent] = useState(false);
   const [isFavorisComponent, setIsFavorisComponent] = useState(false);
-  /////
-  //  Code
-  /////
-  const { userInfos } = useAuth();
-
   const [userData, setUserData] = useState({});
 
-  const [key, setKey] = useState(0); // Ajout de la clé
+  const { userInfos } = useAuth();
 
-  const updatedUser = () => {
-    console.log("hello");
-    setKey((prevKey) => prevKey + 1); // Changement de la clé à chaque mise à jour
-  };
 
-  const { data, refetch } = useQuery(GET_USERDETAILS, {
+  const { data } = useQuery(GET_USERDETAILS, {
     onCompleted(data) {
       console.log("Details du user", data);
       setUserData(data.detailsConnectUser);
@@ -83,9 +67,6 @@ function MonCompte(): JSX.Element {
     }
   };
 
-  /////
-  //  Return
-  /////
   return (
     <div className="containerUserInfos">
       {Object.keys(userInfos).length > 0 ? (
@@ -125,10 +106,8 @@ function MonCompte(): JSX.Element {
               </button>
             </div>
           </div>
-          <div className="rightContainerUserInfos" key={key}>
-            {isProfileInfosComponent && (
-              <MesInfos content={userData} updatedUser={updatedUser} />
-            )}
+          <div className="rightContainerUserInfos">
+            {isProfileInfosComponent && <MesInfos content={userData} />}
             {isReservationComponent && <MesReservations />}
             {isBillComponent && <MesFactures />}
             {isFavorisComponent && <MesFavoris />}

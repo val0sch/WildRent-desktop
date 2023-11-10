@@ -54,3 +54,36 @@
   border-radius: 0.75rem;
   height: 90%;
 }
+.userInfosContent:nth-child(1) {
+  border-bottom: 1px solid black;
+}
+
+.userInfosRow {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 2%;
+  height: 33%;
+  gap: 2%;
+}
+.userInfosRow:nth-child(1),
+.userInfosRow:nth-child(2) {
+  border-bottom: 1px solid rgba(209, 209, 214, 0.2);
+  box-shadow: rgba(209, 209, 214, 0.2) 0px 10px 29px 0px;
+}
+.dynamic-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-modify {
+  border: none;
+  border-radius: 0.8rem;
+  background-color: transparent;
+  font-size: 0.9em;
+  color: var(--main-orange);
+}
+.btn-modify:hover {
+  color: var(--main-navy);
+}
