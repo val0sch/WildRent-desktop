@@ -1,28 +1,32 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from "typeorm";
-import Cart from "./cart.entity";
-import Product from "./product.entity";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+} from "typeorm";
+import CartSession from "./cartSession.entity";
+
 
 @Entity()
-export default class Item {
-    @PrimaryGeneratedColumn("uuid")
-    id: string
+export default class Item  {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    quantity: number
-    
-    @Column()
-    start_rent_date: Date
+  @Column()
+  quantity: number;
 
-    @Column()
-    due_rent_date: Date
+  @Column()
+  start_rent_date: Date;
 
-    @Column()
-    isFavorite: boolean 
+  @Column()
+  due_rent_date: Date;
 
-    @ManyToOne(type => Cart) 
-    cart: Cart
+  @Column()
+  isFavorite: boolean;
 
-    @OneToOne(() => Product, product => product.item) @JoinColumn()
-    product: Product
+  @ManyToOne((type) => CartSession, item => item.items)
+  cart: CartSession;
 
+  @Column()
+  productId: string
 }

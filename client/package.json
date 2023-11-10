@@ -66,6 +66,7 @@
     "@graphql-codegen/typescript-operations": "2.4.0",
     "@graphql-codegen/typescript-react-apollo": "3.2.14",
     "@graphql-codegen/typescript-resolvers": "^3.2.0",
+    "@types/js-cookie": "^3.0.3",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "autoprefixer": "^10.4.14",

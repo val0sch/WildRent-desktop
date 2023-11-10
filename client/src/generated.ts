@@ -30,8 +30,17 @@ export type Cart = {
 
 export type CartRegister = {
   creation_date: Scalars['String']['input'];
-  state: Scalars['String']['input'];
-  user: Scalars['String']['input'];
+  state?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CartSession = {
+  __typename?: 'CartSession';
+  creation_date?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  items?: Maybe<Array<Maybe<Item>>>;
+  session?: Maybe<Session>;
+  state?: Maybe<Scalars['String']['output']>;
 };
 
 export type Category = {
@@ -87,7 +96,7 @@ export type Item = {
   due_rent_date?: Maybe<Scalars['Date']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   isFavorite?: Maybe<Scalars['Boolean']['output']>;
-  product?: Maybe<Product>;
+  productId?: Maybe<Scalars['String']['output']>;
   quantity?: Maybe<Scalars['Int']['output']>;
   start_rent_date?: Maybe<Scalars['Date']['output']>;
 };
@@ -263,6 +272,7 @@ export type Query = {
   categories?: Maybe<Array<Maybe<Category>>>;
   category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']['output']>;
+  checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
   detailsConnectUser?: Maybe<DetailsUser>;
   detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
@@ -305,6 +315,12 @@ export type QueryProductsByCategoryArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String']['input'];
+};
+
+export type Session = {
+  __typename?: 'Session';
+  id?: Maybe<Scalars['ID']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type User = {
@@ -355,6 +371,13 @@ export type CheckAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CheckAdminQuery = { __typename?: 'Query', checkAdmin?: boolean | null };
+
+export type AddCartMutationVariables = Exact<{
+  infos: CartRegister;
+}>;
+
+
+export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: string | null } | null };
 
 export type AddCategoryMutationVariables = Exact<{
   infos: CategoryRegister;
@@ -459,6 +482,11 @@ export type GetProductQueryVariables = Exact<{
 
 export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', name?: string | null, id?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, category?: { __typename?: 'Category', label?: string | null } | null } | null };
 
+export type CheckSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckSessionQuery = { __typename?: 'Query', checkSession?: Array<{ __typename?: 'Item', start_rent_date?: any | null, quantity?: number | null, productId?: string | null, isFavorite?: boolean | null, id?: string | null, due_rent_date?: any | null } | null> | null };
+
 export type AddUserMutationVariables = Exact<{
   infos: UserRegister;
 }>;
@@ -555,11 +583,13 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Cart: ResolverTypeWrapper<Cart>;
   CartRegister: CartRegister;
+  CartSession: ResolverTypeWrapper<CartSession>;
   Category: ResolverTypeWrapper<Category>;
   CategoryRegister: CategoryRegister;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
   ImageInput: ImageInput;
   ImageRegister: ImageRegister;
@@ -571,6 +601,7 @@ export type ResolversTypes = {
   Product: ResolverTypeWrapper<Product>;
   ProductRegister: ProductRegister;
   Query: ResolverTypeWrapper<{}>;
+  Session: ResolverTypeWrapper<Session>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserLogin: UserLogin;
@@ -582,11 +613,13 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Cart: Cart;
   CartRegister: CartRegister;
+  CartSession: CartSession;
   Category: Category;
   CategoryRegister: CategoryRegister;
   Date: Scalars['Date'];
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
+  ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
   ImageRegister: ImageRegister;
@@ -598,6 +631,7 @@ export type ResolversParentTypes = {
   Product: Product;
   ProductRegister: ProductRegister;
   Query: {};
+  Session: Session;
   String: Scalars['String'];
   User: User;
   UserLogin: UserLogin;
@@ -609,6 +643,15 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CartSessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CartSession'] = ResolversParentTypes['CartSession']> = {
+  creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  session?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -645,7 +688,7 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   due_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
+  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   start_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -697,6 +740,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
@@ -711,6 +755,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
 
+export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   detailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -722,6 +772,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Cart?: CartResolvers<ContextType>;
+  CartSession?: CartSessionResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DetailsUser?: DetailsUserResolvers<ContextType>;
@@ -731,6 +782,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Session?: SessionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 
@@ -908,6 +960,41 @@ export function useCheckAdminLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CheckAdminQueryHookResult = ReturnType<typeof useCheckAdminQuery>;
 export type CheckAdminLazyQueryHookResult = ReturnType<typeof useCheckAdminLazyQuery>;
 export type CheckAdminQueryResult = Apollo.QueryResult<CheckAdminQuery, CheckAdminQueryVariables>;
+export const AddCartDocument = gql`
+    mutation AddCart($infos: CartRegister!) {
+  addCart(infos: $infos) {
+    id
+    state
+    creation_date
+  }
+}
+    `;
+export type AddCartMutationFn = Apollo.MutationFunction<AddCartMutation, AddCartMutationVariables>;
+
+/**
+ * __useAddCartMutation__
+ *
+ * To run a mutation, you first call `useAddCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCartMutation, { data, loading, error }] = useAddCartMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useAddCartMutation(baseOptions?: Apollo.MutationHookOptions<AddCartMutation, AddCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddCartMutation, AddCartMutationVariables>(AddCartDocument, options);
+      }
+export type AddCartMutationHookResult = ReturnType<typeof useAddCartMutation>;
+export type AddCartMutationResult = Apollo.MutationResult<AddCartMutation>;
+export type AddCartMutationOptions = Apollo.BaseMutationOptions<AddCartMutation, AddCartMutationVariables>;
 export const AddCategoryDocument = gql`
     mutation addCategory($infos: CategoryRegister!) {
   addCategory(infos: $infos) {
@@ -1484,6 +1571,45 @@ export function useGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
 export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
 export type GetProductQueryResult = Apollo.QueryResult<GetProductQuery, GetProductQueryVariables>;
+export const CheckSessionDocument = gql`
+    query CheckSession {
+  checkSession {
+    start_rent_date
+    quantity
+    productId
+    isFavorite
+    id
+    due_rent_date
+  }
+}
+    `;
+
+/**
+ * __useCheckSessionQuery__
+ *
+ * To run a query within a React component, call `useCheckSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckSessionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckSessionQuery(baseOptions?: Apollo.QueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+      }
+export function useCheckSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+        }
+export type CheckSessionQueryHookResult = ReturnType<typeof useCheckSessionQuery>;
+export type CheckSessionLazyQueryHookResult = ReturnType<typeof useCheckSessionLazyQuery>;
+export type CheckSessionQueryResult = Apollo.QueryResult<CheckSessionQuery, CheckSessionQueryVariables>;
 export const AddUserDocument = gql`
     mutation AddUser($infos: UserRegister!) {
   addUser(infos: $infos) {

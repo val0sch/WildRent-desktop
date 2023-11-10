@@ -10,8 +10,7 @@ export default {
 
   Mutation: {
     async addCart(_: any, { infos }: MutationAddCartArgs) {
-      const { state, creation_date, user } = infos;
-
+      const { state, creation_date, user} = infos;
       return await new CartService().addCart({
         state,
         creation_date,

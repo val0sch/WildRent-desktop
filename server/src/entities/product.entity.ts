@@ -6,9 +6,10 @@ import {
   OneToOne,
   UpdateResult,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import Category from "./category.entity";
-import Item from "./item.entity";
+import Image from "./image.entity";
 
 @Entity()
 export default class Product {
@@ -37,7 +38,6 @@ export default class Product {
   @JoinColumn()
   category: Category;
 
-  @OneToOne(() => Item, (item) => item.product)
-  item: Item;
-  images: any;
+  @OneToMany(() => Image, (item) => item.product)
+  images: Image[];
 }

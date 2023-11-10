@@ -3,9 +3,15 @@ import "./index.css";
 import { setContext } from "@apollo/client/link/context";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
+import CartContextProvider from "./contexts/CartContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,9 +19,12 @@ const root = ReactDOM.createRoot(
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-  credentials: "same-origin",
+  credentials: "include",
+  // credentials: "same-origin",
+  // fetchOptions: {
+  //   mode: 'no-cors',
+  // },
 });
-
 
 const authLink = setContext((_, { headers }) => {
   //on va modifier les headers envoyés pour chaque requête
@@ -41,7 +50,9 @@ root.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
       <AuthContextProvider>
-        <App />
+        <CartContextProvider>
+            <App />
+        </CartContextProvider>
       </AuthContextProvider>
     </ApolloProvider>
   </BrowserRouter>
