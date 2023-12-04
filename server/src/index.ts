@@ -18,7 +18,6 @@ import resolvers from "./resolvers";
 import UserService from "./services/user.service";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
-import { v4 as uuidv4 } from "uuid";
 import SessionService from "./services/session.service";
 const app = express();
 const appIO = express();
@@ -68,7 +67,6 @@ const start = async () => {
           const time = date.getTime();
           const expireTime = time + 3600 * 24;
           date.setTime(expireTime);
-          // const sessionId = uuidv4().toString();
           session = await new SessionService().createSession(user?.id);
           console.log("%c⧭", "color: #ff0000", session);
 
