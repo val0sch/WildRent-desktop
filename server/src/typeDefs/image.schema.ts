@@ -17,7 +17,7 @@ type Mutation {
   updateImageMainStatus(productId: String!, id: String!, isMain: Boolean!): Image
 }
 
-input ImageRegister {
+input ImageRegister {     
   isMain: Boolean
   name: String!
   product: String!

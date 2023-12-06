@@ -1,5 +1,4 @@
 import * as dotenv from "dotenv";
-dotenv.config();
 import datasource from "./lib/datasource";
 import datasourceSqlite from "./lib/datasourceSqlite";
 import typeDefs from "./typeDefs";
@@ -19,12 +18,17 @@ import UserService from "./services/user.service";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import SessionService from "./services/session.service";
+
+dotenv.config();
+
+// Initialisation des instances Express et des serveurs HTTP
 const app = express();
 const appIO = express();
 const httpServer = http.createServer(app);
 const IoHttpServer = http.createServer(appIO);
 
 const start = async () => {
+    // Initialisation des sources de données 
   await datasource.initialize();
   await datasourceSqlite.initialize();
   const server = new ApolloServer({
@@ -32,6 +36,8 @@ const start = async () => {
     typeDefs,
   });
   await server.start();
+
+   // Configuration d'Express avec les middleware nécessaires
   app.use(cookieParser());
   app.use(
     "/graphql",
@@ -42,6 +48,12 @@ const start = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
+        // Configuration du contexte Apollo Server avec des informations personnalisées
+      // telles que l'utilisateur, la session, etc.
+      //configuration du middleware pour Apollo Server dans une application Express.
+      // Il définit une fonction de contexte qui sera appelée à chaque requête GraphQL,
+      //permettant de configurer le contexte Apollo Server.
+      // Le contexte est un objet qui peut être utilisé pour stocker des informations utiles pour le traitement de la requête.
         console.log("REQUEST", req.cookies);
 
         console.log("REQUEST HEADERS", req.headers);
@@ -59,6 +71,8 @@ const start = async () => {
         }
         console.log("SESSION ID IN COOKIES", req.cookies.sessionId);
         // res.clearCookie("sessionId");
+
+       
         if (!req.cookies.sessionId) {
           //ça pourra aller plus loin si le user est connecté, on ira récupérer la sessionId depuis la base si elle existe
 
@@ -85,6 +99,7 @@ const start = async () => {
     })
   );
 
+    // TODO FINIR ET EXTERNALISER Configuration et démarrage du serveur Socket.IO 
   const io = new Server(IoHttpServer, {
     cors: {
       origin: "*",
@@ -114,14 +129,18 @@ const start = async () => {
     httpServer.listen({ port: 4000 }, resolve)
   );
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+
+    // Création d'un fichier temporaire
   fs.open("./src/gen.temp", "w", function (err, fd) {
     fs.close(fd);
   });
 };
 
+// Exécution de la fonction de démarrage
 start();
 
 // Pour Valérie erreur de processus qui ne s'arrête pas correctement :
+// Gestion d'erreurs liées à la sortie standard (stdout) et terminaison du processus
 process.stdout.on("error", function (err) {
   console.log("process error", err);
   if (err.code == "EPIPE") {
@@ -129,7 +148,7 @@ process.stdout.on("error", function (err) {
     // process.stdin.resume();
   }
 });
-
+// Gestion du signal SIGTERM pour la terminaison propre du processus
 process.on("SIGTERM", () => {
   process.exit(0);
 });
