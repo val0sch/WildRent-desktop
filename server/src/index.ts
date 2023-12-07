@@ -28,7 +28,7 @@ const httpServer = http.createServer(app);
 const IoHttpServer = http.createServer(appIO);
 
 const start = async () => {
-    // Initialisation des sources de données 
+  // Initialisation des sources de données
   await datasource.initialize();
   await datasourceSqlite.initialize();
   const server = new ApolloServer({
@@ -37,7 +37,7 @@ const start = async () => {
   });
   await server.start();
 
-   // Configuration d'Express avec les middleware nécessaires
+  // Configuration d'Express avec les middleware nécessaires
   app.use(cookieParser());
   app.use(
     "/graphql",
@@ -49,11 +49,11 @@ const start = async () => {
     expressMiddleware(server, {
       context: async ({ req, res }) => {
         // Configuration du contexte Apollo Server avec des informations personnalisées
-      // telles que l'utilisateur, la session, etc.
-      //configuration du middleware pour Apollo Server dans une application Express.
-      // Il définit une fonction de contexte qui sera appelée à chaque requête GraphQL,
-      //permettant de configurer le contexte Apollo Server.
-      // Le contexte est un objet qui peut être utilisé pour stocker des informations utiles pour le traitement de la requête.
+        // telles que l'utilisateur, la session, etc.
+        //configuration du middleware pour Apollo Server dans une application Express.
+        // Il définit une fonction de contexte qui sera appelée à chaque requête GraphQL,
+        //permettant de configurer le contexte Apollo Server.
+        // Le contexte est un objet qui peut être utilisé pour stocker des informations utiles pour le traitement de la requête.
         console.log("REQUEST", req.cookies);
 
         console.log("REQUEST HEADERS", req.headers);
@@ -61,10 +61,12 @@ const start = async () => {
         let user = null;
 
         if (req.headers.authorization) {
+          console.log("req.headers.authorization", req.headers.authorization);
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
           )) as any;
           if (payload) {
+            console.log("payload", payload);
             const email = payload.email;
             user = await new UserService().findByEmail(email);
           }
@@ -72,7 +74,6 @@ const start = async () => {
         console.log("SESSION ID IN COOKIES", req.cookies.sessionId);
         // res.clearCookie("sessionId");
 
-       
         if (!req.cookies.sessionId) {
           //ça pourra aller plus loin si le user est connecté, on ira récupérer la sessionId depuis la base si elle existe
 
@@ -99,7 +100,7 @@ const start = async () => {
     })
   );
 
-    // TODO FINIR ET EXTERNALISER Configuration et démarrage du serveur Socket.IO 
+  // TODO FINIR ET EXTERNALISER Configuration et démarrage du serveur Socket.IO
   const io = new Server(IoHttpServer, {
     cors: {
       origin: "*",
@@ -130,7 +131,7 @@ const start = async () => {
   );
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
 
-    // Création d'un fichier temporaire
+  // Création d'un fichier temporaire
   fs.open("./src/gen.temp", "w", function (err, fd) {
     fs.close(fd);
   });
