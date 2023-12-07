@@ -2,11 +2,6 @@ import CartService from "../services/cart.service";
 import { MutationAddCartArgs, MutationDeleteCartArgs, MutationUpdateCartArgs } from "../graphql/graphql";
 
 export default {
-  Query: {
-    async carts() {
-      return await new CartService().listCart();
-    },
-  },
 
   Mutation: {
     async addCart(_: any, { infos }: MutationAddCartArgs) {

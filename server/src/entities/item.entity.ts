@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
 } from "typeorm";
-import CartSession from "./cartSession.entity";
+import Cart from "./cart.entity";
 
 
 @Entity()
@@ -24,8 +24,8 @@ export default class Item  {
   @Column()
   isFavorite: boolean;
 
-  @ManyToOne((type) => CartSession, item => item.items)
-  cart: CartSession;
+  @ManyToOne((type) => Cart, item => item.items)
+  cart: Cart;
 
   @Column()
   productId: string

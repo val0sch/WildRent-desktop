@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 
 } from "typeorm";
-import CartSession from "./cartSession.entity";
+import Cart from "./cart.entity";
 
 
 @Entity()
@@ -18,7 +18,7 @@ export default class Session {
   userId?: string;
 
   
-  @OneToOne(() => CartSession, {nullable: true})
+  @OneToOne(() => Cart, {nullable: true})
   @JoinColumn()
-  cart?: CartSession;
+  cart?: Cart;
 }

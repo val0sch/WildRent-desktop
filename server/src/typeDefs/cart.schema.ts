@@ -1,20 +1,9 @@
 export default `#graphql
-type CartSession {
-  id: String
+type Cart {
+  id: ID
   state: String
   creation_date: String
   items: [Item]
-  session: Session
-}
-type Cart {
-  id: String
-  state: String
-  creation_date: String
-  user: User
-}
-
-type Query {
-  carts: [Cart]
 }
 
 type Mutation {
@@ -26,6 +15,5 @@ type Mutation {
 input CartRegister {
   state: String
   creation_date: String!
-  user: String
 }
 `;

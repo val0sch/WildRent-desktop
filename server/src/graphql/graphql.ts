@@ -18,24 +18,14 @@ export type Scalars = {
 export type Cart = {
   __typename?: 'Cart';
   creation_date?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  items?: Maybe<Array<Maybe<Item>>>;
   state?: Maybe<Scalars['String']>;
-  user?: Maybe<User>;
 };
 
 export type CartRegister = {
   creation_date: Scalars['String'];
   state?: InputMaybe<Scalars['String']>;
-  user?: InputMaybe<Scalars['String']>;
-};
-
-export type CartSession = {
-  __typename?: 'CartSession';
-  creation_date?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  items?: Maybe<Array<Maybe<Item>>>;
-  session?: Maybe<Session>;
-  state?: Maybe<Scalars['String']>;
 };
 
 export type Category = {
@@ -263,7 +253,6 @@ export type ProductRegister = {
 
 export type Query = {
   __typename?: 'Query';
-  carts?: Maybe<Array<Maybe<Cart>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
   category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']>;
@@ -314,6 +303,7 @@ export type QueryUserArgs = {
 
 export type Session = {
   __typename?: 'Session';
+  cartId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   userId?: Maybe<Scalars['String']>;
 };
@@ -412,7 +402,6 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Cart: ResolverTypeWrapper<Cart>;
   CartRegister: CartRegister;
-  CartSession: ResolverTypeWrapper<CartSession>;
   Category: ResolverTypeWrapper<Category>;
   CategoryRegister: CategoryRegister;
   Date: ResolverTypeWrapper<Scalars['Date']>;
@@ -442,7 +431,6 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Cart: Cart;
   CartRegister: CartRegister;
-  CartSession: CartSession;
   Category: Category;
   CategoryRegister: CategoryRegister;
   Date: Scalars['Date'];
@@ -469,17 +457,8 @@ export type ResolversParentTypes = {
 
 export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
   creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CartSessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CartSession'] = ResolversParentTypes['CartSession']> = {
-  creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
-  session?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -565,7 +544,6 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  carts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Cart']>>>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -585,6 +563,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
+  cartId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -601,7 +580,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Cart?: CartResolvers<ContextType>;
-  CartSession?: CartSessionResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DetailsUser?: DetailsUserResolvers<ContextType>;
