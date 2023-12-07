@@ -40,8 +40,7 @@ export default {
           extensions: { code: ApolloServerErrorCode.BAD_REQUEST },
         });
       }
-      return await new CategoryService().updateCategory({
-        id,
+      return await new CategoryService().updateCategory(id,{
         label,
         imageUrl
       });

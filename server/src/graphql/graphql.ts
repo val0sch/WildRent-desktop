@@ -25,7 +25,7 @@ export type Cart = {
 
 export type CartRegister = {
   creation_date: Scalars['String'];
-  state?: InputMaybe<Scalars['String']>;
+  state: Scalars['String'];
 };
 
 export type Category = {
