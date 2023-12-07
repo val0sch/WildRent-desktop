@@ -1,30 +1,22 @@
-import User from "./user.entity";
+import { Column, Entity, PrimaryGeneratedColumn, Check, OneToMany } from "typeorm";
 import Item from "./item.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
-export enum CartState {
-    EN_COURS = "en cours",
-    VALIDEE = "validée",
-    ANNULEE = "annulée",
-    ARCHIVE = "archivée",
-}
 
 @Entity()
 export default class Cart {
     @PrimaryGeneratedColumn("uuid")
-    id: string
+    id: string;
 
-    @Column({ 
-        type: "enum",
-        enum: CartState,
-        default: CartState.EN_COURS,
+    @Column({
+        type: "varchar",
+        length: 50 
     })
-    state:  CartState
+    @Check(`state IN ('en cours', 'validée', 'annulée', 'archivée')`)
+    state: string; 
 
     @Column()
-    creation_date: Date
-
-    @ManyToOne(type => User) 
-    user: User
-
+    creation_date: Date;   
+    
+    @OneToMany(() => Item, item => item.cart )
+    items: Item[];
 }
+

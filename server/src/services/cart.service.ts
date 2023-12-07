@@ -7,11 +7,7 @@ export default class CartService {
   constructor() {
     this.db = datasource.getRepository("Cart");
   }
-
-  async listCart() {
-    return await this.db.find({ relations: ['user'] });
-  }
-  
+    
   async findById(id: string) {
     return await this.db.findOneBy({ id });
   }
@@ -20,8 +16,8 @@ export default class CartService {
     return await this.db.save({ state, creation_date, user });
   }
 
-  async updateCart({ id, state, creation_date, user }: any) {
-    return await this.db.update(id, { state, creation_date, user });
+  async updateCart({ id, state, creation_date }: any) {
+    return await this.db.update(id, { state, creation_date });
   }
 
   async deleteCart({ id }: any) {
