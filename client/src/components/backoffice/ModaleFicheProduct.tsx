@@ -51,7 +51,7 @@ function ModaleFicheProduct({
         text: errorMessage,
       });
     }
-  }, [errorMessage]);
+  }, [errorMessage, Toast]);
 
   // LIST CATEGORIES
   const { data: categories } = useQuery(LIST_CATEGORIES, {
@@ -142,13 +142,13 @@ function ModaleFicheProduct({
         { abortEarly: false }
       );
       const selectedCategoryId = category === "" ? null : category;
-      name == product.name &&
-      description == product.description &&
-      price == product.price &&
-      size == product.size &&
-      isAvailable == product.isAvailable &&
-      stock == product.stock &&
-      selectedCategoryId == product?.category?.id
+      name === product.name &&
+      description === product.description &&
+      price === product.price &&
+      size === product.size &&
+      isAvailable === product.isAvailable &&
+      stock === product.stock &&
+      selectedCategoryId === product?.category?.id
         ? setMessage("Aucune modification n'a été apporté")
         : await updateProductInDb({
             variables: {

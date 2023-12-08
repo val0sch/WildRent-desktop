@@ -6,6 +6,7 @@ import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
 import { CaretCircleDown } from "@phosphor-icons/react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { Product } from "../generated";
 
 function ProductsList() {
   const { category } = useParams();
@@ -86,8 +87,9 @@ function ProductsList() {
     return matchesSearch && matchesIsAvailable && matchesSize && priceInRange;
   });
 
+
   const uniqueSizes = Array.from(
-    new Set(data?.productsByCategory.map((product: any) => product.size))
+    new Set(data?.productsByCategory?.map((product: Product) => product.size))
   );
 
   if (loading) {

@@ -11,7 +11,7 @@ function CategorieList(): JSX.Element {
 
   const [categoriesList, setCategoriesList] = useState([]);
 
-  const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
+  const [getList] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       setCategoriesList(data.categories);
     },
@@ -22,14 +22,14 @@ function CategorieList(): JSX.Element {
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
   return (
-    <section className={`all-categories-container ${isMobile ? 'mobile' : ''}`}>
+    <section className={`all-categories-container ${isMobile ? "mobile" : ""}`}>
       {categoriesList ? (
-        categoriesList.map((categorie:any, index:number) => {
+        categoriesList.map((categorie: any, index: number) => {
           const isLastItem = index === categoriesList.length - 1 && isMobile;
-          const divStyle = isLastItem ? { width: '100%' } : {};
+          const divStyle = isLastItem ? { width: "100%" } : {};
 
           return (
             <div
@@ -40,7 +40,9 @@ function CategorieList(): JSX.Element {
               }}
               key={index}
             >
-              <Link to={`/all-categories/${categorie.label}`}>{categorie.label}</Link>
+              <Link to={`/all-categories/${categorie.label}`}>
+                {categorie.label}
+              </Link>
             </div>
           );
         })

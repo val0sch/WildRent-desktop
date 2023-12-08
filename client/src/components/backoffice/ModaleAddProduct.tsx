@@ -47,7 +47,7 @@ function ModaleAddProduct({
     },
   });
 
-  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
+  const [addProductInDb] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
       setMessage(
         "Vous avez ajouté le produit : " + data.addProductWithImages.name
@@ -124,15 +124,15 @@ function ModaleAddProduct({
 
   const Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -163,9 +163,9 @@ function ModaleAddProduct({
         },
       });
       await Toast.fire({
-        icon: 'success',
-        title: 'Produit ajouté avec succès'
-      })
+        icon: "success",
+        title: "Produit ajouté avec succès",
+      });
     } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
