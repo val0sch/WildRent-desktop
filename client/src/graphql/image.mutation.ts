@@ -14,6 +14,7 @@ export const ADD_IMAGE = gql`
       id
       isMain
       name
+      productId
     }
   }
 `;
@@ -26,8 +27,7 @@ export const UPDATE_IMAGE_MAIN_STATUS = gql`
   ) {
     updateImageMainStatus(
       productId: $productId
-      id: $updateImageMainStatusId
-      isMain: $isMain
+      infos: { id: $updateImageMainStatusId, isMain: $isMain }
     ) {
       id
       isMain

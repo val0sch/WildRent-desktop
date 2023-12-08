@@ -260,7 +260,7 @@ function ModaleFicheProduct({
         infos: {
           isMain: isNewImageMain,
           name: newImageName,
-          product: product.id,
+          productId: product.id,
         },
       },
     });

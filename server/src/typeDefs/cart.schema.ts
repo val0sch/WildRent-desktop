@@ -13,7 +13,7 @@ type Mutation {
 }
 
 input CartRegister {
-  state: String
+  state: String!
   creation_date: String!
 }
 `;

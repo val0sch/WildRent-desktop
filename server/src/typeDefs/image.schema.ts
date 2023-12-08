@@ -1,9 +1,9 @@
 export default `#graphql
 type Image {
-  id: String
+  id: ID
   isMain: Boolean
   name: String
-  product: Product
+  productId: String
 }
 
 type Query {
@@ -13,13 +13,18 @@ type Query {
 
 type Mutation {
   addImage(infos: ImageRegister!): Image
-  deleteImage(id: String!): Image
-  updateImageMainStatus(productId: String!, id: String!, isMain: Boolean!): Image
+  deleteImage(id: ID!): Image
+  updateImageMainStatus(productId: String!, infos: ImageUpdateMain!): Image
 }
 
 input ImageRegister {
-  isMain: Boolean
+  isMain: Boolean!
   name: String!
-  product: String!
+  productId: String!
+}
+
+input ImageUpdateMain {
+  id: ID!
+  isMain: Boolean!
 }
 `;

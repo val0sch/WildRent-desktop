@@ -1,5 +1,6 @@
 import DetailsUserService from "../services/detailsUser.service";
-import { MutationUpdateDetailsUserArgs } from "../graphql/graphql";
+import { MutationUpdateDetailsUserArgs, User } from "../graphql/graphql";
+import { IContext } from "../index.d";
 
 
 export default {
@@ -7,15 +8,14 @@ export default {
     async detailsUsers() {
       return await new DetailsUserService().listDetailsUsers();
     },
-    detailsConnectUser(_: any, {}, { user }: any){
+    detailsConnectUser(_: any, {}, { user }: IContext){
       return user?.detailsUser;
     }
   },
   Mutation: {
-    async updateDetailsUser(_: any, { id, infos }: MutationUpdateDetailsUserArgs, { user }: any) {
+    async updateDetailsUser(_: any, { id, infos }: MutationUpdateDetailsUserArgs) {
       const {  birthday, address, firstname, lastname } = infos;
-      return await new DetailsUserService().updateDetailsUser({
-        id,
+      return await new DetailsUserService().updateDetailsUser(id,{
         birthday,
         address,
         firstname,

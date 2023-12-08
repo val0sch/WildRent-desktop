@@ -80,10 +80,10 @@ export default {
 
       // Création du DetailsUser
       const detailsUser = new DetailsUserService().addDetailsUser({
-        firstName: null,
-        lastName: null,
-        birthday: null,
-        address: null,
+        firstname: "",
+        lastname: "",
+        birthday: "",
+        address: "",
       });
       const detailsUserId = (await detailsUser).id;
 
