@@ -14,7 +14,7 @@ export default {
 
   Mutation: {
     async addImage(_: any, { infos }: MutationAddImageArgs) {
-      let { isMain, name, product } = infos;
+      let { isMain, name, productId } = infos;
 
       if (isMain == null) { // assignation de la valeur false à isMain si elle n'est pas renseignée
         isMain = false;
@@ -22,7 +22,7 @@ export default {
       return await new ImageService().addImage({
         isMain,
         name,
-        product
+        productId
       });
     },
 
@@ -30,7 +30,8 @@ export default {
       return await new ImageService().deleteImage({ id });
     },
 
-    async updateImageMainStatus(_: any, { productId, id, isMain }: MutationUpdateImageMainStatusArgs) {
+    async updateImageMainStatus(_: any, { productId, infos }: MutationUpdateImageMainStatusArgs) {
+      const { id, isMain } = infos;
       const image = await new ImageService().findById(id);
 
       if (!image) {

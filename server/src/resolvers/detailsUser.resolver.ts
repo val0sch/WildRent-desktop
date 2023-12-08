@@ -1,5 +1,6 @@
 import DetailsUserService from "../services/detailsUser.service";
 import { MutationUpdateDetailsUserArgs, User } from "../graphql/graphql";
+import { IContext } from "../index.d";
 
 
 export default {
@@ -7,7 +8,7 @@ export default {
     async detailsUsers() {
       return await new DetailsUserService().listDetailsUsers();
     },
-    detailsConnectUser(_: any, {}, { user }: any){
+    detailsConnectUser(_: any, {}, { user }: IContext){
       return user?.detailsUser;
     }
   },

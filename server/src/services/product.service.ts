@@ -32,7 +32,6 @@ export default class ProductService {
     size,
     stock,
     category,
-    item,
     images,
   }: any) {
     const product = await this.db.save({
@@ -43,13 +42,16 @@ export default class ProductService {
       size,
       stock,
       category,
-      item,
     });
 
+    const productId = product.id;
+
+    console.log("productId", productId) // TODO : checker pourquoi l'image ne s'ajoute pas
     const imageService = new ImageService();
     const imagePromises = images.map(async (imageInfo: any) => {
       const { isMain, name } = imageInfo;
-      return imageService.addImage({ isMain, name, product });
+
+      return imageService.addImage({ isMain, name, productId });
     });
 
     await Promise.all(imagePromises);
@@ -66,7 +68,6 @@ export default class ProductService {
     size,
     stock,
     category,
-    item,
   }: any) {
     return await this.db.update(id, {
       name,
@@ -76,11 +77,10 @@ export default class ProductService {
       size,
       stock,
       category,
-      
     });
   }
 
-  async deleteProduct({ id }: any) {
+  async deleteProduct({ id }: { id: string }) {
     return await this.db.delete({ id });
   }
 }
