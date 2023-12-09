@@ -42,9 +42,9 @@ const start = async () => {
     json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        console.log("REQUEST", req.cookies);
+        // console.log("REQUEST", req.cookies);
 
-        console.log("REQUEST HEADERS", req.headers);
+        // console.log("REQUEST HEADERS", req.headers);
         let session = null;
         let user = null;
 
@@ -57,7 +57,7 @@ const start = async () => {
             user = await new UserService().findByEmail(email);
           }
         }
-        console.log("SESSION ID IN COOKIES", req.cookies.sessionId);
+        // console.log("SESSION ID IN COOKIES", req.cookies.sessionId);
         // res.clearCookie("sessionId");
         if (!req.cookies.sessionId) {
           //ça pourra aller plus loin si le user est connecté, on ira récupérer la sessionId depuis la base si elle existe
@@ -68,7 +68,7 @@ const start = async () => {
           const expireTime = time + 3600 * 24;
           date.setTime(expireTime);
           session = await new SessionService().createSession(user?.id);
-          console.log("%c⧭", "color: #ff0000", session);
+          // console.log("%c⧭", "color: #ff0000", session);
 
           res.cookie("sessionId", session.id, {
             httpOnly: true,
@@ -100,7 +100,7 @@ const start = async () => {
     //   socket.to(data.room).emit("receive_message", data);
     //   console.log("USER SEND MESSAGE");
     // });
-    console.log("socket", socket.id);
+    // console.log("socket", socket.id);
     socket.on("send_message", (data: any) => {
       socket.broadcast.emit("receive_message", data);
     });
@@ -108,7 +108,7 @@ const start = async () => {
 
   // IoHttpServer.listen(3001);
   await new Promise<void>((resolve) => IoHttpServer.listen(3001, resolve));
-  console.log("🚀 Server ready at http://localhost:3001");
+  // console.log("🚀 Server ready at http://localhost:3001");
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)

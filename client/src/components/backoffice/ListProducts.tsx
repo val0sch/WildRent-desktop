@@ -44,7 +44,7 @@ function ListProducts({
     },
     {
       name: "Catégorie",
-      selector: (row:any) => row.category?.label? row.category?.label:"",
+      selector: (row: any) => (row.category?.label ? row.category?.label : ""),
       sortable: true,
     },
     {
@@ -85,7 +85,7 @@ function ListProducts({
   ];
   const conditionalRowStyles = [
     {
-      when: (row: any) => row.isAvailable == false,
+      when: (row: any) => row.isAvailable === false,
       style: {
         backgroundColor: "lightgrey",
         color: "white",

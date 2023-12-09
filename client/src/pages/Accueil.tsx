@@ -10,9 +10,9 @@ import ButtonScrollToTop from "../Utils/ButtonScrollToTop";
 
 function Users(): JSX.Element {
   const [categoriesList, setCategoriesList] = useState([]);
-  const [getList, { data }] = useLazyQuery(LIST_CATEGORIES, {
+  const [getList] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      setCategoriesList(data.categories)
+      setCategoriesList(data.categories);
     },
     onError(error) {
       console.error(error);
@@ -21,7 +21,7 @@ function Users(): JSX.Element {
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
   return (
     <section className="home-container">
@@ -45,7 +45,6 @@ function Users(): JSX.Element {
           })}
           <ButtonScrollToTop />
         </div>
-       
       </div>
     </section>
   );

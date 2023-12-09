@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 
 function MesReservations(): JSX.Element {
-/////
-//  useEffect
-/////
+  /////
+  //  useEffect
+  /////
 
-/////
-//  useState
-/////
+  /////
+  //  useState
+  /////
 
-/////
-//  Code
-/////
+  /////
+  //  Code
+  /////
 
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
     <div>
       Mes Réservations
@@ -25,7 +25,6 @@ function MesReservations(): JSX.Element {
         </button>
       </div>
     </div>
-
   );
 }
 

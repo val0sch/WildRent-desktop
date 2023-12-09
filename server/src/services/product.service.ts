@@ -46,7 +46,7 @@ export default class ProductService {
 
     const productId = product.id;
 
-    console.log("productId", productId) // TODO : checker pourquoi l'image ne s'ajoute pas
+    // TODO : checker pourquoi l'image ne s'ajoute pas
     const imageService = new ImageService();
     const imagePromises = images.map(async (imageInfo: any) => {
       const { isMain, name } = imageInfo;

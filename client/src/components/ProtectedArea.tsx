@@ -25,8 +25,6 @@ function ProtectedArea({
       return <div>Vous n'avez le droit d'être là</div>;
     }
   }
-
-  return null;
 }
 
 export default ProtectedArea;

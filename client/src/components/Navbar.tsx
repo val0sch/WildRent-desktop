@@ -38,7 +38,7 @@ export default function Accueil(): JSX.Element {
 
   const [categoriesList, setCategoriesList] = useState([]);
 
-  const [getList, { data: subMenu }] = useLazyQuery(LIST_CATEGORIES, {
+  const [getList] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(subMenu) {
       setCategoriesList(subMenu.categories);
     },
@@ -49,9 +49,8 @@ export default function Accueil(): JSX.Element {
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
-  console.log("CART",cart )
   // gestion affichage categories et sous-categories
   const [showCategories, setShowCategories] = useState(false);
 

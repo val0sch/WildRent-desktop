@@ -3,23 +3,8 @@ import Login from "../components/Login";
 import useAuth from "../hooks/useAuth";
 
 function MonCompte(): JSX.Element {
-  /////
-  //  useEffect
-  /////
-
-  /////
-  //  useState
-  /////
-
-  /////
-  //  Code
-  /////
   const { userInfos } = useAuth();
- 
 
-  /////
-  //  Return
-  /////
   return (
     <div>
       {Object.keys(userInfos).length > 0 ? (

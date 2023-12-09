@@ -25,7 +25,7 @@ function Categories(): JSX.Element {
 
   /// LIST CATEGORIES
   const [categories, setCategories] = useState<Category[]>([]);
-  const { data, refetch } = useQuery(LIST_CATEGORIES, {
+  useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
       setCategories(data.categories);

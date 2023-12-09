@@ -1,7 +1,10 @@
 export default `#graphql
+
+scalar Date
+
 type DetailsUser {
   id: String
-  birthday: String
+  birthday: Date
   address: String
   firstname: String
   lastname: String
@@ -17,12 +20,9 @@ type Mutation {
 }
 
 input DetailsUserRegister {
-  birthday: String!
+  birthday: Date!
   address: String!
   firstname: String!
   lastname: String!
 }
 `;
-
-
-

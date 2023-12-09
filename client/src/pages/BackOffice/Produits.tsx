@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ListProducts from "../../components/backoffice/ListProducts";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
 import Plongeur from "../../assets/back-office.jpeg";
@@ -24,7 +24,7 @@ function Produits(): JSX.Element {
 
   // LIST PRODUCTS
   const [products, setProducts] = useState<Product[]>([]);
-  const { data, refetch } = useQuery(LIST_PRODUCT, {
+  useQuery(LIST_PRODUCT, {
     onCompleted(data) {
       console.log("list product", data);
       setProducts(data.products);
