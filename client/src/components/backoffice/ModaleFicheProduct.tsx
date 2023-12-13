@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import * as Yup from "yup";
 import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
 import {
@@ -292,12 +292,12 @@ function ModaleFicheProduct({
   };
 
   const imagesSection = () => {
-    if (!imagesData || !imagesData.imagesByProduct) return null;
+    if (!imagesData || !imagesData.getImagesByProduct) return null;
 
     return (
       <div className="form-images-product">
         <h3>Images du produit</h3>
-        {imagesData.imagesByProduct.length === 0 && (
+        {imagesData.getImagesByProduct.length === 0 && (
           <div>Aucune image pour ce produit.</div>
         )}
         <div>
@@ -326,7 +326,7 @@ function ModaleFicheProduct({
         <div className="listImagesProductContainer">
           <h4>Images enregistrées :</h4>
           <div className="images-product-container">
-            {imagesData.imagesByProduct.map((image: any) => (
+            {imagesData.getImagesByProduct.map((image: any) => (
               <div key={image.id} className="ImageProductContainer">
                 <img src={image.name} alt={image.name} />
                 <label>

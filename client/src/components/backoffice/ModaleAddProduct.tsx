@@ -7,7 +7,7 @@ import {
   FormEvent,
 } from "react";
 import { ADD_PRODUCT_WITH_IMAGES } from "../../graphql/product.mutation";
-import { LIST_CATEGORIES } from "../../graphql/Categories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import * as Yup from "yup";
 
 import "../../style/backoffice.css";
@@ -182,7 +182,7 @@ function ModaleAddProduct({
       <form onSubmit={handleAddProduct} className="modale-add-product-form">
         <select onChange={handleSelectChange}>
           <option value="">Choisir une catégorie</option>
-          {categories?.categories.map(
+          {categories?.getListCategories.map(
             (selectedcategory: any, index: number) => (
               <option key={index} value={selectedcategory.id}>
                 {selectedcategory.label}

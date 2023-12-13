@@ -4,7 +4,7 @@ import ListCategories from "../../components/backoffice/ListCategories";
 import { MouseEventHandler, useState } from "react";
 
 import Plongeur from "../../assets/back-office.jpeg";
-import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import { useQuery } from "@apollo/client";
 import { Category } from "../../generated";
 
@@ -28,7 +28,7 @@ function Categories(): JSX.Element {
   useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
-      setCategories(data.categories);
+      setCategories(data.getListCategories);
     },
     onError(error) {
       console.error(error);

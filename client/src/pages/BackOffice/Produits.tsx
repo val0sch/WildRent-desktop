@@ -6,7 +6,7 @@ import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 import Plongeur from "../../assets/back-office.jpeg";
 import { Product } from "../../generated";
 import { useQuery } from "@apollo/client";
-import { LIST_PRODUCT } from "../../graphql/listProduct.query";
+import { LIST_PRODUCT } from "../../graphql/product.query";
 
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
@@ -26,8 +26,7 @@ function Produits(): JSX.Element {
   const [products, setProducts] = useState<Product[]>([]);
   useQuery(LIST_PRODUCT, {
     onCompleted(data) {
-      console.log("list product", data);
-      setProducts(data.products);
+      setProducts(data.getListProducts);
     },
     onError(error) {
       console.error(error);
