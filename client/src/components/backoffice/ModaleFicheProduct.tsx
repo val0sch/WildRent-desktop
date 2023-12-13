@@ -445,7 +445,7 @@ function ModaleFicheProduct({
               value={category ? category : ""}
             >
               <option value="">Pas de catégorie</option>
-              {categories?.categories.map(
+              {categories?.getListCategories.map(
                 (selectedcategory: any, index: number) => (
                   <option key={index} value={selectedcategory.id} selected>
                     {selectedcategory.label}
