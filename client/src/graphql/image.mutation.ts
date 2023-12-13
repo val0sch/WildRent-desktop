@@ -14,7 +14,7 @@ export const ADD_IMAGE = gql`
       id
       isMain
       name
-      productId
+      product
     }
   }
 `;
