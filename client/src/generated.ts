@@ -22,14 +22,14 @@ export type Scalars = {
 
 export type Cart = {
   __typename?: 'Cart';
-  creation_date?: Maybe<Scalars['String']['output']>;
+  creation_date?: Maybe<Scalars['Date']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   items?: Maybe<Array<Maybe<Item>>>;
   state?: Maybe<Scalars['String']['output']>;
 };
 
 export type CartRegister = {
-  creation_date: Scalars['String']['input'];
+  creation_date: Scalars['Date']['input'];
   state: Scalars['String']['input'];
 };
 
@@ -48,7 +48,7 @@ export type CategoryRegister = {
 export type DetailsUser = {
   __typename?: 'DetailsUser';
   address?: Maybe<Scalars['String']['output']>;
-  birthday?: Maybe<Scalars['String']['output']>;
+  birthday?: Maybe<Scalars['Date']['output']>;
   firstname?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   lastname?: Maybe<Scalars['String']['output']>;
@@ -56,14 +56,14 @@ export type DetailsUser = {
 
 export type DetailsUserRegister = {
   address: Scalars['String']['input'];
-  birthday: Scalars['String']['input'];
+  birthday: Scalars['Date']['input'];
   firstname: Scalars['String']['input'];
   lastname: Scalars['String']['input'];
 };
 
 export type Image = {
   __typename?: 'Image';
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   isMain?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   productId?: Maybe<Scalars['String']['output']>;
@@ -81,7 +81,7 @@ export type ImageRegister = {
 };
 
 export type ImageUpdateMain = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   isMain: Scalars['Boolean']['input'];
 };
 
@@ -176,7 +176,7 @@ export type MutationDeleteCategoryArgs = {
 
 
 export type MutationDeleteImageArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -262,52 +262,37 @@ export type ProductRegister = {
 
 export type Query = {
   __typename?: 'Query';
-  categories?: Maybe<Array<Maybe<Category>>>;
-  category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']['output']>;
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
-  detailsConnectUser?: Maybe<DetailsUser>;
-  detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
-  images?: Maybe<Array<Maybe<Image>>>;
-  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
-  items?: Maybe<Array<Maybe<Item>>>;
+  getDetailsUserConnected?: Maybe<DetailsUser>;
+  getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
+  getListCategories?: Maybe<Array<Maybe<Category>>>;
+  getListItems?: Maybe<Array<Maybe<Item>>>;
+  getListProducts?: Maybe<Array<Maybe<Product>>>;
+  getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
+  getProductById?: Maybe<Product>;
   login?: Maybe<LoginInfo>;
-  product?: Maybe<Product>;
-  products?: Maybe<Array<Maybe<Product>>>;
-  productsByCategory?: Maybe<Array<Maybe<Product>>>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
-export type QueryCategoryArgs = {
-  id: Scalars['String']['input'];
+export type QueryGetImagesByProductArgs = {
+  productId: Scalars['String']['input'];
 };
 
 
-export type QueryImagesByProductArgs = {
+export type QueryGetListProductsByCategoryArgs = {
+  categoryLabel: Scalars['String']['input'];
+};
+
+
+export type QueryGetProductByIdArgs = {
   productId: Scalars['String']['input'];
 };
 
 
 export type QueryLoginArgs = {
   infos: UserLogin;
-};
-
-
-export type QueryProductArgs = {
-  productId: Scalars['String']['input'];
-};
-
-
-export type QueryProductsByCategoryArgs = {
-  categoryLabel: Scalars['String']['input'];
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['String']['input'];
 };
 
 export type Session = {
@@ -337,18 +322,6 @@ export type UserRegister = {
   password: Scalars['String']['input'];
 };
 
-export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ListCategoriesQuery = { __typename?: 'Query', categories?: Array<{ __typename?: 'Category', id?: string | null, label?: string | null, imageUrl?: string | null } | null> | null };
-
-export type GetCategoryQueryVariables = Exact<{
-  categoryId: Scalars['String'];
-}>;
-
-
-export type GetCategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', imageUrl?: string | null, label?: string | null } | null };
-
 export type LoginQueryVariables = Exact<{
   infos: UserLogin;
 }>;
@@ -371,7 +344,12 @@ export type AddCartMutationVariables = Exact<{
 }>;
 
 
-export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: string | null } | null };
+export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null };
+
+export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListCategoriesQuery = { __typename?: 'Query', getListCategories?: Array<{ __typename?: 'Category', id?: string | null, label?: string | null, imageUrl?: string | null } | null> | null };
 
 export type AddCategoryMutationVariables = Exact<{
   infos: CategoryRegister;
@@ -395,8 +373,16 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'Category', id?: string | null } | null };
 
+export type UpdateUserDetailsMutationVariables = Exact<{
+  updateDetailsUserId: Scalars['String'];
+  infos: DetailsUserRegister;
+}>;
+
+
+export type UpdateUserDetailsMutation = { __typename?: 'Mutation', updateDetailsUser?: { __typename?: 'DetailsUser', id?: string | null, birthday?: any | null, address?: string | null, firstname?: string | null, lastname?: string | null } | null };
+
 export type DeleteImageMutationVariables = Exact<{
-  deleteImageId: Scalars['String'];
+  deleteImageId: Scalars['ID'];
 }>;
 
 
@@ -411,7 +397,7 @@ export type AddImageMutation = { __typename?: 'Mutation', addImage?: { __typenam
 
 export type UpdateImageMainStatusMutationVariables = Exact<{
   productId: Scalars['String'];
-  updateImageMainStatusId: Scalars['String'];
+  updateImageMainStatusId: Scalars['ID'];
   isMain: Scalars['Boolean'];
 }>;
 
@@ -423,24 +409,7 @@ export type ImagesByProductQueryVariables = Exact<{
 }>;
 
 
-export type ImagesByProductQuery = { __typename?: 'Query', imagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
-
-export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProductsQuery = { __typename?: 'Query', products?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null, label?: string | null } | null } | null> | null };
-
-export type ProductsByCategoryQueryVariables = Exact<{
-  categoryLabel: Scalars['String'];
-}>;
-
-
-export type ProductsByCategoryQuery = { __typename?: 'Query', productsByCategory?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, images?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null } | null> | null };
-
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', email?: string | null, isAdmin?: boolean | null, detailsUser?: { __typename?: 'DetailsUser', firstname?: string | null, lastname?: string | null, address?: string | null, birthday?: string | null } | null } | null> | null };
+export type ImagesByProductQuery = { __typename?: 'Query', getImagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
 
 export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
@@ -469,7 +438,19 @@ export type GetProductQueryVariables = Exact<{
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', name?: string | null, id?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, category?: { __typename?: 'Category', label?: string | null } | null } | null };
+export type GetProductQuery = { __typename?: 'Query', getProductById?: { __typename?: 'Product', name?: string | null, id?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, category?: { __typename?: 'Category', label?: string | null } | null } | null };
+
+export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsQuery = { __typename?: 'Query', getListProducts?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null, label?: string | null } | null } | null> | null };
+
+export type ProductsByCategoryQueryVariables = Exact<{
+  categoryLabel: Scalars['String'];
+}>;
+
+
+export type ProductsByCategoryQuery = { __typename?: 'Query', getListProductsByCategory?: Array<{ __typename?: 'Product', id?: string | null, name?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, images?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null } | null> | null };
 
 export type CheckSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -482,21 +463,6 @@ export type AddUserMutationVariables = Exact<{
 
 
 export type AddUserMutation = { __typename?: 'Mutation', addUser?: { __typename?: 'User', id?: string | null, email?: string | null, password?: string | null, isAdmin?: boolean | null } | null };
-
-export type UserQueryVariables = Exact<{
-  userId: Scalars['String'];
-}>;
-
-
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', detailsUser?: { __typename?: 'DetailsUser', id?: string | null } | null } | null };
-
-export type UpdateUserDetailsMutationVariables = Exact<{
-  updateDetailsUserId: Scalars['String'];
-  infos: DetailsUserRegister;
-}>;
-
-
-export type UpdateUserDetailsMutation = { __typename?: 'Mutation', updateDetailsUser?: { __typename?: 'DetailsUser', id?: string | null, birthday?: string | null, address?: string | null, firstname?: string | null, lastname?: string | null } | null };
 
 
 
@@ -628,7 +594,7 @@ export type ResolversParentTypes = {
 };
 
 export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
-  creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creation_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -648,7 +614,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type DetailsUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['DetailsUser'] = ResolversParentTypes['DetailsUser']> = {
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  birthday?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -656,7 +622,7 @@ export type DetailsUserResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type ImageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isMain?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -716,22 +682,17 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
-  detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
-  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
-  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
-  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
+  getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getListProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  getListProductsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetListProductsByCategoryArgs, 'categoryLabel'>>;
+  getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'productId'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
-  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryProductArgs, 'productId'>>;
-  products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryLabel'>>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
@@ -767,78 +728,6 @@ export type Resolvers<ContextType = any> = {
 
 
 
-export const ListCategoriesDocument = gql`
-    query listCategories {
-  categories {
-    id
-    label
-    imageUrl
-  }
-}
-    `;
-
-/**
- * __useListCategoriesQuery__
- *
- * To run a query within a React component, call `useListCategoriesQuery` and pass it any options that fit your needs.
- * When your component renders, `useListCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useListCategoriesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useListCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<ListCategoriesQuery, ListCategoriesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ListCategoriesQuery, ListCategoriesQueryVariables>(ListCategoriesDocument, options);
-      }
-export function useListCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListCategoriesQuery, ListCategoriesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ListCategoriesQuery, ListCategoriesQueryVariables>(ListCategoriesDocument, options);
-        }
-export type ListCategoriesQueryHookResult = ReturnType<typeof useListCategoriesQuery>;
-export type ListCategoriesLazyQueryHookResult = ReturnType<typeof useListCategoriesLazyQuery>;
-export type ListCategoriesQueryResult = Apollo.QueryResult<ListCategoriesQuery, ListCategoriesQueryVariables>;
-export const GetCategoryDocument = gql`
-    query getCategory($categoryId: String!) {
-  category(id: $categoryId) {
-    imageUrl
-    label
-  }
-}
-    `;
-
-/**
- * __useGetCategoryQuery__
- *
- * To run a query within a React component, call `useGetCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCategoryQuery({
- *   variables: {
- *      categoryId: // value for 'categoryId'
- *   },
- * });
- */
-export function useGetCategoryQuery(baseOptions: Apollo.QueryHookOptions<GetCategoryQuery, GetCategoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCategoryQuery, GetCategoryQueryVariables>(GetCategoryDocument, options);
-      }
-export function useGetCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCategoryQuery, GetCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCategoryQuery, GetCategoryQueryVariables>(GetCategoryDocument, options);
-        }
-export type GetCategoryQueryHookResult = ReturnType<typeof useGetCategoryQuery>;
-export type GetCategoryLazyQueryHookResult = ReturnType<typeof useGetCategoryLazyQuery>;
-export type GetCategoryQueryResult = Apollo.QueryResult<GetCategoryQuery, GetCategoryQueryVariables>;
 export const LoginDocument = gql`
     query Login($infos: UserLogin!) {
   login(infos: $infos) {
@@ -974,6 +863,42 @@ export function useAddCartMutation(baseOptions?: Apollo.MutationHookOptions<AddC
 export type AddCartMutationHookResult = ReturnType<typeof useAddCartMutation>;
 export type AddCartMutationResult = Apollo.MutationResult<AddCartMutation>;
 export type AddCartMutationOptions = Apollo.BaseMutationOptions<AddCartMutation, AddCartMutationVariables>;
+export const ListCategoriesDocument = gql`
+    query listCategories {
+  getListCategories {
+    id
+    label
+    imageUrl
+  }
+}
+    `;
+
+/**
+ * __useListCategoriesQuery__
+ *
+ * To run a query within a React component, call `useListCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<ListCategoriesQuery, ListCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListCategoriesQuery, ListCategoriesQueryVariables>(ListCategoriesDocument, options);
+      }
+export function useListCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListCategoriesQuery, ListCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListCategoriesQuery, ListCategoriesQueryVariables>(ListCategoriesDocument, options);
+        }
+export type ListCategoriesQueryHookResult = ReturnType<typeof useListCategoriesQuery>;
+export type ListCategoriesLazyQueryHookResult = ReturnType<typeof useListCategoriesLazyQuery>;
+export type ListCategoriesQueryResult = Apollo.QueryResult<ListCategoriesQuery, ListCategoriesQueryVariables>;
 export const AddCategoryDocument = gql`
     mutation addCategory($infos: CategoryRegister!) {
   addCategory(infos: $infos) {
@@ -1077,8 +1002,46 @@ export function useDeleteCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCategoryMutation>;
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
+export const UpdateUserDetailsDocument = gql`
+    mutation UpdateUserDetails($updateDetailsUserId: String!, $infos: DetailsUserRegister!) {
+  updateDetailsUser(id: $updateDetailsUserId, infos: $infos) {
+    id
+    birthday
+    address
+    firstname
+    lastname
+  }
+}
+    `;
+export type UpdateUserDetailsMutationFn = Apollo.MutationFunction<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
+
+/**
+ * __useUpdateUserDetailsMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserDetailsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserDetailsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserDetailsMutation, { data, loading, error }] = useUpdateUserDetailsMutation({
+ *   variables: {
+ *      updateDetailsUserId: // value for 'updateDetailsUserId'
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useUpdateUserDetailsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>(UpdateUserDetailsDocument, options);
+      }
+export type UpdateUserDetailsMutationHookResult = ReturnType<typeof useUpdateUserDetailsMutation>;
+export type UpdateUserDetailsMutationResult = Apollo.MutationResult<UpdateUserDetailsMutation>;
+export type UpdateUserDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
 export const DeleteImageDocument = gql`
-    mutation DeleteImage($deleteImageId: String!) {
+    mutation DeleteImage($deleteImageId: ID!) {
   deleteImage(id: $deleteImageId) {
     id
   }
@@ -1147,7 +1110,7 @@ export type AddImageMutationHookResult = ReturnType<typeof useAddImageMutation>;
 export type AddImageMutationResult = Apollo.MutationResult<AddImageMutation>;
 export type AddImageMutationOptions = Apollo.BaseMutationOptions<AddImageMutation, AddImageMutationVariables>;
 export const UpdateImageMainStatusDocument = gql`
-    mutation UpdateImageMainStatus($productId: String!, $updateImageMainStatusId: String!, $isMain: Boolean!) {
+    mutation UpdateImageMainStatus($productId: String!, $updateImageMainStatusId: ID!, $isMain: Boolean!) {
   updateImageMainStatus(
     productId: $productId
     infos: {id: $updateImageMainStatusId, isMain: $isMain}
@@ -1188,7 +1151,7 @@ export type UpdateImageMainStatusMutationResult = Apollo.MutationResult<UpdateIm
 export type UpdateImageMainStatusMutationOptions = Apollo.BaseMutationOptions<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>;
 export const ImagesByProductDocument = gql`
     query ImagesByProduct($productId: String!) {
-  imagesByProduct(productId: $productId) {
+  getImagesByProduct(productId: $productId) {
     id
     isMain
     name
@@ -1223,137 +1186,6 @@ export function useImagesByProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type ImagesByProductQueryHookResult = ReturnType<typeof useImagesByProductQuery>;
 export type ImagesByProductLazyQueryHookResult = ReturnType<typeof useImagesByProductLazyQuery>;
 export type ImagesByProductQueryResult = Apollo.QueryResult<ImagesByProductQuery, ImagesByProductQueryVariables>;
-export const ProductsDocument = gql`
-    query Products {
-  products {
-    id
-    name
-    description
-    category {
-      id
-      label
-    }
-    price
-    size
-    stock
-    isAvailable
-  }
-}
-    `;
-
-/**
- * __useProductsQuery__
- *
- * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-      }
-export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-        }
-export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
-export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
-export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
-export const ProductsByCategoryDocument = gql`
-    query ProductsByCategory($categoryLabel: String!) {
-  productsByCategory(categoryLabel: $categoryLabel) {
-    id
-    name
-    price
-    description
-    isAvailable
-    size
-    stock
-    images {
-      id
-      isMain
-      name
-    }
-  }
-}
-    `;
-
-/**
- * __useProductsByCategoryQuery__
- *
- * To run a query within a React component, call `useProductsByCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductsByCategoryQuery({
- *   variables: {
- *      categoryLabel: // value for 'categoryLabel'
- *   },
- * });
- */
-export function useProductsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
-      }
-export function useProductsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
-        }
-export type ProductsByCategoryQueryHookResult = ReturnType<typeof useProductsByCategoryQuery>;
-export type ProductsByCategoryLazyQueryHookResult = ReturnType<typeof useProductsByCategoryLazyQuery>;
-export type ProductsByCategoryQueryResult = Apollo.QueryResult<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
-export const UsersDocument = gql`
-    query Users {
-  users {
-    email
-    isAdmin
-    detailsUser {
-      firstname
-      lastname
-      address
-      birthday
-    }
-  }
-}
-    `;
-
-/**
- * __useUsersQuery__
- *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
-      }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
-        }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
 export const AddProductWithImagesDocument = gql`
     mutation AddProductWithImages($infos: ProductRegister!) {
   addProductWithImages(infos: $infos) {
@@ -1470,7 +1302,7 @@ export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMut
 export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
 export const GetProductDocument = gql`
     query getProduct($productId: String!) {
-  product(productId: $productId) {
+  getProductById(productId: $productId) {
     name
     id
     price
@@ -1512,6 +1344,96 @@ export function useGetProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetProductQueryHookResult = ReturnType<typeof useGetProductQuery>;
 export type GetProductLazyQueryHookResult = ReturnType<typeof useGetProductLazyQuery>;
 export type GetProductQueryResult = Apollo.QueryResult<GetProductQuery, GetProductQueryVariables>;
+export const ProductsDocument = gql`
+    query Products {
+  getListProducts {
+    id
+    name
+    description
+    category {
+      id
+      label
+    }
+    price
+    size
+    stock
+    isAvailable
+  }
+}
+    `;
+
+/**
+ * __useProductsQuery__
+ *
+ * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+      }
+export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+        }
+export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
+export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
+export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const ProductsByCategoryDocument = gql`
+    query ProductsByCategory($categoryLabel: String!) {
+  getListProductsByCategory(categoryLabel: $categoryLabel) {
+    id
+    name
+    price
+    description
+    isAvailable
+    size
+    stock
+    images {
+      id
+      isMain
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useProductsByCategoryQuery__
+ *
+ * To run a query within a React component, call `useProductsByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsByCategoryQuery({
+ *   variables: {
+ *      categoryLabel: // value for 'categoryLabel'
+ *   },
+ * });
+ */
+export function useProductsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
+      }
+export function useProductsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>(ProductsByCategoryDocument, options);
+        }
+export type ProductsByCategoryQueryHookResult = ReturnType<typeof useProductsByCategoryQuery>;
+export type ProductsByCategoryLazyQueryHookResult = ReturnType<typeof useProductsByCategoryLazyQuery>;
+export type ProductsByCategoryQueryResult = Apollo.QueryResult<ProductsByCategoryQuery, ProductsByCategoryQueryVariables>;
 export const CheckSessionDocument = gql`
     query CheckSession {
   checkSession {
@@ -1587,78 +1509,3 @@ export function useAddUserMutation(baseOptions?: Apollo.MutationHookOptions<AddU
 export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
 export type AddUserMutationResult = Apollo.MutationResult<AddUserMutation>;
 export type AddUserMutationOptions = Apollo.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
-export const UserDocument = gql`
-    query User($userId: String!) {
-  user(id: $userId) {
-    detailsUser {
-      id
-    }
-  }
-}
-    `;
-
-/**
- * __useUserQuery__
- *
- * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-      }
-export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-        }
-export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
-export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export const UpdateUserDetailsDocument = gql`
-    mutation UpdateUserDetails($updateDetailsUserId: String!, $infos: DetailsUserRegister!) {
-  updateDetailsUser(id: $updateDetailsUserId, infos: $infos) {
-    id
-    birthday
-    address
-    firstname
-    lastname
-  }
-}
-    `;
-export type UpdateUserDetailsMutationFn = Apollo.MutationFunction<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
-
-/**
- * __useUpdateUserDetailsMutation__
- *
- * To run a mutation, you first call `useUpdateUserDetailsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserDetailsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserDetailsMutation, { data, loading, error }] = useUpdateUserDetailsMutation({
- *   variables: {
- *      updateDetailsUserId: // value for 'updateDetailsUserId'
- *      infos: // value for 'infos'
- *   },
- * });
- */
-export function useUpdateUserDetailsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>(UpdateUserDetailsDocument, options);
-      }
-export type UpdateUserDetailsMutationHookResult = ReturnType<typeof useUpdateUserDetailsMutation>;
-export type UpdateUserDetailsMutationResult = Apollo.MutationResult<UpdateUserDetailsMutation>;
-export type UpdateUserDetailsMutationOptions = Apollo.BaseMutationOptions<UpdateUserDetailsMutation, UpdateUserDetailsMutationVariables>;
