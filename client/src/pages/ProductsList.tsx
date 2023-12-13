@@ -73,7 +73,6 @@ function ProductsList() {
   const filteredProducts = data?.getListProductsByCategory.filter(
     (product: any) => {
       // Filtrage en fonction de la barre de recherche
-      console.log("product.name", product, product.name);
       const matchesSearch = product.name
         .toLowerCase()
         .includes(searchQuery.toLowerCase());

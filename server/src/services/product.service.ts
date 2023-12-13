@@ -44,14 +44,12 @@ export default class ProductService {
       category,
     });
 
-    const productId = product.id;
-
     // TODO : checker pourquoi l'image ne s'ajoute pas
     const imageService = new ImageService();
     const imagePromises = images.map(async (imageInfo: any) => {
       const { isMain, name } = imageInfo;
 
-      return imageService.addImage({ isMain, name, productId });
+      return imageService.addImage({ isMain, name, product });
     });
 
     await Promise.all(imagePromises);

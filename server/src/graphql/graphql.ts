@@ -61,7 +61,7 @@ export type Image = {
   id?: Maybe<Scalars['ID']>;
   isMain?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
-  productId?: Maybe<Scalars['String']>;
+  product?: Maybe<Product>;
 };
 
 export type ImageInput = {
@@ -72,7 +72,7 @@ export type ImageInput = {
 export type ImageRegister = {
   isMain: Scalars['Boolean'];
   name: Scalars['String'];
-  productId: Scalars['String'];
+  product: Scalars['String'];
 };
 
 export type ImageUpdateMain = {
@@ -478,7 +478,7 @@ export type ImageResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isMain?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

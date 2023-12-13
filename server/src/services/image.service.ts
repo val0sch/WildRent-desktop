@@ -17,8 +17,8 @@ export default class ImageService {
     return await this.db.findOneBy({ id });
   }
 
-  async addImage({ isMain, name, productId }: ImageRegister) {
-    return await this.db.save({ isMain, name, productId });
+  async addImage({ isMain, name, product }: any) {
+    return await this.db.save({ isMain, name, product });
   }
 
   async deleteImage({ id }: { id: string }) {

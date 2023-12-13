@@ -113,7 +113,6 @@ function ModaleAddProduct({
   const addImageField = () => {
     setImages([...images, { name: "", isMain: false }]);
   };
-
   const productSchema = Yup.object({
     name: Yup.string().required("Le nom de l'equipement est requis"),
     description: Yup.string().required("La description est requise"),

@@ -30,6 +30,7 @@ export const UPDATE_PRODUCT = gql`
   }
 `;
 
+
 export const DELETE_PRODUCT = gql`
   mutation deleteProduct($deleteProductId: String!) {
     deleteProduct(id: $deleteProductId) {

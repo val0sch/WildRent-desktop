@@ -3,7 +3,7 @@ type Image {
   id: ID
   isMain: Boolean
   name: String
-  productId: String
+  product: Product
 }
 
 type Query {
@@ -19,7 +19,7 @@ type Mutation {
 input ImageRegister {
   isMain: Boolean!
   name: String!
-  productId: String!
+  product: String!
 }
 
 input ImageUpdateMain {
