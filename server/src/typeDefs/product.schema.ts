@@ -1,6 +1,6 @@
 export default `#graphql
 type Product {
-  id: String
+  id: ID
   name: String
   price: Int
   description: String
@@ -14,13 +14,13 @@ type Product {
 type Query {
   getListProducts: [Product]
   getListProductsByCategory(categoryLabel: String!): [Product]
-  getProductById(productId: String!): Product
+  getProductById(productId: ID!): Product
 }
 
 type Mutation {
   addProductWithImages(infos: ProductRegister!): Product
-  updateProduct(id: String!, infos: ProductRegister!): Product
-  deleteProduct(id: String!): Product
+  updateProduct(id: ID!, infos: ProductRegister!): Product
+  deleteProduct(id: ID!): Product
 }
 
 input ProductRegister {

@@ -15,7 +15,7 @@ export const ADD_PRODUCT_WITH_IMAGES = gql`
 `;
 
 export const UPDATE_PRODUCT = gql`
-  mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
+  mutation updateProduct($updateProductId: ID!, $infos: ProductRegister!) {
     updateProduct(id: $updateProductId, infos: $infos) {
       name
       description
@@ -30,9 +30,8 @@ export const UPDATE_PRODUCT = gql`
   }
 `;
 
-
 export const DELETE_PRODUCT = gql`
-  mutation deleteProduct($deleteProductId: String!) {
+  mutation deleteProduct($deleteProductId: ID!) {
     deleteProduct(id: $deleteProductId) {
       id
     }

@@ -3,7 +3,7 @@ export default `#graphql
 scalar Date
 
 type DetailsUser {
-  id: String
+  id: ID
   birthday: Date
   address: String
   firstname: String
@@ -15,7 +15,7 @@ type Query {
 }
 
 type Mutation {
-  updateDetailsUser(id: String!, infos: DetailsUserRegister!): DetailsUser
+  updateDetailsUser(id: ID!, infos: DetailsUserRegister!): DetailsUser
 }
 
 input DetailsUserRegister {

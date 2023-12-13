@@ -14,14 +14,25 @@ export const ADD_IMAGE = gql`
       id
       isMain
       name
-      product
+      product {
+        name
+        id
+        price
+        description
+        isAvailable
+        size
+        stock
+        category {
+          label
+        }
+      }
     }
   }
 `;
 
 export const UPDATE_IMAGE_MAIN_STATUS = gql`
   mutation UpdateImageMainStatus(
-    $productId: String!
+    $productId: ID!
     $updateImageMainStatusId: ID!
     $isMain: Boolean!
   ) {

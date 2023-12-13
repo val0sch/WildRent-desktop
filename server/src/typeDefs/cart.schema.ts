@@ -10,8 +10,8 @@ type Cart {
 
 type Mutation {
   addCart(infos: CartRegister!): Cart
-  updateCart(id: String!, infos: CartRegister!): Cart
-  deleteCart(id: String!): Cart
+  updateCart(id: ID!, infos: CartRegister!): Cart
+  deleteCart(id: ID!): Cart
 }
 
 input CartRegister {

@@ -35,7 +35,7 @@ export type CartRegister = {
 
 export type Category = {
   __typename?: 'Category';
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   imageUrl?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
 };
@@ -50,7 +50,7 @@ export type DetailsUser = {
   address?: Maybe<Scalars['String']['output']>;
   birthday?: Maybe<Scalars['Date']['output']>;
   firstname?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   lastname?: Maybe<Scalars['String']['output']>;
 };
 
@@ -66,7 +66,7 @@ export type Image = {
   id?: Maybe<Scalars['ID']['output']>;
   isMain?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  productId?: Maybe<Scalars['String']['output']>;
+  product?: Maybe<Product>;
 };
 
 export type ImageInput = {
@@ -77,7 +77,7 @@ export type ImageInput = {
 export type ImageRegister = {
   isMain: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
-  productId: Scalars['String']['input'];
+  product: Scalars['String']['input'];
 };
 
 export type ImageUpdateMain = {
@@ -89,9 +89,9 @@ export type Item = {
   __typename?: 'Item';
   cart?: Maybe<Cart>;
   due_rent_date?: Maybe<Scalars['Date']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   isFavorite?: Maybe<Scalars['Boolean']['output']>;
-  productId?: Maybe<Scalars['String']['output']>;
+  productId?: Maybe<Scalars['ID']['output']>;
   quantity?: Maybe<Scalars['Int']['output']>;
   start_rent_date?: Maybe<Scalars['Date']['output']>;
 };
@@ -100,7 +100,7 @@ export type ItemRegister = {
   cart?: InputMaybe<Scalars['String']['input']>;
   due_rent_date?: InputMaybe<Scalars['Date']['input']>;
   isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
-  product?: InputMaybe<Scalars['String']['input']>;
+  product: Scalars['String']['input'];
   quantity?: InputMaybe<Scalars['Int']['input']>;
   start_rent_date?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -166,12 +166,12 @@ export type MutationAddUserArgs = {
 
 
 export type MutationDeleteCartArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteCategoryArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -181,58 +181,58 @@ export type MutationDeleteImageArgs = {
 
 
 export type MutationDeleteItemArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateCartArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: CartRegister;
 };
 
 
 export type MutationUpdateCategoryArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: CategoryRegister;
 };
 
 
 export type MutationUpdateDetailsUserArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: DetailsUserRegister;
 };
 
 
 export type MutationUpdateImageMainStatusArgs = {
   infos: ImageUpdateMain;
-  productId: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateItemArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: ItemRegister;
 };
 
 
 export type MutationUpdateProductArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: ProductRegister;
 };
 
 
 export type MutationUpdateUserArgs = {
-  id: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   infos: UserRegister;
 };
 
@@ -240,7 +240,7 @@ export type Product = {
   __typename?: 'Product';
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   images?: Maybe<Array<Maybe<Image>>>;
   isAvailable?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -277,7 +277,7 @@ export type Query = {
 
 
 export type QueryGetImagesByProductArgs = {
-  productId: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
 };
 
 
@@ -287,7 +287,7 @@ export type QueryGetListProductsByCategoryArgs = {
 
 
 export type QueryGetProductByIdArgs = {
-  productId: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
 };
 
 
@@ -297,16 +297,16 @@ export type QueryLoginArgs = {
 
 export type Session = {
   __typename?: 'Session';
-  cartId?: Maybe<Scalars['String']['output']>;
+  cartId?: Maybe<Scalars['ID']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  userId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type User = {
   __typename?: 'User';
   detailsUser?: Maybe<DetailsUser>;
   email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   isAdmin?: Maybe<Scalars['Boolean']['output']>;
   password?: Maybe<Scalars['String']['output']>;
 };
@@ -359,7 +359,7 @@ export type AddCategoryMutationVariables = Exact<{
 export type AddCategoryMutation = { __typename?: 'Mutation', addCategory?: { __typename?: 'Category', id?: string | null, label?: string | null, imageUrl?: string | null } | null };
 
 export type UpdateCategoryMutationVariables = Exact<{
-  updateCategoryId: Scalars['String'];
+  updateCategoryId: Scalars['ID'];
   infos: CategoryRegister;
 }>;
 
@@ -367,14 +367,14 @@ export type UpdateCategoryMutationVariables = Exact<{
 export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory?: { __typename?: 'Category', label?: string | null, imageUrl?: string | null } | null };
 
 export type DeleteCategoryMutationVariables = Exact<{
-  deleteCategoryId: Scalars['String'];
+  deleteCategoryId: Scalars['ID'];
 }>;
 
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'Category', id?: string | null } | null };
 
 export type UpdateUserDetailsMutationVariables = Exact<{
-  updateDetailsUserId: Scalars['String'];
+  updateDetailsUserId: Scalars['ID'];
   infos: DetailsUserRegister;
 }>;
 
@@ -393,10 +393,10 @@ export type AddImageMutationVariables = Exact<{
 }>;
 
 
-export type AddImageMutation = { __typename?: 'Mutation', addImage?: { __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null, productId?: string | null } | null };
+export type AddImageMutation = { __typename?: 'Mutation', addImage?: { __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null, product?: { __typename?: 'Product', name?: string | null, id?: string | null, price?: number | null, description?: string | null, isAvailable?: boolean | null, size?: string | null, stock?: number | null, category?: { __typename?: 'Category', label?: string | null } | null } | null } | null };
 
 export type UpdateImageMainStatusMutationVariables = Exact<{
-  productId: Scalars['String'];
+  productId: Scalars['ID'];
   updateImageMainStatusId: Scalars['ID'];
   isMain: Scalars['Boolean'];
 }>;
@@ -405,7 +405,7 @@ export type UpdateImageMainStatusMutationVariables = Exact<{
 export type UpdateImageMainStatusMutation = { __typename?: 'Mutation', updateImageMainStatus?: { __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null };
 
 export type ImagesByProductQueryVariables = Exact<{
-  productId: Scalars['String'];
+  productId: Scalars['ID'];
 }>;
 
 
@@ -419,7 +419,7 @@ export type AddProductWithImagesMutationVariables = Exact<{
 export type AddProductWithImagesMutation = { __typename?: 'Mutation', addProductWithImages?: { __typename?: 'Product', id?: string | null, name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null } | null };
 
 export type UpdateProductMutationVariables = Exact<{
-  updateProductId: Scalars['String'];
+  updateProductId: Scalars['ID'];
   infos: ProductRegister;
 }>;
 
@@ -427,14 +427,14 @@ export type UpdateProductMutationVariables = Exact<{
 export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, size?: string | null, stock?: number | null, isAvailable?: boolean | null, category?: { __typename?: 'Category', id?: string | null } | null } | null };
 
 export type DeleteProductMutationVariables = Exact<{
-  deleteProductId: Scalars['String'];
+  deleteProductId: Scalars['ID'];
 }>;
 
 
 export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct?: { __typename?: 'Product', id?: string | null } | null };
 
 export type GetProductQueryVariables = Exact<{
-  productId: Scalars['String'];
+  productId: Scalars['ID'];
 }>;
 
 
@@ -602,7 +602,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -616,7 +616,7 @@ export type DetailsUserResolvers<ContextType = any, ParentType extends Resolvers
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -625,16 +625,16 @@ export type ImageResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isMain?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
   cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>;
   due_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  productId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   start_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -671,7 +671,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -696,16 +696,16 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
-  cartId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cartId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   detailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -935,7 +935,7 @@ export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMuta
 export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
 export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
 export const UpdateCategoryDocument = gql`
-    mutation updateCategory($updateCategoryId: String!, $infos: CategoryRegister!) {
+    mutation updateCategory($updateCategoryId: ID!, $infos: CategoryRegister!) {
   updateCategory(id: $updateCategoryId, infos: $infos) {
     label
     imageUrl
@@ -970,7 +970,7 @@ export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCatego
 export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 export const DeleteCategoryDocument = gql`
-    mutation deleteCategory($deleteCategoryId: String!) {
+    mutation deleteCategory($deleteCategoryId: ID!) {
   deleteCategory(id: $deleteCategoryId) {
     id
   }
@@ -1003,7 +1003,7 @@ export type DeleteCategoryMutationHookResult = ReturnType<typeof useDeleteCatego
 export type DeleteCategoryMutationResult = Apollo.MutationResult<DeleteCategoryMutation>;
 export type DeleteCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteCategoryMutation, DeleteCategoryMutationVariables>;
 export const UpdateUserDetailsDocument = gql`
-    mutation UpdateUserDetails($updateDetailsUserId: String!, $infos: DetailsUserRegister!) {
+    mutation UpdateUserDetails($updateDetailsUserId: ID!, $infos: DetailsUserRegister!) {
   updateDetailsUser(id: $updateDetailsUserId, infos: $infos) {
     id
     birthday
@@ -1079,7 +1079,18 @@ export const AddImageDocument = gql`
     id
     isMain
     name
-    productId
+    product {
+      name
+      id
+      price
+      description
+      isAvailable
+      size
+      stock
+      category {
+        label
+      }
+    }
   }
 }
     `;
@@ -1110,7 +1121,7 @@ export type AddImageMutationHookResult = ReturnType<typeof useAddImageMutation>;
 export type AddImageMutationResult = Apollo.MutationResult<AddImageMutation>;
 export type AddImageMutationOptions = Apollo.BaseMutationOptions<AddImageMutation, AddImageMutationVariables>;
 export const UpdateImageMainStatusDocument = gql`
-    mutation UpdateImageMainStatus($productId: String!, $updateImageMainStatusId: ID!, $isMain: Boolean!) {
+    mutation UpdateImageMainStatus($productId: ID!, $updateImageMainStatusId: ID!, $isMain: Boolean!) {
   updateImageMainStatus(
     productId: $productId
     infos: {id: $updateImageMainStatusId, isMain: $isMain}
@@ -1150,7 +1161,7 @@ export type UpdateImageMainStatusMutationHookResult = ReturnType<typeof useUpdat
 export type UpdateImageMainStatusMutationResult = Apollo.MutationResult<UpdateImageMainStatusMutation>;
 export type UpdateImageMainStatusMutationOptions = Apollo.BaseMutationOptions<UpdateImageMainStatusMutation, UpdateImageMainStatusMutationVariables>;
 export const ImagesByProductDocument = gql`
-    query ImagesByProduct($productId: String!) {
+    query ImagesByProduct($productId: ID!) {
   getImagesByProduct(productId: $productId) {
     id
     isMain
@@ -1226,7 +1237,7 @@ export type AddProductWithImagesMutationHookResult = ReturnType<typeof useAddPro
 export type AddProductWithImagesMutationResult = Apollo.MutationResult<AddProductWithImagesMutation>;
 export type AddProductWithImagesMutationOptions = Apollo.BaseMutationOptions<AddProductWithImagesMutation, AddProductWithImagesMutationVariables>;
 export const UpdateProductDocument = gql`
-    mutation updateProduct($updateProductId: String!, $infos: ProductRegister!) {
+    mutation updateProduct($updateProductId: ID!, $infos: ProductRegister!) {
   updateProduct(id: $updateProductId, infos: $infos) {
     name
     description
@@ -1268,7 +1279,7 @@ export type UpdateProductMutationHookResult = ReturnType<typeof useUpdateProduct
 export type UpdateProductMutationResult = Apollo.MutationResult<UpdateProductMutation>;
 export type UpdateProductMutationOptions = Apollo.BaseMutationOptions<UpdateProductMutation, UpdateProductMutationVariables>;
 export const DeleteProductDocument = gql`
-    mutation deleteProduct($deleteProductId: String!) {
+    mutation deleteProduct($deleteProductId: ID!) {
   deleteProduct(id: $deleteProductId) {
     id
   }
@@ -1301,7 +1312,7 @@ export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProduct
 export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
 export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
 export const GetProductDocument = gql`
-    query getProduct($productId: String!) {
+    query getProduct($productId: ID!) {
   getProductById(productId: $productId) {
     name
     id

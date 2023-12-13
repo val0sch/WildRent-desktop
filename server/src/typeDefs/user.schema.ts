@@ -1,6 +1,6 @@
 export default `#graphql
 type User {
-  id: String
+  id: ID
   email: String
   password: String
   isAdmin: Boolean
@@ -10,7 +10,6 @@ type User {
 type LoginInfo {
   token: String
   email: String
-  # isAdmin: Boolean
 }
 
 type Query {
@@ -21,8 +20,8 @@ type Query {
 
 type Mutation {
   addUser(infos: UserRegister!): User
-  updateUser(id: String!, infos: UserRegister!): User
-  deleteUser(id: String!): User
+  updateUser(id: ID!, infos: UserRegister!): User
+  deleteUser(id: ID!): User
 }
 
 input UserLogin {

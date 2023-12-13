@@ -2,13 +2,13 @@ export default `#graphql
 scalar Date
 
 type Item {
-  id: String
+  id: ID
   quantity: Int
   start_rent_date: Date
   due_rent_date: Date
   isFavorite: Boolean
   cart: Cart
-  productId: String
+  productId: ID
 }
 
 type Query {
@@ -17,8 +17,8 @@ type Query {
 
 type Mutation {
   addItem(infos: ItemRegister!): Item
-  updateItem(id: String!, infos: ItemRegister!): Item
-  deleteItem(id: String!): Item
+  updateItem(id: ID!, infos: ItemRegister!): Item
+  deleteItem(id: ID!): Item
 }
 
 input ItemRegister {
@@ -27,6 +27,6 @@ input ItemRegister {
   due_rent_date: Date
   isFavorite: Boolean
   cart: String
-  product: String
+  product: String!
 }
 `;

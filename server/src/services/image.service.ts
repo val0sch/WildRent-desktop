@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import datasource from "../lib/datasource";
 import Image from "../entities/image.entity";
 import { ImageRegister, ImageUpdateMain } from "../graphql/graphql";
+import Product from "../entities/product.entity";
 
 export default class ImageService {
   db: Repository<Image>;

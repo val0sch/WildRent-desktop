@@ -4,16 +4,16 @@ type Image {
   isMain: Boolean
   name: String
   product: Product
-}
+} 
 
 type Query {
-  getImagesByProduct(productId: String!): [Image]
+  getImagesByProduct(productId: ID!): [Image]
 }
 
 type Mutation {
   addImage(infos: ImageRegister!): Image
   deleteImage(id: ID!): Image
-  updateImageMainStatus(productId: String!, infos: ImageUpdateMain!): Image
+  updateImageMainStatus(productId: ID!, infos: ImageUpdateMain!): Image
 }
 
 input ImageRegister {
