@@ -12,9 +12,9 @@ type Product {
 }
 
 type Query {
-  products: [Product]
-  productsByCategory(categoryLabel: String!): [Product]
-  product(productId: String!): Product
+  getListProducts: [Product]
+  getListProductsByCategory(categoryLabel: String!): [Product]
+  getProductById(productId: String!): Product
 }
 
 type Mutation {

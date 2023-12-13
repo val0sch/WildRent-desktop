@@ -17,14 +17,14 @@ export type Scalars = {
 
 export type Cart = {
   __typename?: 'Cart';
-  creation_date?: Maybe<Scalars['String']>;
+  creation_date?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   items?: Maybe<Array<Maybe<Item>>>;
   state?: Maybe<Scalars['String']>;
 };
 
 export type CartRegister = {
-  creation_date: Scalars['String'];
+  creation_date: Scalars['Date'];
   state: Scalars['String'];
 };
 
@@ -43,7 +43,7 @@ export type CategoryRegister = {
 export type DetailsUser = {
   __typename?: 'DetailsUser';
   address?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['Date']>;
   firstname?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
@@ -51,7 +51,7 @@ export type DetailsUser = {
 
 export type DetailsUserRegister = {
   address: Scalars['String'];
-  birthday: Scalars['String'];
+  birthday: Scalars['Date'];
   firstname: Scalars['String'];
   lastname: Scalars['String'];
 };
@@ -257,52 +257,37 @@ export type ProductRegister = {
 
 export type Query = {
   __typename?: 'Query';
-  categories?: Maybe<Array<Maybe<Category>>>;
-  category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']>;
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']>;
-  detailsConnectUser?: Maybe<DetailsUser>;
-  detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
-  images?: Maybe<Array<Maybe<Image>>>;
-  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
-  items?: Maybe<Array<Maybe<Item>>>;
+  getDetailsUserConnected?: Maybe<DetailsUser>;
+  getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
+  getListCategories?: Maybe<Array<Maybe<Category>>>;
+  getListItems?: Maybe<Array<Maybe<Item>>>;
+  getListProducts?: Maybe<Array<Maybe<Product>>>;
+  getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
+  getProductById?: Maybe<Product>;
   login?: Maybe<LoginInfo>;
-  product?: Maybe<Product>;
-  products?: Maybe<Array<Maybe<Product>>>;
-  productsByCategory?: Maybe<Array<Maybe<Product>>>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
-export type QueryCategoryArgs = {
-  id: Scalars['String'];
+export type QueryGetImagesByProductArgs = {
+  productId: Scalars['String'];
 };
 
 
-export type QueryImagesByProductArgs = {
+export type QueryGetListProductsByCategoryArgs = {
+  categoryLabel: Scalars['String'];
+};
+
+
+export type QueryGetProductByIdArgs = {
   productId: Scalars['String'];
 };
 
 
 export type QueryLoginArgs = {
   infos: UserLogin;
-};
-
-
-export type QueryProductArgs = {
-  productId: Scalars['String'];
-};
-
-
-export type QueryProductsByCategoryArgs = {
-  categoryLabel: Scalars['String'];
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['String'];
 };
 
 export type Session = {
@@ -462,7 +447,7 @@ export type ResolversParentTypes = {
 };
 
 export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
-  creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creation_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -482,7 +467,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type DetailsUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['DetailsUser'] = ResolversParentTypes['DetailsUser']> = {
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  birthday?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -550,22 +535,17 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
-  detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
-  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
-  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
-  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
+  getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getListProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  getListProductsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetListProductsByCategoryArgs, 'categoryLabel'>>;
+  getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'productId'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
-  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryProductArgs, 'productId'>>;
-  products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryLabel'>>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {

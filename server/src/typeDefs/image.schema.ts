@@ -7,8 +7,7 @@ type Image {
 }
 
 type Query {
-  images: [Image]
-  imagesByProduct(productId: String!): [Image]
+  getImagesByProduct(productId: String!): [Image]
 }
 
 type Mutation {

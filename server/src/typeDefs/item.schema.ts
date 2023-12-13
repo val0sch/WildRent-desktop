@@ -12,7 +12,7 @@ type Item {
 }
 
 type Query {
-  items: [Item]
+  getListItems: [Item]
 }
 
 type Mutation {

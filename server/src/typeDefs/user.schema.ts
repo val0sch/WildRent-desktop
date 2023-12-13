@@ -14,8 +14,6 @@ type LoginInfo {
 }
 
 type Query {
-  users: [User]
-  user(id: String!): User
   login(infos: UserLogin!): LoginInfo
   checkToken: Boolean
   checkAdmin: Boolean

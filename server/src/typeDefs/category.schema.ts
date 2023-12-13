@@ -6,8 +6,7 @@ type Category {
 }
 
 type Query {
-  categories: [Category]
-  category(id: String!): Category
+  getListCategories: [Category]
 }
 
 type Mutation {
@@ -20,5 +19,4 @@ input CategoryRegister {
   label: String!
   imageUrl: String!
 }
-`; 
-
+`;

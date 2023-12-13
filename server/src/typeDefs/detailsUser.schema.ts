@@ -11,8 +11,7 @@ type DetailsUser {
 }
 
 type Query {
-  detailsUsers: [DetailsUser]
-  detailsConnectUser: DetailsUser
+  getDetailsUserConnected: DetailsUser
 }
 
 type Mutation {

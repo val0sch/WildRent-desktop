@@ -14,13 +14,7 @@ import {
 
 export default {
   Query: {
-    async users() {
-      return await new UserService().listUsers();
-    },
-    async user(id: string) {
-      return await new UserService().findById(id);
-    },
-
+ 
     async login(_: any, { infos }: QueryLoginArgs) {
       const { email, password } = infos;
       //vérification que le user existe bien :
