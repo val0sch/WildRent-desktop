@@ -11,20 +11,17 @@ import { LIST_PRODUCT } from "../../graphql/product.query";
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
-  const updatedProduct = () => {
-    // refetch();
-  };
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);
   };
-
+    
   const closeModaleProduct: () => void = () => {
     setToggleModaleProduct(false);
   };
-
+  
   // LIST PRODUCTS
   const [products, setProducts] = useState<Product[]>([]);
-  useQuery(LIST_PRODUCT, {
+  const { refetch } = useQuery(LIST_PRODUCT, {
     onCompleted(data) {
       setProducts(data.getListProducts);
     },
@@ -32,6 +29,11 @@ function Produits(): JSX.Element {
       console.error(error);
     },
   });
+  
+  const updatedProduct = () => {
+    console.log("Je passe dans le refetch");
+    refetch(); // ne fonctionne pas pour le moment
+  };
 
   return (
     <section className="back-office-product-section">

@@ -11,9 +11,7 @@ import { Category } from "../../generated";
 function Categories(): JSX.Element {
   const [toggleModaleCategory, setToggleModaleCategory] = useState(false);
 
-  const updatedCategory = () => {
-    // refetch();
-  };
+  
 
   const handleModaleCategory: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleCategory(!toggleModaleCategory);
@@ -25,7 +23,7 @@ function Categories(): JSX.Element {
 
   /// LIST CATEGORIES
   const [categories, setCategories] = useState<Category[]>([]);
-  useQuery(LIST_CATEGORIES, {
+  const{ refetch } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
       setCategories(data.getListCategories);
@@ -34,7 +32,11 @@ function Categories(): JSX.Element {
       console.error(error);
     },
   });
-
+const updatedCategory = () => {
+  console.log("Je passe dans le refetch");
+    refetch();
+  };
+  
   return (
     <section className="back-office-categorie-section">
       <div className="back-office-img-container">
