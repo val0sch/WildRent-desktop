@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
-import { LIST_CATEGORIES } from "../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../graphql/categories.query";
 import NotFound from "./errors/NotFound";
 
 import "../style/categorie_list.css";
@@ -13,7 +13,7 @@ function CategorieList(): JSX.Element {
 
   const [getList] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(data) {
-      setCategoriesList(data.categories);
+      setCategoriesList(data.getListCategories);
     },
     onError(error) {
       console.error(error);

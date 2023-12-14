@@ -3,12 +3,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
+  JoinColumn,
 } from "typeorm";
 import Cart from "./cart.entity";
 
-
 @Entity()
-export default class Item  {
+export default class Item {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -24,9 +24,9 @@ export default class Item  {
   @Column()
   isFavorite: boolean;
 
-  @ManyToOne((type) => Cart, item => item.items)
+  @ManyToOne((type) => Cart, (cart) => cart.items)
   cart: Cart;
 
   @Column()
-  productId: string
+  productId: string;
 }

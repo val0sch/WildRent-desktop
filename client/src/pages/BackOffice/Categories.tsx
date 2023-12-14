@@ -4,16 +4,14 @@ import ListCategories from "../../components/backoffice/ListCategories";
 import { MouseEventHandler, useState } from "react";
 
 import Plongeur from "../../assets/back-office.jpeg";
-import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import { useQuery } from "@apollo/client";
 import { Category } from "../../generated";
 
 function Categories(): JSX.Element {
   const [toggleModaleCategory, setToggleModaleCategory] = useState(false);
 
-  const updatedCategory = () => {
-    // refetch();
-  };
+  
 
   const handleModaleCategory: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleCategory(!toggleModaleCategory);
@@ -25,16 +23,20 @@ function Categories(): JSX.Element {
 
   /// LIST CATEGORIES
   const [categories, setCategories] = useState<Category[]>([]);
-  useQuery(LIST_CATEGORIES, {
+  const{ refetch } = useQuery(LIST_CATEGORIES, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "Liste des catégories : ", data);
-      setCategories(data.categories);
+      setCategories(data.getListCategories);
     },
     onError(error) {
       console.error(error);
     },
   });
-
+const updatedCategory = () => {
+  console.log("Je passe dans le refetch");
+    refetch();
+  };
+  
   return (
     <section className="back-office-categorie-section">
       <div className="back-office-img-container">

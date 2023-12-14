@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/listProduct.query";
+import { LIST_PRODUCTS_BY_CATEGORY } from "../graphql/product.query";
 
 import { CaretCircleDown } from "@phosphor-icons/react";
 import Slider from "rc-slider";
@@ -50,7 +50,7 @@ function ProductsList() {
   const [prixMaxiTrouve, setPrixMaxiTrouve] = useState<number>(0);
 
   const getMaxPrice = (data: any): number => {
-    const priceList = data?.productsByCategory?.map(
+    const priceList = data?.getListProductsByCategory?.map(
       (product: any) => product.price
     );
     const maxPrice =
@@ -70,26 +70,30 @@ function ProductsList() {
     setPriceRange(value);
   };
 
-  const filteredProducts = data?.productsByCategory.filter((product: any) => {
-    // Filtrage en fonction de la barre de recherche
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+  const filteredProducts = data?.getListProductsByCategory.filter(
+    (product: any) => {
+      // Filtrage en fonction de la barre de recherche
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
 
-    // Filtrage en fonction des checkbox
-    const matchesIsAvailable = !isAvailableFilter || product.isAvailable;
-    const matchesSize = sizeFilters.size === 0 || sizeFilters.has(product.size);
+      // Filtrage en fonction des checkbox
+      const matchesIsAvailable = !isAvailableFilter || product.isAvailable;
+      const matchesSize =
+        sizeFilters.size === 0 || sizeFilters.has(product.size);
 
-    // Filtrage en fonction de la fourchette de prix
-    const priceInRange =
-      product.price >= priceRange[0] && product.price <= priceRange[1];
+      // Filtrage en fonction de la fourchette de prix
+      const priceInRange =
+        product.price >= priceRange[0] && product.price <= priceRange[1];
 
-    return matchesSearch && matchesIsAvailable && matchesSize && priceInRange;
-  });
-
+      return matchesSearch && matchesIsAvailable && matchesSize && priceInRange;
+    }
+  );
 
   const uniqueSizes = Array.from(
-    new Set(data?.productsByCategory?.map((product: Product) => product.size))
+    new Set(
+      data?.getListProductsByCategory?.map((product: Product) => product.size)
+    )
   );
 
   if (loading) {
@@ -178,11 +182,14 @@ function ProductsList() {
               to={`/all-categories/${category}/${product.id}`}
               className="productlist-thumbnails-card"
             >
-              <img
-                className="productlist-thumbnails"
-                src={product.images[0].name}
-                alt={product.name}
-              />
+              {product.images.length > 0 && (
+                <img
+                  className="productlist-thumbnails"
+                  src={product.images[0].name}
+                  alt={product.name}
+                />
+              )}
+
               <div className="productlist-product-description">
                 <span>
                   {product.name} - {product.price} €

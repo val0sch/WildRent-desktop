@@ -6,33 +6,34 @@ import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 import Plongeur from "../../assets/back-office.jpeg";
 import { Product } from "../../generated";
 import { useQuery } from "@apollo/client";
-import { LIST_PRODUCT } from "../../graphql/listProduct.query";
+import { LIST_PRODUCT } from "../../graphql/product.query";
 
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
-  const updatedProduct = () => {
-    // refetch();
-  };
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);
   };
-
+    
   const closeModaleProduct: () => void = () => {
     setToggleModaleProduct(false);
   };
-
+  
   // LIST PRODUCTS
   const [products, setProducts] = useState<Product[]>([]);
-  useQuery(LIST_PRODUCT, {
+  const { refetch } = useQuery(LIST_PRODUCT, {
     onCompleted(data) {
-      console.log("list product", data);
-      setProducts(data.products);
+      setProducts(data.getListProducts);
     },
     onError(error) {
       console.error(error);
     },
   });
+  
+  const updatedProduct = () => {
+    console.log("Je passe dans le refetch");
+    refetch(); // ne fonctionne pas pour le moment
+  };
 
   return (
     <section className="back-office-product-section">

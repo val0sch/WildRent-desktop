@@ -17,20 +17,20 @@ export type Scalars = {
 
 export type Cart = {
   __typename?: 'Cart';
-  creation_date?: Maybe<Scalars['String']>;
+  creation_date?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
   items?: Maybe<Array<Maybe<Item>>>;
   state?: Maybe<Scalars['String']>;
 };
 
 export type CartRegister = {
-  creation_date: Scalars['String'];
+  creation_date: Scalars['Date'];
   state: Scalars['String'];
 };
 
 export type Category = {
   __typename?: 'Category';
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   imageUrl?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
 };
@@ -43,15 +43,15 @@ export type CategoryRegister = {
 export type DetailsUser = {
   __typename?: 'DetailsUser';
   address?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['Date']>;
   firstname?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   lastname?: Maybe<Scalars['String']>;
 };
 
 export type DetailsUserRegister = {
   address: Scalars['String'];
-  birthday: Scalars['String'];
+  birthday: Scalars['Date'];
   firstname: Scalars['String'];
   lastname: Scalars['String'];
 };
@@ -61,7 +61,7 @@ export type Image = {
   id?: Maybe<Scalars['ID']>;
   isMain?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
-  productId?: Maybe<Scalars['String']>;
+  product?: Maybe<Product>;
 };
 
 export type ImageInput = {
@@ -72,7 +72,7 @@ export type ImageInput = {
 export type ImageRegister = {
   isMain: Scalars['Boolean'];
   name: Scalars['String'];
-  productId: Scalars['String'];
+  product: Scalars['String'];
 };
 
 export type ImageUpdateMain = {
@@ -84,9 +84,9 @@ export type Item = {
   __typename?: 'Item';
   cart?: Maybe<Cart>;
   due_rent_date?: Maybe<Scalars['Date']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   isFavorite?: Maybe<Scalars['Boolean']>;
-  productId?: Maybe<Scalars['String']>;
+  productId?: Maybe<Scalars['ID']>;
   quantity?: Maybe<Scalars['Int']>;
   start_rent_date?: Maybe<Scalars['Date']>;
 };
@@ -95,7 +95,7 @@ export type ItemRegister = {
   cart?: InputMaybe<Scalars['String']>;
   due_rent_date?: InputMaybe<Scalars['Date']>;
   isFavorite?: InputMaybe<Scalars['Boolean']>;
-  product?: InputMaybe<Scalars['String']>;
+  product: Scalars['String'];
   quantity?: InputMaybe<Scalars['Int']>;
   start_rent_date?: InputMaybe<Scalars['Date']>;
 };
@@ -161,12 +161,12 @@ export type MutationAddUserArgs = {
 
 
 export type MutationDeleteCartArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationDeleteCategoryArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
@@ -176,58 +176,58 @@ export type MutationDeleteImageArgs = {
 
 
 export type MutationDeleteItemArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationUpdateCartArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: CartRegister;
 };
 
 
 export type MutationUpdateCategoryArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: CategoryRegister;
 };
 
 
 export type MutationUpdateDetailsUserArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: DetailsUserRegister;
 };
 
 
 export type MutationUpdateImageMainStatusArgs = {
   infos: ImageUpdateMain;
-  productId: Scalars['String'];
+  productId: Scalars['ID'];
 };
 
 
 export type MutationUpdateItemArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: ItemRegister;
 };
 
 
 export type MutationUpdateProductArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: ProductRegister;
 };
 
 
 export type MutationUpdateUserArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
   infos: UserRegister;
 };
 
@@ -235,7 +235,7 @@ export type Product = {
   __typename?: 'Product';
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   images?: Maybe<Array<Maybe<Image>>>;
   isAvailable?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
@@ -257,32 +257,32 @@ export type ProductRegister = {
 
 export type Query = {
   __typename?: 'Query';
-  categories?: Maybe<Array<Maybe<Category>>>;
-  category?: Maybe<Category>;
   checkAdmin?: Maybe<Scalars['Boolean']>;
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']>;
-  detailsConnectUser?: Maybe<DetailsUser>;
-  detailsUsers?: Maybe<Array<Maybe<DetailsUser>>>;
-  images?: Maybe<Array<Maybe<Image>>>;
-  imagesByProduct?: Maybe<Array<Maybe<Image>>>;
-  items?: Maybe<Array<Maybe<Item>>>;
+  getDetailsUserConnected?: Maybe<DetailsUser>;
+  getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
+  getListCategories?: Maybe<Array<Maybe<Category>>>;
+  getListItems?: Maybe<Array<Maybe<Item>>>;
+  getListProducts?: Maybe<Array<Maybe<Product>>>;
+  getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
+  getProductById?: Maybe<Product>;
   login?: Maybe<LoginInfo>;
-  product?: Maybe<Product>;
-  products?: Maybe<Array<Maybe<Product>>>;
-  productsByCategory?: Maybe<Array<Maybe<Product>>>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
-export type QueryCategoryArgs = {
-  id: Scalars['String'];
+export type QueryGetImagesByProductArgs = {
+  productId: Scalars['ID'];
 };
 
 
-export type QueryImagesByProductArgs = {
-  productId: Scalars['String'];
+export type QueryGetListProductsByCategoryArgs = {
+  categoryLabel: Scalars['String'];
+};
+
+
+export type QueryGetProductByIdArgs = {
+  productId: Scalars['ID'];
 };
 
 
@@ -290,33 +290,18 @@ export type QueryLoginArgs = {
   infos: UserLogin;
 };
 
-
-export type QueryProductArgs = {
-  productId: Scalars['String'];
-};
-
-
-export type QueryProductsByCategoryArgs = {
-  categoryLabel: Scalars['String'];
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['String'];
-};
-
 export type Session = {
   __typename?: 'Session';
-  cartId?: Maybe<Scalars['String']>;
+  cartId?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
-  userId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['ID']>;
 };
 
 export type User = {
   __typename?: 'User';
   detailsUser?: Maybe<DetailsUser>;
   email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   isAdmin?: Maybe<Scalars['Boolean']>;
   password?: Maybe<Scalars['String']>;
 };
@@ -462,7 +447,7 @@ export type ResolversParentTypes = {
 };
 
 export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
-  creation_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creation_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -470,7 +455,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -482,9 +467,9 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type DetailsUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['DetailsUser'] = ResolversParentTypes['DetailsUser']> = {
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  birthday?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -493,16 +478,16 @@ export type ImageResolvers<ContextType = any, ParentType extends ResolversParent
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isMain?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
   cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>;
   due_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  productId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  productId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   start_rent_date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -539,7 +524,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
   isAvailable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -550,35 +535,30 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'id'>>;
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  detailsConnectUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
-  detailsUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['DetailsUser']>>>, ParentType, ContextType>;
-  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType>;
-  imagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryImagesByProductArgs, 'productId'>>;
-  items?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
+  getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
+  getListProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
+  getListProductsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetListProductsByCategoryArgs, 'categoryLabel'>>;
+  getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'productId'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
-  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryProductArgs, 'productId'>>;
-  products?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  productsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryProductsByCategoryArgs, 'categoryLabel'>>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = {
-  cartId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cartId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   detailsUser?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

@@ -1,10 +1,10 @@
 export default `#graphql
     type Session {
         id: ID
-        userId: String
-        cartId: String
+        userId: ID
+        cartId: ID
     }
     type Query {
         checkSession: [Item]
     }
-`
+`;

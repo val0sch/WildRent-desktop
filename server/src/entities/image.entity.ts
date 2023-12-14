@@ -12,6 +12,6 @@ export default class Image {
   @Column()
   name: string;
 
-  @ManyToOne((type) => Product, (item) => item.images)
+  @ManyToOne(() => Product, (product) => product.images)
   product: Product;
 }

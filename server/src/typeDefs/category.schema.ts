@@ -1,24 +1,22 @@
 export default `#graphql
 type Category {
-  id: String
+  id: ID
   label: String
   imageUrl: String
 }
 
 type Query {
-  categories: [Category]
-  category(id: String!): Category
+  getListCategories: [Category]
 }
 
 type Mutation {
   addCategory(infos: CategoryRegister!): Category
-  updateCategory(id: String!, infos: CategoryRegister!): Category
-  deleteCategory(id: String!): Category
+  updateCategory(id: ID!, infos: CategoryRegister!): Category
+  deleteCategory(id: ID!): Category
 }
 
 input CategoryRegister {
   label: String!
   imageUrl: String!
 }
-`; 
-
+`;

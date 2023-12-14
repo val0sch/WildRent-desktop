@@ -11,7 +11,7 @@ import {
   UserCircle,
   ShoppingCartSimple,
 } from "@phosphor-icons/react";
-import { LIST_CATEGORIES } from "../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../graphql/categories.query";
 import useCart from "../hooks/useCart";
 
 export default function Accueil(): JSX.Element {
@@ -40,7 +40,7 @@ export default function Accueil(): JSX.Element {
 
   const [getList] = useLazyQuery(LIST_CATEGORIES, {
     onCompleted(subMenu) {
-      setCategoriesList(subMenu.categories);
+      setCategoriesList(subMenu.getListCategories);
     },
     onError(error) {
       console.error(error);

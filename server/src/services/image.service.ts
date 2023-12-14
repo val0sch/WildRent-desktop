@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import datasource from "../lib/datasource";
 import Image from "../entities/image.entity";
 import { ImageRegister, ImageUpdateMain } from "../graphql/graphql";
+import Product from "../entities/product.entity";
 
 export default class ImageService {
   db: Repository<Image>;
@@ -17,8 +18,8 @@ export default class ImageService {
     return await this.db.findOneBy({ id });
   }
 
-  async addImage({ isMain, name, productId }: ImageRegister) {
-    return await this.db.save({ isMain, name, productId });
+  async addImage({ isMain, name, product }: any) {
+    return await this.db.save({ isMain, name, product });
   }
 
   async deleteImage({ id }: { id: string }) {
