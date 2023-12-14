@@ -15,6 +15,7 @@ export default {
   Mutation: {
     async addImage(_: any, { infos }: MutationAddImageArgs) {
       let { isMain, name, product } = infos;
+      
 
       if (isMain == null) {
         // assignation de la valeur false à isMain si elle n'est pas renseignée

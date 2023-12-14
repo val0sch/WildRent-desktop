@@ -4,7 +4,6 @@ import { MouseEventHandler, useState } from "react";
 import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
 import Plongeur from "../../assets/back-office.jpeg";
-import { Product } from "../../generated";
 import { useQuery } from "@apollo/client";
 import { LIST_PRODUCT } from "../../graphql/product.query";
 
@@ -14,25 +13,20 @@ function Produits(): JSX.Element {
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);
   };
-    
+
   const closeModaleProduct: () => void = () => {
     setToggleModaleProduct(false);
   };
-  
+
   // LIST PRODUCTS
-  const [products, setProducts] = useState<Product[]>([]);
-  const { refetch } = useQuery(LIST_PRODUCT, {
-    onCompleted(data) {
-      setProducts(data.getListProducts);
-    },
+  const { data, refetch } = useQuery(LIST_PRODUCT, {
     onError(error) {
       console.error(error);
     },
   });
-  
+
   const updatedProduct = () => {
-    console.log("Je passe dans le refetch");
-    refetch(); // ne fonctionne pas pour le moment
+    refetch();
   };
 
   return (
@@ -53,7 +47,10 @@ function Produits(): JSX.Element {
             />
           )}
 
-          <ListProducts products={products} updatedProduct={updatedProduct} />
+          <ListProducts
+            products={data?.getListProducts}
+            updatedProduct={updatedProduct}
+          />
         </div>
         <div>
           <button>

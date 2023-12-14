@@ -72,7 +72,7 @@ export type ImageInput = {
 export type ImageRegister = {
   isMain: Scalars['Boolean'];
   name: Scalars['String'];
-  product: Scalars['String'];
+  product: ProductImageInput;
 };
 
 export type ImageUpdateMain = {
@@ -244,6 +244,10 @@ export type Product = {
   stock?: Maybe<Scalars['Int']>;
 };
 
+export type ProductImageInput = {
+  id: Scalars['ID'];
+};
+
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']>;
   description: Scalars['String'];
@@ -407,6 +411,7 @@ export type ResolversTypes = {
   LoginInfo: ResolverTypeWrapper<LoginInfo>;
   Mutation: ResolverTypeWrapper<{}>;
   Product: ResolverTypeWrapper<Product>;
+  ProductImageInput: ProductImageInput;
   ProductRegister: ProductRegister;
   Query: ResolverTypeWrapper<{}>;
   Session: ResolverTypeWrapper<Session>;
@@ -437,6 +442,7 @@ export type ResolversParentTypes = {
   LoginInfo: LoginInfo;
   Mutation: {};
   Product: Product;
+  ProductImageInput: ProductImageInput;
   ProductRegister: ProductRegister;
   Query: {};
   Session: Session;

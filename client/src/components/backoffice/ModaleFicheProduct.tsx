@@ -255,12 +255,14 @@ function ModaleFicheProduct({
 
   const handleAddImage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("product yo ", product);
+
     addImage({
       variables: {
         infos: {
           isMain: isNewImageMain,
           name: newImageName,
-          productId: product.id,
+          product: product,
         },
       },
     });

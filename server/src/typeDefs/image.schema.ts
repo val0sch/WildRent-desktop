@@ -19,7 +19,11 @@ type Mutation {
 input ImageRegister {
   isMain: Boolean!
   name: String!
-  product: String!
+  product: ProductImageInput!
+}
+
+input ProductImageInput{
+  id: ID!
 }
 
 input ImageUpdateMain {
