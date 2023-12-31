@@ -28,7 +28,6 @@ const Messaging = () => {
     });
   }, []);
 
-  console.log(messageReceived);
   return (
     <div className="container">
       <div className="list-conversation">Liste des Discussions</div>

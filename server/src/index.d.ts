@@ -9,7 +9,6 @@ export interface IContext {
   user: User | null;
   res: Response;
   session: Session | null;
-  // session: any;
 }
 
 export interface IUserLogin {

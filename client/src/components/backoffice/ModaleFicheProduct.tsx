@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LIST_CATEGORIES } from "../../graphql/listCategories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import * as Yup from "yup";
 import { GET_PRODUCT_IMAGES } from "../../graphql/image.query";
 import {
@@ -51,7 +51,7 @@ function ModaleFicheProduct({
         text: errorMessage,
       });
     }
-  }, [errorMessage]);
+  }, [errorMessage, Toast]);
 
   // LIST CATEGORIES
   const { data: categories } = useQuery(LIST_CATEGORIES, {
@@ -142,13 +142,13 @@ function ModaleFicheProduct({
         { abortEarly: false }
       );
       const selectedCategoryId = category === "" ? null : category;
-      name == product.name &&
-      description == product.description &&
-      price == product.price &&
-      size == product.size &&
-      isAvailable == product.isAvailable &&
-      stock == product.stock &&
-      selectedCategoryId == product?.category?.id
+      name === product.name &&
+      description === product.description &&
+      price === product.price &&
+      size === product.size &&
+      isAvailable === product.isAvailable &&
+      stock === product.stock &&
+      selectedCategoryId === product?.category?.id
         ? setMessage("Aucune modification n'a été apporté")
         : await updateProductInDb({
             variables: {
@@ -255,12 +255,14 @@ function ModaleFicheProduct({
 
   const handleAddImage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("product yo ", product);
+
     addImage({
       variables: {
         infos: {
           isMain: isNewImageMain,
           name: newImageName,
-          product: product.id,
+          product: product,
         },
       },
     });
@@ -292,12 +294,12 @@ function ModaleFicheProduct({
   };
 
   const imagesSection = () => {
-    if (!imagesData || !imagesData.imagesByProduct) return null;
+    if (!imagesData || !imagesData.getImagesByProduct) return null;
 
     return (
       <div className="form-images-product">
         <h3>Images du produit</h3>
-        {imagesData.imagesByProduct.length === 0 && (
+        {imagesData.getImagesByProduct.length === 0 && (
           <div>Aucune image pour ce produit.</div>
         )}
         <div>
@@ -326,7 +328,7 @@ function ModaleFicheProduct({
         <div className="listImagesProductContainer">
           <h4>Images enregistrées :</h4>
           <div className="images-product-container">
-            {imagesData.imagesByProduct.map((image: any) => (
+            {imagesData.getImagesByProduct.map((image: any) => (
               <div key={image.id} className="ImageProductContainer">
                 <img src={image.name} alt={image.name} />
                 <label>
@@ -445,7 +447,7 @@ function ModaleFicheProduct({
               value={category ? category : ""}
             >
               <option value="">Pas de catégorie</option>
-              {categories?.categories.map(
+              {categories?.getListCategories.map(
                 (selectedcategory: any, index: number) => (
                   <option key={index} value={selectedcategory.id} selected>
                     {selectedcategory.label}

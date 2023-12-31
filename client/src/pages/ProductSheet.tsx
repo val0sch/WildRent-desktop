@@ -26,7 +26,7 @@ function ProductSheet(): JSX.Element {
     },
   });
 
-  const productImages = imagesData?.imagesByProduct || [];
+  const productImages = imagesData?.getImagesByProduct || [];
 
   const {
     data: productInfos,
@@ -47,7 +47,7 @@ function ProductSheet(): JSX.Element {
     return <div>Erreur de chargement de la fiche produit.</div>;
   }
 
-  const product: Product = productInfos.product || {};
+  const product: Product = productInfos.getProductById || {};
 
   const pagination = {
     clickable: true,

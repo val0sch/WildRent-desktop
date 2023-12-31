@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "../../style/moncompte.css";
 
 function MesFactures(): JSX.Element {

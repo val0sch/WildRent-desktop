@@ -1,16 +1,17 @@
 import CategoryService from "../services/category.service";
 import { GraphQLError } from "graphql";
 import { ApolloServerErrorCode } from "@apollo/server/errors";
-import { MutationAddCategoryArgs, MutationUpdateCategoryArgs, MutationDeleteCategoryArgs } from "../graphql/graphql";
+import {
+  MutationAddCategoryArgs,
+  MutationUpdateCategoryArgs,
+  MutationDeleteCategoryArgs,
+} from "../graphql/graphql";
 
 export default {
   Query: {
-    async categories() {
+    async getListCategories() {
       return await new CategoryService().listCategory();
     },
-    async category(id: string) {
-      return await new CategoryService().findById(id);
-    },  
   },
 
   Mutation: {
@@ -27,7 +28,7 @@ export default {
 
       return await new CategoryService().addCategory({
         label,
-        imageUrl
+        imageUrl,
       });
     },
 
@@ -40,16 +41,14 @@ export default {
           extensions: { code: ApolloServerErrorCode.BAD_REQUEST },
         });
       }
-      return await new CategoryService().updateCategory({
-        id,
+      return await new CategoryService().updateCategory(id, {
         label,
-        imageUrl
+        imageUrl,
       });
     },
 
     async deleteCategory(_: any, { id }: MutationDeleteCategoryArgs) {
       return await new CategoryService().deleteCategory({ id });
-    }
+    },
   },
-
 };

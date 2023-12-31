@@ -30,7 +30,7 @@ export default class UserService {
     return await this.db.update(id, { email, password, isAdmin });
   }
   
-  async deleteUser({ id }: any) {
+  async deleteUser({ id }: { id: string }) {
     return await this.db.delete({ id });
   }
 

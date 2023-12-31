@@ -1,25 +1,33 @@
 export default `#graphql
 type Image {
-  id: String
+  id: ID
   isMain: Boolean
   name: String
   product: Product
-}
+} 
 
 type Query {
-  images: [Image]
-  imagesByProduct(productId: String!): [Image]
+  getImagesByProduct(productId: ID!): [Image]
 }
 
 type Mutation {
   addImage(infos: ImageRegister!): Image
-  deleteImage(id: String!): Image
-  updateImageMainStatus(productId: String!, id: String!, isMain: Boolean!): Image
+  deleteImage(id: ID!): Image
+  updateImageMainStatus(productId: ID!, infos: ImageUpdateMain!): Image
 }
 
-input ImageRegister {     
-  isMain: Boolean
+input ImageRegister {
+  isMain: Boolean!
   name: String!
-  product: String!
+  product: ProductImageInput!
+}
+
+input ProductImageInput{
+  id: ID!
+}
+
+input ImageUpdateMain {
+  id: ID!
+  isMain: Boolean!
 }
 `;

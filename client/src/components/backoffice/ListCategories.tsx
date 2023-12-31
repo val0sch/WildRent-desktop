@@ -46,7 +46,11 @@ function ListCategories({
       selector: "imageUrl",
       sortable: true,
       cell: (row: any) => (
-        <img src={row.imageUrl} alt="catégorie" height={75} />
+        <img
+          src={row.imageUrl}
+          alt="représentation de la catégorie"
+          height={75}
+        />
       ),
     },
     {

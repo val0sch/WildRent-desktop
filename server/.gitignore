@@ -11,6 +11,9 @@
 # production
 /build
 
+#BDD SQLITE
+*.sqlite
+
 # misc
 .DS_Store
 .env

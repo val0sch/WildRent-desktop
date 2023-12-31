@@ -7,7 +7,7 @@ import {
   FormEvent,
 } from "react";
 import { ADD_PRODUCT_WITH_IMAGES } from "../../graphql/product.mutation";
-import { LIST_CATEGORIES } from "../../graphql/Categories.query";
+import { LIST_CATEGORIES } from "../../graphql/categories.query";
 import * as Yup from "yup";
 
 import "../../style/backoffice.css";
@@ -47,7 +47,7 @@ function ModaleAddProduct({
     },
   });
 
-  const [addProductInDb, { data }] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
+  const [addProductInDb] = useMutation(ADD_PRODUCT_WITH_IMAGES, {
     onCompleted(data) {
       setMessage(
         "Vous avez ajouté le produit : " + data.addProductWithImages.name
@@ -113,7 +113,6 @@ function ModaleAddProduct({
   const addImageField = () => {
     setImages([...images, { name: "", isMain: false }]);
   };
-
   const productSchema = Yup.object({
     name: Yup.string().required("Le nom de l'equipement est requis"),
     description: Yup.string().required("La description est requise"),
@@ -124,15 +123,15 @@ function ModaleAddProduct({
 
   const Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const handleAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -163,9 +162,9 @@ function ModaleAddProduct({
         },
       });
       await Toast.fire({
-        icon: 'success',
-        title: 'Produit ajouté avec succès'
-      })
+        icon: "success",
+        title: "Produit ajouté avec succès",
+      });
     } catch (err: any) {
       if (Yup.ValidationError.isError(err)) {
         const yupErrors: Record<string, string> = {};
@@ -182,7 +181,7 @@ function ModaleAddProduct({
       <form onSubmit={handleAddProduct} className="modale-add-product-form">
         <select onChange={handleSelectChange}>
           <option value="">Choisir une catégorie</option>
-          {categories?.categories.map(
+          {categories?.getListCategories.map(
             (selectedcategory: any, index: number) => (
               <option key={index} value={selectedcategory.id}>
                 {selectedcategory.label}

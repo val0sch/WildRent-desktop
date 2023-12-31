@@ -3,8 +3,6 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  OneToOne,
-  UpdateResult,
   JoinColumn,
   OneToMany,
 } from "typeorm";
@@ -35,9 +33,8 @@ export default class Product {
   stock: number;
 
   @ManyToOne((type) => Category, { onDelete: "SET NULL", eager: true })
-  @JoinColumn()
   category: Category;
 
-  @OneToMany(() => Image, (item) => item.product)
+  @OneToMany(() => Image, (image) => image.product)
   images: Image[];
 }

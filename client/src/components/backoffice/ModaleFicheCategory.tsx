@@ -73,7 +73,7 @@ function ModaleFicheCategory({
     e.preventDefault();
     try {
       await categorySchema.validate({ label, imageUrl }, { abortEarly: false });
-      label == category.label && imageUrl == category.imageUrl
+      label === category.label && imageUrl === category.imageUrl
         ? setMessage("Aucune modification n'a été apporté")
         : await updateCategoryInDb({
             variables: {

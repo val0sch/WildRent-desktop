@@ -1,6 +1,6 @@
-import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
+import { PropsWithChildren, createContext, useReducer } from "react";
 import { Item } from "../generated";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { CHECK_SESSION } from "../graphql/session.query";
 
 interface ICartContext {

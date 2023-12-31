@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@apollo/client";
-import { GET_USERDETAILS } from "../../graphql/detailsUserConnect.query";
+import { USER_DETAILS } from "../../graphql/detailsUser.query";
 
 import Login from "../../components/Login";
 import MesInfos from "./MesInfos";
@@ -11,7 +11,6 @@ import MesReservations from "./MesReservations";
 
 import "../../style/moncompte.css";
 function MonCompte(): JSX.Element {
-
   const [isBillComponent, setIsBillComponent] = useState(false);
   const [isProfileInfosComponent, setIsProfileInfosComponent] = useState(true);
   const [isReservationComponent, setIsReservationComponent] = useState(false);
@@ -20,8 +19,7 @@ function MonCompte(): JSX.Element {
 
   const { userInfos } = useAuth();
 
-
-  const { data } = useQuery(GET_USERDETAILS, {
+  const { data } = useQuery(USER_DETAILS, {
     onCompleted(data) {
       console.log("Details du user", data);
       setUserData(data.detailsConnectUser);

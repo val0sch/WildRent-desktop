@@ -3,15 +3,15 @@ import Product from "./product.entity";
 
 @Entity()
 export default class Image {
-    @PrimaryGeneratedColumn("uuid")
-    id: string
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    isMain: boolean
+  @Column()
+  isMain: boolean;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @ManyToOne(type => Product, item => item.images) 
-    product: Product
+  @ManyToOne(() => Product, (product) => product.images)
+  product: Product;
 }

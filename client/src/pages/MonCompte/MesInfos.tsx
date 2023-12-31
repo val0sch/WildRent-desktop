@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { useMutation } from "@apollo/client";
-import { UPDATE_USERDETAILS } from "../../graphql/userDetails.mutation";
+import { UPDATE_USERDETAILS } from "../../graphql/detailsUser.mutation";
 
 interface DetailsUser {
   id?: string;

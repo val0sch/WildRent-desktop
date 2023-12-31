@@ -25,6 +25,5 @@ To Do:
 - réorganiser la structure ( peut-être créer un component Layout avec dedans un component Header, le {children} et un component Footer.Le component Layout sera appelé dans chaque page fin que le Header et le Footer soir affiché, le contenu de la page sera le {children} )
 - Vérification Token au Login côté back , voir checkToken du boilerplate
 - sécurisé la route du back-office
-- mise en page du front/tailwind
 - importer des "fixtures" / "fake datas"
 - update les infos du compte via page mes informations

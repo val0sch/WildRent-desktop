@@ -1,36 +1,54 @@
 import ProductService from "../services/product.service";
 import ImageService from "../services/image.service";
-import { MutationAddProductWithImagesArgs, MutationUpdateProductArgs, MutationDeleteProductArgs } from "../graphql/graphql";
+import {
+  MutationAddProductWithImagesArgs,
+  MutationUpdateProductArgs,
+  MutationDeleteProductArgs,
+} from "../graphql/graphql";
 
 export default {
   Query: {
-    async products() {
+    async getListProducts() {
       return await new ProductService().listProduct();
     },
 
-    async productsByCategory(
+    async getListProductsByCategory(
       _: any,
       { categoryLabel }: { categoryLabel: string }
     ) {
-      return await new ProductService().productsFindByCategoryLabel(
-        categoryLabel
-      ).then(products => {
-        return products.map(async (product) => {
-          const images = await new ImageService().listImagesByProductId(product.id);
-          product.images = images;
-          return product;
+      return await new ProductService()
+        .productsFindByCategoryLabel(categoryLabel)
+        .then((products) => {
+          return products.map(async (product) => {
+            const images = await new ImageService().listImagesByProductId(
+              product.id
+            );
+            product.images = images;
+            return product;
+          });
         });
-      });
     },
 
-    async product(_: any, { productId }: { productId: string }) {
+    async getProductById(_: any, { productId }: { productId: string }) {
       return await new ProductService().findById(productId);
     },
   },
 
   Mutation: {
-    async addProductWithImages(_: any, { infos }: MutationAddProductWithImagesArgs) {
-      let { name, price, description, isAvailable, size, stock, category, images } = infos;
+    async addProductWithImages(
+      _: any,
+      { infos }: MutationAddProductWithImagesArgs
+    ) {
+      let {
+        name,
+        price,
+        description,
+        isAvailable,
+        size,
+        stock,
+        category,
+        images,
+      } = infos;
 
       if (isAvailable == null) {
         isAvailable = false;
@@ -44,7 +62,7 @@ export default {
         size,
         stock,
         category,
-        images
+        images,
       });
     },
 
