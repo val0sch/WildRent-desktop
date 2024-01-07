@@ -15,14 +15,11 @@ function MonCompte(): JSX.Element {
   const [isProfileInfosComponent, setIsProfileInfosComponent] = useState(true);
   const [isReservationComponent, setIsReservationComponent] = useState(false);
   const [isFavorisComponent, setIsFavorisComponent] = useState(false);
-  const [userData, setUserData] = useState({});
 
   const { userInfos } = useAuth();
-
   const { data } = useQuery(USER_DETAILS, {
     onCompleted(data) {
       console.log("Details du user", data);
-      setUserData(data.detailsConnectUser);
     },
     onError(error) {
       console.error(error);
@@ -105,7 +102,7 @@ function MonCompte(): JSX.Element {
             </div>
           </div>
           <div className="rightContainerUserInfos">
-            {isProfileInfosComponent && <MesInfos content={userData} />}
+            {isProfileInfosComponent && <MesInfos content={data} />}
             {isReservationComponent && <MesReservations />}
             {isBillComponent && <MesFactures />}
             {isFavorisComponent && <MesFavoris />}

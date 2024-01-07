@@ -17,7 +17,8 @@ function MesInfos({ content }: { content: DetailsUser }): JSX.Element {
   const [detailsUser, setDetailsUser] = useState<DetailsUser>({
     ...content,
   });
-  console.log(detailsUser);
+  console.log("detailsUser", detailsUser);
+  console.log("content", content);
   useEffect(() => {
     // Obliger de setter dans le useEffect car il ne se set pas automatiquement dans le state plus haut.
     setDetailsUser({ ...content });
