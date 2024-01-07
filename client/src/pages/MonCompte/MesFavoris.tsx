@@ -17,7 +17,7 @@ function MesFavoris(): JSX.Element {
   return (
     <>
       <h1>Mes favoris</h1>
-      <div className="userInfosContent">Blablabla</div>
+      <div className="userInfosContent">Mes favoris</div>
     </>
   );
 }

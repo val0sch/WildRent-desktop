@@ -1,28 +1,33 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
+
+import { useQuery } from "@apollo/client";
+import { USER_DETAILS } from "../../graphql/detailsUser.query";
 
 import { useMutation } from "@apollo/client";
 import { UPDATE_USERDETAILS } from "../../graphql/detailsUser.mutation";
 
-interface DetailsUser {
-  id?: string;
-  firstname?: string;
-  lastname?: string;
-  address?: string;
-  birthday?: string;
-}
-function MesInfos({ content }: { content: DetailsUser }): JSX.Element {
+function MesInfos(): JSX.Element {
+  const [detailsUser, setDetailsUser] = useState({
+    id: "",
+    firstname: "",
+    lastname: "",
+    birthday: "",
+    address: "",
+  });
+
+  useQuery(USER_DETAILS, {
+    onCompleted(data) {
+      setDetailsUser(data.getDetailsUserConnected);
+    },
+    onError(error) {
+      console.error(error);
+    },
+    fetchPolicy: "no-cache",
+  });
+
   const [isInputName, setIsInputName] = useState(false);
   const [isInputAddress, setIsInputAddress] = useState(false);
   const [isInputBirthday, setIsInputBirthday] = useState(false);
-  const [detailsUser, setDetailsUser] = useState<DetailsUser>({
-    ...content,
-  });
-  console.log("detailsUser", detailsUser);
-  console.log("content", content);
-  useEffect(() => {
-    // Obliger de setter dans le useEffect car il ne se set pas automatiquement dans le state plus haut.
-    setDetailsUser({ ...content });
-  }, [content]);
 
   const [updateUserDetails] = useMutation(UPDATE_USERDETAILS, {
     onCompleted(dataUserDetails) {
@@ -36,7 +41,7 @@ function MesInfos({ content }: { content: DetailsUser }): JSX.Element {
   const handleUpdateDetails = () => {
     updateUserDetails({
       variables: {
-        updateDetailsUserId: content.id,
+        updateDetailsUserId: detailsUser.id,
         infos: {
           birthday: detailsUser.birthday,
           address: detailsUser.address,
@@ -74,9 +79,9 @@ function MesInfos({ content }: { content: DetailsUser }): JSX.Element {
         break;
     }
   };
-  const handleChangeField = (fieldName: keyof DetailsUser) => {
+  const handleChangeField = (fieldName: string) => {
     return (e: ChangeEvent<HTMLInputElement>) => {
-      setDetailsUser((prevState) => ({
+      setDetailsUser((prevState: any) => ({
         ...prevState,
         [fieldName]: e.target.value,
       }));

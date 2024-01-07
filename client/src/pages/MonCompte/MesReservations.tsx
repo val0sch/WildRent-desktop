@@ -17,7 +17,7 @@ function MesReservations(): JSX.Element {
   return (
     <>
       <h1>Mes Réservations</h1>
-      <div className="userInfosContent">Blablabla</div>
+      <div className="userInfosContent">Mes réservations</div>
     </>
   );
 }

@@ -1,7 +1,5 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { useQuery } from "@apollo/client";
-import { USER_DETAILS } from "../../graphql/detailsUser.query";
 
 import Login from "../../components/Login";
 import MesInfos from "./MesInfos";
@@ -17,15 +15,6 @@ function MonCompte(): JSX.Element {
   const [isFavorisComponent, setIsFavorisComponent] = useState(false);
 
   const { userInfos } = useAuth();
-  const { data } = useQuery(USER_DETAILS, {
-    onCompleted(data) {
-      console.log("Details du user", data);
-    },
-    onError(error) {
-      console.error(error);
-    },
-    fetchPolicy: "no-cache",
-  });
 
   const handleClick = (component: string) => {
     switch (component) {
@@ -63,9 +52,9 @@ function MonCompte(): JSX.Element {
   };
 
   return (
-    <div className="containerUserInfos">
+    <>
       {Object.keys(userInfos).length > 0 ? (
-        <>
+        <div className="containerUserInfos">
           <div className="leftContainerUserInfos">
             <h1>Bienvenue</h1>
             <div className="linksUserInfos">
@@ -75,7 +64,7 @@ function MonCompte(): JSX.Element {
                 }`}
                 onClick={() => handleClick("profil")}
               >
-                Mes informations personnelles
+                Informations personnelles
               </button>
               <button
                 className={`btn-moncompte ${
@@ -83,13 +72,13 @@ function MonCompte(): JSX.Element {
                 }`}
                 onClick={() => handleClick("reservations")}
               >
-                Mes reservations
+                Réservations
               </button>
               <button
                 className={`btn-moncompte ${isBillComponent ? "active" : ""}`}
                 onClick={() => handleClick("factures")}
               >
-                Mes factures
+                Factures
               </button>
               <button
                 className={`btn-moncompte ${
@@ -97,21 +86,21 @@ function MonCompte(): JSX.Element {
                 }`}
                 onClick={() => handleClick("favoris")}
               >
-                Mes favoris
+                Favoris
               </button>
             </div>
           </div>
           <div className="rightContainerUserInfos">
-            {isProfileInfosComponent && <MesInfos content={data} />}
+            {isProfileInfosComponent && <MesInfos />}
             {isReservationComponent && <MesReservations />}
             {isBillComponent && <MesFactures />}
             {isFavorisComponent && <MesFavoris />}
           </div>
-        </>
+        </div>
       ) : (
         <Login />
       )}
-    </div>
+    </>
   );
 }
 
