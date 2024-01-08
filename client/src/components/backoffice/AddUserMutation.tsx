@@ -62,7 +62,7 @@ function AddUserMutation() {
   const [login] = useLoginLazyQuery({
     onCompleted(data) {
       setUserData(data.login);
-      navigate("/compte/infos");
+      navigate("/");
     },
   });
 

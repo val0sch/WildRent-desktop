@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 function MesReservations(): JSX.Element {
   /////
   //  useEffect
@@ -17,14 +15,10 @@ function MesReservations(): JSX.Element {
   //  Return
   /////
   return (
-    <div>
-      Mes Réservations
-      <div>
-        <button>
-          <Link to={"/compte"}>Retour</Link>
-        </button>
-      </div>
-    </div>
+    <>
+      <h1>Mes Réservations</h1>
+      <div className="userInfosContent">Mes réservations</div>
+    </>
   );
 }
 

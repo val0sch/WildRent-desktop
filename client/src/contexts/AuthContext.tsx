@@ -34,7 +34,7 @@ export default function AuthContextProvider({
     }
   );
 
-  const  navigate:NavigateFunction = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const authContext = {
     setUserData: async (data: any) => {

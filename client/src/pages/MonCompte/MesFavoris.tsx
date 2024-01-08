@@ -1,30 +1,24 @@
-import { Link } from "react-router-dom";
-
 function MesFavoris(): JSX.Element {
-/////
-//  useEffect
-/////
+  /////
+  //  useEffect
+  /////
 
-/////
-//  useState
-/////
+  /////
+  //  useState
+  /////
 
-/////
-//  Code
-/////
+  /////
+  //  Code
+  /////
 
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
-    <div>
-      Mes Favoris
-      <div>
-        <button>
-          <Link to={"/compte"}>Retour</Link>
-        </button>
-      </div>
-    </div>
+    <>
+      <h1>Mes favoris</h1>
+      <div className="userInfosContent">Mes favoris</div>
+    </>
   );
 }
 

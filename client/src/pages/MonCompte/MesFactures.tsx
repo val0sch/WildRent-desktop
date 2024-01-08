@@ -1,30 +1,26 @@
-import { Link } from "react-router-dom";
+import "../../style/moncompte.css";
 
 function MesFactures(): JSX.Element {
-/////
-//  useEffect
-/////
+  /////
+  //  useEffect
+  /////
 
-/////
-//  useState
-/////
+  /////
+  //  useState
+  /////
 
-/////
-//  Code
-/////
+  /////
+  //  Code
+  /////
 
-/////
-//  Return
-/////
+  /////
+  //  Return
+  /////
   return (
-    <div>
-      Mes Factures
-      <div>
-        <button>
-          <Link to={"/compte"}>Retour</Link>
-        </button>
-      </div>
-    </div>
+    <>
+      <h1>Mes factures</h1>
+      <div className="userInfosContent">Mes factures</div>
+    </>
   );
 }
 
