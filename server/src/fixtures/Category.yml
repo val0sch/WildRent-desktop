@@ -4,7 +4,7 @@ items:
     label: 'Natation'
     imageUrl: 'https://images.pexels.com/photos/9030291/pexels-photo-9030291.jpeg'
   category2:
-    label: 'Randonné'
+    label: 'Randonnée'
     imageUrl: 'https://images.pexels.com/photos/917510/pexels-photo-917510.jpeg'
   category3:
     label: 'Athletisme'

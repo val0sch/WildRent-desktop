@@ -1,0 +1,93 @@
+.containerUserInfos {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+button.btn-moncompte {
+  height: 50%;
+  color: black;
+  box-shadow: none;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1em;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9em;
+  background-color: transparent;
+}
+
+.btn-moncompte:hover {
+  background-color: rgba(161, 160, 160, 0.157);
+}
+.btn-moncompte.active {
+  background-color: rgba(128, 128, 128, 0.271);
+}
+
+.leftContainerUserInfos {
+  width: 20%;
+  height: 60%;
+  margin: 5% 0 0 5%;
+  padding: 2%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.75rem;
+}
+
+.linksUserInfos {
+  margin-top: 5%;
+  display: flex;
+  height: 15vh;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.rightContainerUserInfos {
+  margin: 5% 0 0 5%;
+  width: 60%;
+  height: 60%;
+}
+
+.rightContainerUserInfos h1 {
+  height: 10%;
+  font-size: 2em;
+}
+
+.userInfosContent {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.75rem;
+  height: 90%;
+}
+.userInfosContent:nth-child(1) {
+  border-bottom: 1px solid black;
+}
+
+.userInfosRow {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 2%;
+  height: 33%;
+  gap: 2%;
+}
+.userInfosRow:nth-child(1),
+.userInfosRow:nth-child(2) {
+  border-bottom: 1px solid rgba(209, 209, 214, 0.2);
+  box-shadow: rgba(209, 209, 214, 0.2) 0px 10px 29px 0px;
+}
+.dynamic-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+button.btn-modify {
+  border: none;
+  border-radius: 0.8rem;
+  background-color: transparent;
+  font-size: 0.9em;
+  color: var(--main-orange);
+}
+.btn-modify:hover {
+  color: white;
+  background-color: var(--main-orange);
+}

@@ -36,6 +36,7 @@ function ListProducts({
       name: "Nom",
       selector: "name",
       sortable: true,
+      width: "12%",
     },
     {
       name: "Description",
@@ -44,34 +45,41 @@ function ListProducts({
     },
     {
       name: "Catégorie",
-      selector: (row:any) => row.category?.label? row.category?.label:"",
+      selector: (row: any) => (row.category?.label ? row.category?.label : ""),
       sortable: true,
+      width: "15%",
     },
     {
       name: "Prix",
       selector: "price",
       sortable: true,
+      width: "6%",
+
     },
     {
       name: "Taille",
       selector: "size",
       sortable: true,
+      width: "6%",
     },
     {
       name: "Stock",
       selector: "stock",
       sortable: true,
+      width: "6%",
     },
     {
       name: "Disponible",
       selector: "isAvailable",
       cell: (row: any) => (row.isAvailable ? "Oui" : "Non"),
       sortable: true,
+      width: "6%",
     },
     {
       name: "Actions",
       button: true,
       ignoreRowClick: true,
+      width: "8%",
       cell: (row: any) => (
         <button
           style={{ fontSize: 14 }}
@@ -85,7 +93,7 @@ function ListProducts({
   ];
   const conditionalRowStyles = [
     {
-      when: (row: any) => row.isAvailable == false,
+      when: (row: any) => row.isAvailable === false,
       style: {
         backgroundColor: "lightgrey",
         color: "white",

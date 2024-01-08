@@ -11,6 +11,7 @@ import {
 } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContext";
+import CartContextProvider from "./contexts/CartContext";
 
 
 
@@ -20,7 +21,11 @@ const root = ReactDOM.createRoot(
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-  credentials: "same-origin",
+  credentials: "include",
+  // credentials: "same-origin",
+  // fetchOptions: {
+  //   mode: 'no-cors',
+  // },
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -47,7 +52,9 @@ root.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
       <AuthContextProvider>
-        <App />
+        <CartContextProvider>
+            <App />
+        </CartContextProvider>
       </AuthContextProvider>
     </ApolloProvider>
   </BrowserRouter>

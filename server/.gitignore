@@ -11,6 +11,9 @@
 # production
 /build
 
+#BDD SQLITE
+*.sqlite
+
 # misc
 .DS_Store
 .env
@@ -22,3 +25,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+package-lock.json
+
+#BDD SQLITE
+*.sqlite

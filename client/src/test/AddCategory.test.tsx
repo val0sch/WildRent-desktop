@@ -1,7 +1,6 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { ADD_CATEGORY } from "../graphql/category.mutation";
-import ModaleAddCategory from "../components/backoffice/ModaleAddCategory";
 
 
 // NOT WORKING WORK IN PROGRESS

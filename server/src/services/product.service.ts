@@ -15,7 +15,7 @@ export default class ProductService {
 
   async productsFindByCategoryLabel(categoryLabel: string) {
     return await this.db.find({
-      relations: ["category"],
+      relations: ["category", "images"],
       where: { category: { label: categoryLabel } },
     });
   }
@@ -32,7 +32,6 @@ export default class ProductService {
     size,
     stock,
     category,
-    item,
     images,
   }: any) {
     const product = await this.db.save({
@@ -43,12 +42,13 @@ export default class ProductService {
       size,
       stock,
       category,
-      item,
     });
 
+    // TODO : checker pourquoi l'image ne s'ajoute pas
     const imageService = new ImageService();
     const imagePromises = images.map(async (imageInfo: any) => {
       const { isMain, name } = imageInfo;
+
       return imageService.addImage({ isMain, name, product });
     });
 
@@ -66,7 +66,6 @@ export default class ProductService {
     size,
     stock,
     category,
-    item,
   }: any) {
     return await this.db.update(id, {
       name,
@@ -76,11 +75,10 @@ export default class ProductService {
       size,
       stock,
       category,
-      item,
     });
   }
 
-  async deleteProduct({ id }: any) {
+  async deleteProduct({ id }: { id: string }) {
     return await this.db.delete({ id });
   }
 }

@@ -4,6 +4,7 @@ import { ADD_USER } from "../../graphql/user.mutation";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import React from "react";
 import useAuth from "../../hooks/useAuth";
+import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 import * as Yup from "yup";
 import { useLoginLazyQuery } from "../../generated";
@@ -19,8 +20,8 @@ function AddUserMutation() {
       .email("Veuillez entrer une adresse e-mail valide."),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Minimum 8 caractères, au moins une majuscule, une minuscule et un chiffre"
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        "Minimum 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial parmi @$!%*?&"
       )
       .required("Le mot de passe est obligatoire.")
       .min(8, "Le mot de passe doit avoir au minimum 8 caractères."),
@@ -37,7 +38,10 @@ function AddUserMutation() {
   const { setUserData } = useAuth();
   const navigate: NavigateFunction = useNavigate();
 
-  const [addUserInDb, { data }] = useMutation(ADD_USER, {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const [addUserInDb] = useMutation(ADD_USER, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add User", data);
       login({
@@ -55,10 +59,10 @@ function AddUserMutation() {
     },
   });
 
-  const [login, { error, loading }] = useLoginLazyQuery({
+  const [login] = useLoginLazyQuery({
     onCompleted(data) {
       setUserData(data.login);
-      navigate("/compte/infos");
+      navigate("/");
     },
   });
 
@@ -109,6 +113,14 @@ function AddUserMutation() {
     }
   };
 
+  const toggleVisibility = (field: string) => {
+    if (field === "password") {
+      setShowPassword(!showPassword);
+    } else if (field === "passwordConfirmation") {
+      setShowConfirmation(!showConfirmation);
+    }
+  };
+
   return (
     <form onSubmit={handleAddUser} className="register-form">
       <input
@@ -117,25 +129,44 @@ function AddUserMutation() {
         onChange={handleChangeField("email", setEmail)}
       />
       {errors.email && <p className="register-error-message">{errors.email}</p>}
-      <input
-        name="password"
-        placeholder="Choisissez un mot de passe"
-        type="password"
-        onChange={handleChangeField("password", setPassword)}
-      />
+
+      <div className="password-field">
+        <input
+          name="password"
+          placeholder="Choisissez un mot de passe"
+          type={showPassword ? "text" : "password"}
+          onChange={handleChangeField("password", setPassword)}
+        />
+        <i
+          className="toggle-password-button"
+          onClick={() => toggleVisibility("password")}
+        >
+          {showPassword ? <Eye size={20} /> : <EyeSlash size={20} />}
+          {/* Toggle eye icon */}
+        </i>
+      </div>
       {errors.password && (
         <p className="register-error-message">{errors.password}</p>
       )}
 
-      <input
-        name="passwordConfirmation"
-        placeholder="Répétez votre mot de passe"
-        type="password"
-        onChange={handleChangeField(
-          "passwordConfirmation",
-          setPasswordConfirmation
-        )}
-      />
+      <div className="password-field">
+        <input
+          name="passwordConfirmation"
+          placeholder="Répétez votre mot de passe"
+          type={showConfirmation ? "text" : "password"}
+          onChange={handleChangeField(
+            "passwordConfirmation",
+            setPasswordConfirmation
+          )}
+        />
+        <i
+          className="toggle-password-button"
+          onClick={() => toggleVisibility("passwordConfirmation")}
+        >
+          {showConfirmation ? <Eye size={20} /> : <EyeSlash size={20} />}
+          {/* Toggle eye icon */}
+        </i>
+      </div>
       {errors.passwordConfirmation && (
         <p className="register-error-message">{errors.passwordConfirmation}</p>
       )}

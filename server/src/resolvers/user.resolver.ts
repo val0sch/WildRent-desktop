@@ -14,13 +14,7 @@ import {
 
 export default {
   Query: {
-    async users() {
-      return await new UserService().listUsers();
-    },
-    async user(id: string) {
-      return await new UserService().findById(id);
-    },
-
+ 
     async login(_: any, { infos }: QueryLoginArgs) {
       const { email, password } = infos;
       //vérification que le user existe bien :
@@ -80,10 +74,10 @@ export default {
 
       // Création du DetailsUser
       const detailsUser = new DetailsUserService().addDetailsUser({
-        firstName: null,
-        lastName: null,
-        birthday: null,
-        address: null,
+        firstname: "",
+        lastname: "",
+        birthday: "",
+        address: "",
       });
       const detailsUserId = (await detailsUser).id;
 

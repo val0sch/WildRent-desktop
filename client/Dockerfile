@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:18-alpine
 
 RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 
@@ -13,7 +13,6 @@ COPY tsconfig.json ./
 RUN npm install
 
 COPY setup.js ./
-COPY tailwind.config.js ./
 
 COPY src src
 

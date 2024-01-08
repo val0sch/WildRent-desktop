@@ -21,7 +21,7 @@ export default class ItemService {
   }
 
   async updateItem({ id, quantity, start_rent_date, due_rent_date, isFavorite, cart, product }: any) {
-    return await this.db.update(id, { quantity, start_rent_date, due_rent_date, isFavorite, cart, product });
+    return await this.db.update(id, { quantity, start_rent_date, due_rent_date, isFavorite, cart, productId: product.id });
   }
   
   async deleteItem({ id }: any) {

@@ -1,19 +1,15 @@
 import { Link } from "react-router-dom";
 import ListProducts from "../../components/backoffice/ListProducts";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import ModaleAddProduct from "../../components/backoffice/ModaleAddProduct";
 
 import Plongeur from "../../assets/back-office.jpeg";
-import { Product } from "../../generated";
 import { useQuery } from "@apollo/client";
-import { LIST_PRODUCT } from "../../graphql/listProduct.query";
+import { LIST_PRODUCT } from "../../graphql/product.query";
 
 function Produits(): JSX.Element {
   const [toggleModaleProduct, setToggleModaleProduct] = useState(false);
 
-  const updatedProduct = () => {
-    refetch();
-  };
   const handleModaleProduct: MouseEventHandler<HTMLButtonElement> = () => {
     setToggleModaleProduct(!toggleModaleProduct);
   };
@@ -23,16 +19,15 @@ function Produits(): JSX.Element {
   };
 
   // LIST PRODUCTS
-  const [products, setProducts] = useState<Product[]>([]);
   const { data, refetch } = useQuery(LIST_PRODUCT, {
-    onCompleted(data) {
-      console.log("list product", data);
-      setProducts(data.products);
-    },
     onError(error) {
       console.error(error);
     },
   });
+
+  const updatedProduct = () => {
+    refetch();
+  };
 
   return (
     <section className="back-office-product-section">
@@ -52,7 +47,10 @@ function Produits(): JSX.Element {
             />
           )}
 
-          <ListProducts products={products} updatedProduct={updatedProduct} />
+          <ListProducts
+            products={data?.getListProducts}
+            updatedProduct={updatedProduct}
+          />
         </div>
         <div>
           <button>

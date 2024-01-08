@@ -185,7 +185,7 @@ a.navlink {
   }
 
   ul.desktop {
-    justify-content: end;
+    justify-content: flex-end;
     display: flex;
     align-items: center;
     width: 100%;

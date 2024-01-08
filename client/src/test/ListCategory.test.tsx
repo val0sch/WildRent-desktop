@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import { LIST_CATEGORIES } from "../graphql/Categories.query";
-import ListCategories from "../components/backoffice/ListCategories";
+import { LIST_CATEGORIES } from "../graphql/categories.query";
 
 // NOT WORKING WORK IN PROGRESS
 test("List of categories", async () => {
@@ -14,7 +13,7 @@ test("List of categories", async () => {
           },
           result: {
             data: {
-              categories: [
+              getListCategories: [
                 {
                   id: "9fb7dfed-b442-44e7-bf27-25e4432f2a03",
                   label: "surf",
