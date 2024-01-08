@@ -5,7 +5,7 @@ import Category from "../entities/category.entity";
 import Product from "../entities/product.entity";
 import Image from "../entities/image.entity";
 
-// To run fixtures change environment variable process.env.DB_PASSWORD and process.env.DB_USERNAME with string
+// To run fixtures change environment variable process.env.DB_PASSWORD and process.env.DB_USERNAME and process.env.DB_NAME with string
 
 export default new DataSource({
   type: "postgres",
