@@ -33,7 +33,6 @@ function App(): JSX.Element {
           <Routes>
             <Route path="/" element={<NavBar />}>
               <Route index element={<Accueil />} />
-              <Route path="inscription" element={<Inscription />} />
               <Route path="contact" element={<Contact />} />
               <Route path="all-categories" element={<CategorieList />} />
               <Route
