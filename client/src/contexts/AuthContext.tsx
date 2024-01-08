@@ -39,7 +39,6 @@ export default function AuthContextProvider({
   const authContext = {
     setUserData: async (data: any) => {
       const { token, ...userData } = data;
-      console.log("token", token);
       localStorage.setItem("token", token);
       localStorage.setItem("userData", JSON.stringify(userData));
       dispatch({ type: "LOG_IN", userData });

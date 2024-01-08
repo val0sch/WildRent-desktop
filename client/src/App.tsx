@@ -53,10 +53,6 @@ function App(): JSX.Element {
               <Route path="panier" element={<Panier />} />
               <Route path="compte">
                 <Route path="" element={<MonCompte />} />
-                {/* <Route path="infos" element={<MesInfos />} />
-                <Route path="reservations" element={<MesReservations />} />
-                <Route path="factures" element={<MesFactures />} />
-                <Route path="favoris" element={<MesFavoris />} /> */}
               </Route>
               <Route path="back-office">
                 <Route
