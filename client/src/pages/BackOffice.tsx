@@ -4,6 +4,7 @@ import Plongeur from "../assets/back-office.jpeg";
 import { DribbbleLogo, Football } from "@phosphor-icons/react";
 
 function BackOffice(): JSX.Element {
+  
   return (
     <section className="back-office-main-container">
       <div className="back-office-img-container">

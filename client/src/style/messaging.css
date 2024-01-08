@@ -1,5 +1,5 @@
-.container {
-  height: 93vh;
+.messaging-container {
+  height: 90vh;
   display: flex;
 }
 
@@ -30,11 +30,17 @@
   overflow-y: scroll;
   gap: 2em;
 }
+
 .writing-box {
   display: flex;
-  background-color: beige;
   justify-content: space-between;
+  width: 100%;
 }
+
+.writing-box > input {
+  width: 90%;
+}
+
 .message-box {
   display: flex;
   flex-direction: column;
@@ -53,3 +59,23 @@ p {
 /* input {
   width: 88%;
 } */
+
+button.emailUser-btn {
+  height: 50%;
+  color: black;
+  box-shadow: none;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1em;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9em;
+  background-color: transparent;
+}
+
+.emailUser-btn:hover {
+  background-color: rgba(161, 160, 160, 0.157);
+}
+.emailUser-btn.selected {
+  background-color: rgba(128, 128, 128, 0.271);
+}

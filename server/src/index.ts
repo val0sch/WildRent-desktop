@@ -60,19 +60,19 @@ const start = async () => {
         // Il définit une fonction de contexte qui sera appelée à chaque requête GraphQL,
         //permettant de configurer le contexte Apollo Server.
         // Le contexte est un objet qui peut être utilisé pour stocker des informations utiles pour le traitement de la requête.
-        console.log("REQUEST", req.cookies);
+        // console.log("REQUEST", req.cookies);
 
         // console.log("REQUEST HEADERS", req.headers);
         let session = null;
         let user = null;
 
         if (req.headers.authorization) {
-          console.log("req.headers.authorization", req.headers.authorization);
+          // console.log("req.headers.authorization", req.headers.authorization);
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
           )) as any;
           if (payload) {
-            console.log("payload", payload);
+            // console.log("payload", payload);
             const email = payload.email;
             user = await new UserService().findByEmail(email);
           }
@@ -147,7 +147,7 @@ const start = async () => {
   });
 
   // Listing all users ,  we send all existing users to the client:
-  io.on("connection", (socket) => {
+  io.on("connection", (socket): any => {
     // fetch existing users
     const users: { userID: any; userEmail: any }[] = [];
     // We are looping over the io.of("/").sockets object, which is a Map of all currently connected Socket instances, indexed by ID.
@@ -165,6 +165,7 @@ const start = async () => {
       }
     }
     socket.emit("users", users);
+    console.log(" balallala", users);
 
     // notify existing users
     socket.broadcast.emit("userConnected", {
@@ -173,8 +174,14 @@ const start = async () => {
     });
 
     // forward the private message to the right recipient
-    socket.on("privateMessage", ({ messageData, to }) => {
-      socket.to(to).emit("privateMessage", {
+    // socket.on("privateMessage", ({ messageData, to }) => {
+    //   socket.to(to).emit("privateMessage", {
+    //     messageData,
+    //     from: socket.id,
+    //   });
+    // });
+    socket.on("send_private_message", ({ messageData, to }) => {
+      socket.to(to).emit("receive_private_message", {
         messageData,
         from: socket.id,
       });
@@ -182,12 +189,13 @@ const start = async () => {
 
     // notify users upon disconnection
     socket.on("disconnect", () => {
+      console.log("diconnected", socket.id);
       socket.broadcast.emit("userDisconnected", socket.id);
     });
   });
 
   await new Promise<void>((resolve) => IoHttpServer.listen(3001, resolve));
-  // console.log("🚀 Server ready at http://localhost:3001");
+  console.log("🚀 Server ready at http://localhost:3001");
 
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: process.env.PORT }, resolve)

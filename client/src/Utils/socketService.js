@@ -13,7 +13,7 @@ const socket = io(URL, { autoConnect: false });
 // We also register a catch-all listener, which is very useful during development:
 // https://socket.io/docs/v4/listening-to-events/#Catch-all-listeners
 socket.onAny((event, ...args) => {
-  console.log(event, args);
+  console.log("event", event, "args", args);
 });
 
 export default socket;
