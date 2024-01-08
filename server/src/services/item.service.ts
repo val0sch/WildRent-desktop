@@ -16,12 +16,12 @@ export default class ItemService {
     return await this.db.findOneBy({ id });
   }
 
-  async addItem({ quantity, start_rent_date, due_rent_date, isFavorite, cart, product }: any) {
-    return await this.db.save({ quantity, start_rent_date, due_rent_date, isFavorite, cart, product });
+  async addItem({ quantity, start_rent_date, due_rent_date, isFavorite, cart, productId }: any) {
+    return await this.db.save({ quantity, start_rent_date, due_rent_date, isFavorite, cart, productId });
   }
 
-  async updateItem({ id, quantity, start_rent_date, due_rent_date, isFavorite, cart, product }: any) {
-    return await this.db.update(id, { quantity, start_rent_date, due_rent_date, isFavorite, cart, productId: product.id });
+  async updateItem({ id, quantity, start_rent_date, due_rent_date, isFavorite, cart, productId }: any) {
+    return await this.db.update(id, { quantity, start_rent_date, due_rent_date, isFavorite, cart, productId: productId.id });
   }
   
   async deleteItem({ id }: any) {

@@ -4,8 +4,8 @@ import { useQuery } from "@apollo/client";
 import { CHECK_SESSION } from "../graphql/session.query";
 
 interface ICartContext {
-  addToCart: () => void;
-  removeFromCart: () => void;
+  addToCart: (item:Item) => void;
+  removeFromCart: (item:Item) => void;
   cart: Item[];
 }
 export const CartContext = createContext({} as ICartContext);
@@ -24,22 +24,23 @@ function CartContextProvider({
   children,
   initialData,
 }: PropsWithChildren & { initialData: Item[] }) {
-  // useEffect(() => {
-  //   checkSession({
-  //     onCompleted(data) {
-  //       console.log(data);
-  //     },
-  //   });
-  // }, [checkSession]);
   const [state, dispatch] = useReducer(
     (prevState: any, action: any) => {
       switch (action.type) {
         case "ADD_TO_CART":
-          //anylser l'action pour récupérer le payload et l'injecter dans le cart
+          // Analyser l'action pour récupérer le payload et l'injecter dans le panier
           return {
             ...prevState,
             cart: [...prevState?.cart, action.payload],
           };
+        case "REMOVE_FROM_CART":
+          // Analyser l'action pour récupérer le payload et supprimer l'élément du panier
+          return {
+            ...prevState,
+            cart: prevState.cart.filter((item: { id: any; }) => item.id !== action.payload.id),
+          };
+        default:
+          return prevState;
       }
     },
     {
@@ -47,8 +48,12 @@ function CartContextProvider({
     }
   );
   const cartContext = {
-    addToCart() {},
-    removeFromCart() {},
+    addToCart: (item: Item) => {
+      dispatch({ type: "ADD_TO_CART", payload: item });
+    },
+    removeFromCart: (item: Item) => {
+      dispatch({ type: "REMOVE_FROM_CART", payload: item });
+    },
     cart: state?.cart,
   };
   return (

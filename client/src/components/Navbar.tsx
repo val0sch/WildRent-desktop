@@ -67,7 +67,7 @@ export default function Accueil(): JSX.Element {
         </div>
 
         <h1>
-          <Link to="/">WILDRENT {cart?.length}</Link>
+          <Link to="/">WILDRENT</Link>
         </h1>
 
         <ul className={`${showMenu ? "open" : "desktop"}`}>
@@ -115,7 +115,8 @@ export default function Accueil(): JSX.Element {
           <li className="navlink mobile">
             <Link to="/panier" onClick={closeMenu}>
               <ShoppingCartSimple size={32} />
-              <span>Panier</span>
+              <span className="span-panier">Panier</span>
+              <span className="cart-count">{cart.length}</span>
             </Link>
           </li>
           {data?.checkAdmin && (

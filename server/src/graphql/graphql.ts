@@ -92,10 +92,9 @@ export type Item = {
 };
 
 export type ItemRegister = {
-  cart?: InputMaybe<Scalars['String']>;
   due_rent_date?: InputMaybe<Scalars['Date']>;
   isFavorite?: InputMaybe<Scalars['Boolean']>;
-  product: Scalars['String'];
+  productId: Scalars['String'];
   quantity?: InputMaybe<Scalars['Int']>;
   start_rent_date?: InputMaybe<Scalars['Date']>;
 };

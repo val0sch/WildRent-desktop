@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
@@ -14,6 +14,7 @@ import { Navigation, Pagination } from "swiper/modules";
 
 // style
 import "../style/productSheet.css";
+import { ADD_ITEM } from "../graphql/item.mutation";
 
 function ProductSheet(): JSX.Element {
   const { productId } = useParams();
@@ -38,6 +39,16 @@ function ProductSheet(): JSX.Element {
     },
   });
 
+  const [addItemToCart] = useMutation(ADD_ITEM, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "add item", data);
+      navigate("/cart");
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
+    },
+  });
+
   if (loading) {
     return <div>Chargement...</div>;
   }
@@ -56,9 +67,23 @@ function ProductSheet(): JSX.Element {
     },
   };
 
-  // Handle functions
-  const handleReservation = () => {
-    console.log("hello");
+  const handleItem = async () => {
+    console.log("totototo");
+    try {
+      await addItemToCart({
+        variables: {
+          infos: {
+            quantity: 1,
+            start_rent_date: new Date(),
+            due_rent_date: new Date(),
+            isFavorite: false,
+            productId: product.id,
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleGoBack = () => {
@@ -105,7 +130,7 @@ function ProductSheet(): JSX.Element {
           <p>{product.size}</p>
         </div>
 
-        <button className="resa-btn" onClick={handleReservation}>
+        <button className="resa-btn" onClick={handleItem}>
           Je réserve
         </button>
       </div>

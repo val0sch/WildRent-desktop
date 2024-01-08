@@ -61,12 +61,12 @@ const start = async () => {
         let user = null;
 
         if (req.headers.authorization) {
-          console.log("req.headers.authorization", req.headers.authorization);
+          // console.log("req.headers.authorization", req.headers.authorization);
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
           )) as any;
           if (payload) {
-            console.log("payload", payload);
+            // console.log("payload", payload);
             const email = payload.email;
             user = await new UserService().findByEmail(email);
           }
@@ -143,7 +143,7 @@ start();
 // Pour Valérie erreur de processus qui ne s'arrête pas correctement :
 // Gestion d'erreurs liées à la sortie standard (stdout) et terminaison du processus
 process.stdout.on("error", function (err) {
-  console.log("process error", err);
+  // console.log("process error", err);
   if (err.code == "EPIPE") {
     process.exit(0);
     // process.stdin.resume();

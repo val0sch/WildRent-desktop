@@ -97,10 +97,9 @@ export type Item = {
 };
 
 export type ItemRegister = {
-  cart?: InputMaybe<Scalars['String']['input']>;
   due_rent_date?: InputMaybe<Scalars['Date']['input']>;
   isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
-  product: Scalars['String']['input'];
+  productId: Scalars['String']['input'];
   quantity?: InputMaybe<Scalars['Int']['input']>;
   start_rent_date?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -419,6 +418,13 @@ export type ImagesByProductQueryVariables = Exact<{
 
 
 export type ImagesByProductQuery = { __typename?: 'Query', getImagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
+
+export type AddItemMutationVariables = Exact<{
+  infos: ItemRegister;
+}>;
+
+
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id?: string | null } | null };
 
 export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
@@ -1246,6 +1252,39 @@ export function useImagesByProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type ImagesByProductQueryHookResult = ReturnType<typeof useImagesByProductQuery>;
 export type ImagesByProductLazyQueryHookResult = ReturnType<typeof useImagesByProductLazyQuery>;
 export type ImagesByProductQueryResult = Apollo.QueryResult<ImagesByProductQuery, ImagesByProductQueryVariables>;
+export const AddItemDocument = gql`
+    mutation addItem($infos: ItemRegister!) {
+  addItem(infos: $infos) {
+    id
+  }
+}
+    `;
+export type AddItemMutationFn = Apollo.MutationFunction<AddItemMutation, AddItemMutationVariables>;
+
+/**
+ * __useAddItemMutation__
+ *
+ * To run a mutation, you first call `useAddItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addItemMutation, { data, loading, error }] = useAddItemMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useAddItemMutation(baseOptions?: Apollo.MutationHookOptions<AddItemMutation, AddItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddItemMutation, AddItemMutationVariables>(AddItemDocument, options);
+      }
+export type AddItemMutationHookResult = ReturnType<typeof useAddItemMutation>;
+export type AddItemMutationResult = Apollo.MutationResult<AddItemMutation>;
+export type AddItemMutationOptions = Apollo.BaseMutationOptions<AddItemMutation, AddItemMutationVariables>;
 export const AddProductWithImagesDocument = gql`
     mutation AddProductWithImages($infos: ProductRegister!) {
   addProductWithImages(infos: $infos) {
