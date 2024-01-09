@@ -18,7 +18,8 @@ export default function Accueil(): JSX.Element {
   // gestion login admin
   const { data, refetch } = useQuery(CHECK_ISADMIN);
   const { userInfos, logout } = useAuth();
-  const { cart } = useCart();
+  const { cartCount } = useCart();
+
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
@@ -116,7 +117,7 @@ export default function Accueil(): JSX.Element {
             <Link to="/panier" onClick={closeMenu}>
               <ShoppingCartSimple size={32} />
               <span className="span-panier">Panier</span>
-              <span className="cart-count">{cart.length}</span>
+              <span className="cart-count">{cartCount}</span>
             </Link>
           </li>
           {data?.checkAdmin && (

@@ -5,6 +5,8 @@ import {
   MutationDeleteItemArgs,
 } from "../graphql/graphql";
 import { IContext } from "../index.d";
+import CartService from "../services/cart.service";
+import SessionService from "../services/session.service";
 
 export default {
   Query: {
@@ -15,6 +17,7 @@ export default {
 
   Mutation: {
     async addItem(_: any, { infos }: MutationAddItemArgs, { session }: IContext) {
+      let cart = session?.cart;
       let {
         quantity,
         start_rent_date,
@@ -22,19 +25,18 @@ export default {
         isFavorite,
         productId,
       } = infos;
-
-      console.log("infos" ,infos);
-      console.log("session", session);
-
-      // on vérifie si un cart est présent dans la session
-      // si non : on appelle le cart service pour créer un cart et on renvoie l'id du cart créé
+      
       // si oui : on récupère l'id du cart et on l'assigne à la variable cart
 
       // on ajoute l'id du cart à l'item puis on utilise le item service 
+      if (!cart) {
+        cart = await new CartService().addCart({ state: "en cours", creation_date: new Date() });
+        if (session) {
+          const newSession = await new SessionService().updateSession(session.id, session.userId, cart);
+        }
+      }
 
-      return ;
-
-      if (isFavorite == null) {
+      if (isFavorite === null) {
         // assignation de la valeur false à isFavorite si elle n'est pas renseignée
         isFavorite = false;
       }
@@ -45,6 +47,7 @@ export default {
         due_rent_date,
         isFavorite,
         productId,
+        cart,
       });
     },
 

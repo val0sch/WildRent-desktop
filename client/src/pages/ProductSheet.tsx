@@ -4,7 +4,6 @@ import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
-// Import Swiper styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -12,14 +11,14 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Navigation, Pagination } from "swiper/modules";
 
-// style
 import "../style/productSheet.css";
 import { ADD_ITEM } from "../graphql/item.mutation";
+import useCart from "../hooks/useCart";
 
 function ProductSheet(): JSX.Element {
   const { productId } = useParams();
   const navigate = useNavigate();
-
+  const {addToCart} = useCart()
   // FETCH DATAS
   const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
     variables: {
@@ -42,7 +41,8 @@ function ProductSheet(): JSX.Element {
   const [addItemToCart] = useMutation(ADD_ITEM, {
     onCompleted(data) {
       console.log("%c⧭", "color: #0088cc", "add item", data);
-      navigate("/cart");
+      addToCart(data.addItem);
+      // navigate("/cart");
     },
     onError(error) {
       console.error("%c⧭", "color: #917399", error);
@@ -68,12 +68,11 @@ function ProductSheet(): JSX.Element {
   };
 
   const handleItem = async () => {
-    console.log("totototo");
     try {
       await addItemToCart({
         variables: {
           infos: {
-            quantity: 1,
+            quantity: 4,
             start_rent_date: new Date(),
             due_rent_date: new Date(),
             isFavorite: false,

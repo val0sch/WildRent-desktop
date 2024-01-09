@@ -424,7 +424,7 @@ export type AddItemMutationVariables = Exact<{
 }>;
 
 
-export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id?: string | null } | null };
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id?: string | null, quantity?: number | null } | null };
 
 export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
@@ -1256,6 +1256,7 @@ export const AddItemDocument = gql`
     mutation addItem($infos: ItemRegister!) {
   addItem(infos: $infos) {
     id
+    quantity
   }
 }
     `;

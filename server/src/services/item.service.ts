@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import datasource from "../lib/datasource";
+import datasource from "../lib/datasourceSqlite";
 import Item from "../entities/item.entity";
 
 export default class ItemService {
