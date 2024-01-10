@@ -119,21 +119,6 @@ const start = async () => {
     },
   });
 
-  // io.on("connection", (socket) => {
-  // socket.on("join_room", (data) => {
-  //   socket.join(data);
-  //   console.log("USERJOIN ROOM");
-  // });
-  // socket.on("send_message", (data: any) => {
-  //   socket.to(data.room).emit("receive_message", data);
-  //   console.log("USER SEND MESSAGE");
-  // });
-  // console.log(socket.id);
-  // socket.on("send_message", (data: any) => {
-  //   socket.broadcast.emit("receive_message", data);
-  // });
-  // });
-
   // On the server-side, we register a middleware which checks the username and allows the connection:
   //    The username is added as an attribute of the socket object, in order to be reused later.
   //    You can attach any attribute, as long as you don't overwrite an existing one like socket.id or socket.handshake.
@@ -146,42 +131,34 @@ const start = async () => {
     next();
   });
 
+  const users: {
+    userID: string;
+    userEmail: string;
+    isSelected: boolean;
+    messages: any;
+  }[] = [];
   // Listing all users ,  we send all existing users to the client:
   io.on("connection", (socket): any => {
-    // fetch existing users
-    const users: { userID: any; userEmail: any }[] = [];
-    // We are looping over the io.of("/").sockets object, which is a Map of all currently connected Socket instances, indexed by ID.
-    for (let [id, socket] of io.of("/").sockets as any) {
-      const newUser = {
-        userID: id,
-        userEmail: socket.data.userEmail,
-      };
-
-      const emailExists = users.some(
-        (user) => user.userEmail === newUser.userEmail
-      );
-      if (!emailExists) {
-        users.push(newUser);
-      }
-    }
-    socket.emit("users", users);
-    console.log(" balallala", users);
-
-    // notify existing users
-    socket.broadcast.emit("userConnected", {
+    // console.log("ID =========> ", socket.id);
+    const newUser = {
       userID: socket.id,
       userEmail: socket.data.userEmail,
-    });
+      isSelected: false,
+      messages: [],
+    };
 
+    const userExist = users.find((u) => u.userEmail === socket.data.userEmail);
+    console.log("USER =========> ", userExist);
+    if (!userExist) {
+      users.push(newUser);
+    }
+
+    io.emit("users", users);
     // forward the private message to the right recipient
-    // socket.on("privateMessage", ({ messageData, to }) => {
-    //   socket.to(to).emit("privateMessage", {
-    //     messageData,
-    //     from: socket.id,
-    //   });
-    // });
-    socket.on("send_private_message", ({ messageData, to }) => {
-      socket.to(to).emit("receive_private_message", {
+    socket.on("privateMessage", ({ messageData, to }) => {
+      console.log("messageData =======>", messageData);
+
+      socket.to(to).emit("privateMessage", {
         messageData,
         from: socket.id,
       });
@@ -189,8 +166,11 @@ const start = async () => {
 
     // notify users upon disconnection
     socket.on("disconnect", () => {
-      console.log("diconnected", socket.id);
-      socket.broadcast.emit("userDisconnected", socket.id);
+      const userIndex = users.findIndex((user) => user.userID === socket.id);
+      users.splice(userIndex, 1);
+      console.log("USERS after disconnected", users);
+      // socket.broadcast.emit("userDisconnected", socket.id);
+      socket.emit("users", users);
     });
   });
 

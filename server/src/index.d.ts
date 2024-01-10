@@ -25,14 +25,13 @@ interface ServerToClientEvents {
   users: (users: { userID: string; userEmail: string }[]) => void;
   userConnected: ({ userID: string, userEmail: string }) => void;
   userDisconnected: (userID: string) => void;
-  receive_private_message: ({ messageData: MessageData, from: string }) => void;
-  send_private_message: ({ messageData: MessageData, to: string }) => void;
+  privateMessage: ({ messageData: MessageData, from: string }) => void;
 }
 
 interface ClientToServerEvents {
-  send_private_message: (
+  privateMessage: (
     { content, to }: { messageData: MessageData; to: string },
-    receive_private_message: ({
+    callback: ({
       content,
       from,
     }: {

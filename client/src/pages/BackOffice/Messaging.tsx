@@ -3,34 +3,44 @@ import socket from "../../Utils/socketService";
 import "../../style/messaging.css";
 import useAuth from "../../hooks/useAuth";
 
-interface UserData {
+export interface UserData {
   userID: string;
   userEmail: string;
   isSelected?: boolean;
+  messages?: [];
 }
 const Messaging = () => {
   const { userInfos } = useAuth();
-  const [input, setInput] = useState("");
-  const [messageReceived, setMessageReceived] = useState<any>([]);
+
   const userEmail = userInfos.email;
+
+  const [input, setInput] = useState("");
+
   const [listUsers, setListUsers] = useState<UserData[] | []>([]);
 
-  const sendMessage = () => {
+  const sendMessage = (userId: string) => {
     if (input !== "") {
       const messageData = {
-        room: userInfos.email,
-        author: userInfos.email,
+        room: userEmail,
+        author: userEmail,
         message: input,
         time:
           new Date(Date.now()).getHours() +
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-      setMessageReceived((prev: any) => [...prev, messageData]);
-      console.log(messageData, messageData, users[0].userID);
+
+      setListUsers((prev: any) =>
+        prev.map((user: any) =>
+          user.userID === userId
+            ? { ...user, messages: [...user.messages, messageData] }
+            : user
+        )
+      );
+
       socket.emit("privateMessage", {
         messageData,
-        to: users[0].userID,
+        to: userId,
       });
     }
     setInput("");
@@ -44,26 +54,28 @@ const Messaging = () => {
         console.log("big error ", err.message);
       }
     });
+
     // We register a handler for the users event:
     socket.on("users", (users: any) => {
+      console.log("USERS ====>", users);
       setListUsers(users);
     });
 
-    socket.on("disconnect", () => {
-      console.log("disconnected");
-    });
-
     socket.on("privateMessage", ({ messageData, from }) => {
-      console.log("messageData", messageData, "from", from);
-      if (from === "gswEeqfCTXfTesbMAAAD") {
-        const lastMessageReceived = messageReceived.slice(0);
-        if (messageData.message === lastMessageReceived) return;
-        else setMessageReceived((prev: any) => [...prev, messageData]);
-      }
+      console.log("privateMessage", messageData, from);
+      setListUsers((prev: any) =>
+        prev.map((user: any) =>
+          user.userID === from
+            ? { ...user, messages: [...user.messages, messageData] }
+            : user
+        )
+      );
     });
-  }, [messageReceived, userEmail, listUsers]);
 
-  const users = listUsers.filter((user) => user.userEmail !== userEmail);
+    return () => {
+      socket.disconnect();
+    };
+  }, [userEmail, setListUsers]);
 
   const handleSelectedUser = (userEmail: string) => {
     setListUsers((prev: any) =>
@@ -75,11 +87,20 @@ const Messaging = () => {
     );
   };
 
+  useEffect(() => {
+    console.log("LIST USERS", listUsers);
+  }, [listUsers]);
+  const users = listUsers.filter((user: any) => user.userEmail !== userEmail);
+
+  const userSelected = listUsers.find((user: any) => user.isSelected === true);
+  console.log(userSelected, "userSelected");
+  console.log("listUsers3", listUsers);
+
   return (
     <div className="messaging-container">
       <div className="list-conversation">
         <ul>
-          {users.map((user) => (
+          {users.map((user: any) => (
             <li key={user.userEmail}>
               <button
                 className={`emailUser-btn ${user.isSelected && "selected"}`}
@@ -91,32 +112,42 @@ const Messaging = () => {
           ))}
         </ul>
       </div>
-      <div className="chat-container">
-        <div className="messages-container">
-          {messageReceived &&
-            messageReceived.map((message: any) => (
+
+      {userSelected ? (
+        <div className="chat-container">
+          <div className="messages-container">
+            {userSelected?.messages?.map((message: any) => (
               <div className="message-box" key={message.message}>
                 <p>{message.author}</p>
                 <p>{message.message}</p>
                 <p>{message.time}</p>
               </div>
             ))}
+          </div>
+          <div className="writing-box">
+            <input
+              type="text"
+              placeholder="Message..."
+              value={input}
+              onChange={(event) => {
+                setInput(event.target.value);
+              }}
+              onKeyDown={(event) => {
+                event.key === "Enter" && sendMessage(userSelected.userID);
+              }}
+            />
+            <button
+              onClick={
+                userSelected ? () => sendMessage(userSelected.userID) : () => {}
+              }
+            >
+              Envoyer
+            </button>
+          </div>
         </div>
-        <div className="writing-box">
-          <input
-            type="text"
-            placeholder="Message..."
-            value={input}
-            onChange={(event) => {
-              setInput(event.target.value);
-            }}
-            onKeyDown={(event) => {
-              event.key === "Enter" && sendMessage();
-            }}
-          />
-          <button onClick={sendMessage}>Envoyer</button>
-        </div>{" "}
-      </div>
+      ) : (
+        <p>Pas d'utilisateur sélectionné</p>
+      )}
     </div>
   );
 };
