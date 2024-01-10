@@ -1,7 +1,6 @@
 import ItemService from "../services/item.service";
 import {
   MutationAddItemArgs,
-  MutationUpdateItemArgs,
   MutationDeleteItemArgs,
 } from "../graphql/graphql";
 import { IContext } from "../index.d";

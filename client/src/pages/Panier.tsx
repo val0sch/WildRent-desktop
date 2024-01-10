@@ -1,21 +1,33 @@
 import { useQuery } from "@apollo/client";
-import useCart from "../hooks/useCart";
+import {  useState } from "react";
+import { GET_FULL_CART } from "../graphql/cart.query";
 
 function Panier(): JSX.Element {
-  const {cart} = useCart()
+
+  const [ fullCart, setFullCart ] = useState([]);
+
+  useQuery(GET_FULL_CART, {
+    onCompleted(data) {
+      setFullCart(data.getFullCart);
+    },
+    onError(error) {
+      console.error("error",error);
+    },
+  });
   
-  console.log(cart)
-  // const data = useQuery()
   return (
     <div>
       Mon panier 
       <div>
-        {cart.map((item) => (
-          <div key={item.id}>
-            <h2>{item.productId}</h2>
-            <p>{item.quantity}</p>
-          </div>
-        ))}
+        {fullCart.map((item: any, index: number) => {
+          return (
+            <div key={index}>
+              <div>{item.product.price}</div>
+              <div>{item.product.name}</div>
+            </div>
+          )
+        }
+        )}
       </div>
     </div>
   );

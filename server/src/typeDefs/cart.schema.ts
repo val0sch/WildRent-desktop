@@ -9,7 +9,7 @@ type Cart {
 }
 
 type Query {
-  getFullCart(cartId:ID!): [Product]
+  getFullCart: [FullItem]
 }
 
 type Mutation {
@@ -22,4 +22,21 @@ input CartRegister {
   state: String!
   creation_date: Date!
 }
+
+type FullItem {
+  id: ID!
+  start_rent_date: Date!
+  due_rent_date: Date!
+  isFavorite: Boolean!
+  cart: Cart
+  quantity: Int!
+  productId: ID!
+  product: ProductInfo
+}
+
+type ProductInfo {
+  name: String!
+  price: Int!
+}
+
 `;

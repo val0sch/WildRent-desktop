@@ -61,6 +61,18 @@ export type DetailsUserRegister = {
   lastname: Scalars['String']['input'];
 };
 
+export type FullItem = {
+  __typename?: 'FullItem';
+  cart?: Maybe<Cart>;
+  due_rent_date: Scalars['Date']['output'];
+  id: Scalars['ID']['output'];
+  isFavorite: Scalars['Boolean']['output'];
+  product?: Maybe<ProductInfo>;
+  productId: Scalars['ID']['output'];
+  quantity: Scalars['Int']['output'];
+  start_rent_date: Scalars['Date']['output'];
+};
+
 export type Image = {
   __typename?: 'Image';
   id?: Maybe<Scalars['ID']['output']>;
@@ -252,6 +264,12 @@ export type ProductImageInput = {
   id: Scalars['ID']['input'];
 };
 
+export type ProductInfo = {
+  __typename?: 'ProductInfo';
+  name: Scalars['String']['output'];
+  price: Scalars['Int']['output'];
+};
+
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
@@ -269,7 +287,7 @@ export type Query = {
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
   getDetailsUserConnected?: Maybe<DetailsUser>;
-  getFullCart?: Maybe<Array<Maybe<Product>>>;
+  getFullCart?: Maybe<Array<Maybe<FullItem>>>;
   getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
   getListCategories?: Maybe<Array<Maybe<Category>>>;
   getListItems?: Maybe<Array<Maybe<Item>>>;
@@ -277,11 +295,6 @@ export type Query = {
   getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
   getProductById?: Maybe<Product>;
   login?: Maybe<LoginInfo>;
-};
-
-
-export type QueryGetFullCartArgs = {
-  cartId: Scalars['ID']['input'];
 };
 
 
@@ -355,12 +368,10 @@ export type AddCartMutationVariables = Exact<{
 
 export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null };
 
-export type GetFullCartQueryVariables = Exact<{
-  cartId: Scalars['ID'];
-}>;
+export type GetFullCartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFullCartQuery = { __typename?: 'Query', getFullCart?: Array<{ __typename?: 'Product', name?: string | null, price?: number | null } | null> | null };
+export type GetFullCartQuery = { __typename?: 'Query', getFullCart?: Array<{ __typename?: 'FullItem', id: string, start_rent_date: any, due_rent_date: any, isFavorite: boolean, quantity: number, productId: string, cart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null, product?: { __typename?: 'ProductInfo', name: string, price: number } | null } | null> | null };
 
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -571,6 +582,7 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
+  FullItem: ResolverTypeWrapper<FullItem>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
   ImageInput: ImageInput;
@@ -583,6 +595,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Product: ResolverTypeWrapper<Product>;
   ProductImageInput: ProductImageInput;
+  ProductInfo: ResolverTypeWrapper<ProductInfo>;
   ProductRegister: ProductRegister;
   Query: ResolverTypeWrapper<{}>;
   Session: ResolverTypeWrapper<Session>;
@@ -602,6 +615,7 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
+  FullItem: FullItem;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -614,6 +628,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Product: Product;
   ProductImageInput: ProductImageInput;
+  ProductInfo: ProductInfo;
   ProductRegister: ProductRegister;
   Query: {};
   Session: Session;
@@ -648,6 +663,18 @@ export type DetailsUserResolvers<ContextType = any, ParentType extends Resolvers
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FullItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['FullItem'] = ResolversParentTypes['FullItem']> = {
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>;
+  due_rent_date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isFavorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['ProductInfo']>, ParentType, ContextType>;
+  productId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  start_rent_date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -711,12 +738,18 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ProductInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductInfo'] = ResolversParentTypes['ProductInfo']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
-  getFullCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetFullCartArgs, 'cartId'>>;
+  getFullCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['FullItem']>>>, ParentType, ContextType>;
   getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
   getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
@@ -747,11 +780,13 @@ export type Resolvers<ContextType = any> = {
   Category?: CategoryResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DetailsUser?: DetailsUserResolvers<ContextType>;
+  FullItem?: FullItemResolvers<ContextType>;
   Image?: ImageResolvers<ContextType>;
   Item?: ItemResolvers<ContextType>;
   LoginInfo?: LoginInfoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
+  ProductInfo?: ProductInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Session?: SessionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
@@ -895,10 +930,23 @@ export type AddCartMutationHookResult = ReturnType<typeof useAddCartMutation>;
 export type AddCartMutationResult = Apollo.MutationResult<AddCartMutation>;
 export type AddCartMutationOptions = Apollo.BaseMutationOptions<AddCartMutation, AddCartMutationVariables>;
 export const GetFullCartDocument = gql`
-    query getFullCart($cartId: ID!) {
-  getFullCart(cartId: $cartId) {
-    name
-    price
+    query getFullCart {
+  getFullCart {
+    id
+    start_rent_date
+    due_rent_date
+    isFavorite
+    cart {
+      id
+      state
+      creation_date
+    }
+    quantity
+    productId
+    product {
+      name
+      price
+    }
   }
 }
     `;
@@ -915,11 +963,10 @@ export const GetFullCartDocument = gql`
  * @example
  * const { data, loading, error } = useGetFullCartQuery({
  *   variables: {
- *      cartId: // value for 'cartId'
  *   },
  * });
  */
-export function useGetFullCartQuery(baseOptions: Apollo.QueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
+export function useGetFullCartQuery(baseOptions?: Apollo.QueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetFullCartQuery, GetFullCartQueryVariables>(GetFullCartDocument, options);
       }
