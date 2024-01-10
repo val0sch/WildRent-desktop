@@ -29,12 +29,13 @@ function CartContextProvider({
   children,
   initialData,
 }: PropsWithChildren & { initialData: Item[] }) {
+
+  // Calcule le nombre d'éléments dans le panier
   let initialCount = 0;  
   initialData.forEach((item) => {
     if (item.quantity)
     initialCount += item.quantity;
   });
-
 
   const [state, dispatch] = useReducer(
     (prevState: any, action: any) => {

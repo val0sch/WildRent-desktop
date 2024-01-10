@@ -61,12 +61,10 @@ const start = async () => {
         let user = null;
 
         if (req.headers.authorization) {
-          // console.log("req.headers.authorization", req.headers.authorization);
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
           )) as any;
           if (payload) {
-            // console.log("payload", payload);
             const email = payload.email;
             user = await new UserService().findByEmail(email);
           }
@@ -83,7 +81,6 @@ const start = async () => {
           const expireTime = time + 3600 * 24 * 1000;
           date.setTime(expireTime);
           session = await new SessionService().createSession(user?.id);
-          // console.log("%c⧭", "color: #ff0000", session);
 
           res.cookie("sessionId", session.id, {
             httpOnly: true,
@@ -91,7 +88,12 @@ const start = async () => {
             expires: date,
           });
         } else {
-          // reinitialiser le temps du cookie
+          // on reinitialise le temps du cookie
+          res.cookie("sessionId", req.cookies.sessionId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            expires: new Date(Date.now() + 3600 * 24 * 1000),
+          });
           const sessionId = req.cookies.sessionId;
           session = await new SessionService().findSession(sessionId);
         }

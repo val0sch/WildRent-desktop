@@ -8,6 +8,10 @@ type Cart {
   items: [Item]
 }
 
+type Query {
+  getProductsByCart(cartId:ID!): [Product]
+}
+
 type Mutation {
   addCart(infos: CartRegister!): Cart
   updateCart(id: ID!, infos: CartRegister!): Cart

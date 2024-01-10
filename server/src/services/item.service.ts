@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import datasource from "../lib/datasourceSqlite";
 import Item from "../entities/item.entity";
+import Cart from "../entities/cart.entity";
 
 export default class ItemService {
   db: Repository<Item>;
@@ -26,6 +27,10 @@ export default class ItemService {
   
   async deleteItem({ id }: any) {
     return await this.db.delete({ id });
+  }
+
+  async getItemsByCart({cartId}: any ) {
+    return await this.db.find( { where: { cart: cartId } });
   }
 
 }
