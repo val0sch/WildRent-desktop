@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { Repository, In } from "typeorm";
 import datasource from "../lib/datasource";
 import Product from "../entities/product.entity";
 import ImageService from "./image.service";
@@ -12,6 +12,12 @@ export default class ProductService {
   async listProduct() {
     return await this.db.find({ relations: ["category"] });
   }
+
+  async listProductsByCart(listProductID: string[]) {
+    return await this.db.findBy({
+      id: In(listProductID),
+  })
+  } 
 
   async productsFindByCategoryLabel(categoryLabel: string) {
     return await this.db.find({

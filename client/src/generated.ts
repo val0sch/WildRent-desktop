@@ -269,14 +269,19 @@ export type Query = {
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
   getDetailsUserConnected?: Maybe<DetailsUser>;
+  getFullCart?: Maybe<Array<Maybe<Product>>>;
   getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
   getListCategories?: Maybe<Array<Maybe<Category>>>;
   getListItems?: Maybe<Array<Maybe<Item>>>;
   getListProducts?: Maybe<Array<Maybe<Product>>>;
   getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
   getProductById?: Maybe<Product>;
-  getProductsByCart?: Maybe<Array<Maybe<Product>>>;
   login?: Maybe<LoginInfo>;
+};
+
+
+export type QueryGetFullCartArgs = {
+  cartId: Scalars['ID']['input'];
 };
 
 
@@ -349,6 +354,13 @@ export type AddCartMutationVariables = Exact<{
 
 
 export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null };
+
+export type GetFullCartQueryVariables = Exact<{
+  cartId: Scalars['ID'];
+}>;
+
+
+export type GetFullCartQuery = { __typename?: 'Query', getFullCart?: Array<{ __typename?: 'Product', name?: string | null, price?: number | null } | null> | null };
 
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -704,13 +716,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getFullCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetFullCartArgs, 'cartId'>>;
   getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
   getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   getListProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
   getListProductsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetListProductsByCategoryArgs, 'categoryLabel'>>;
   getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'productId'>>;
-  getProductsByCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
 };
 
@@ -882,6 +894,42 @@ export function useAddCartMutation(baseOptions?: Apollo.MutationHookOptions<AddC
 export type AddCartMutationHookResult = ReturnType<typeof useAddCartMutation>;
 export type AddCartMutationResult = Apollo.MutationResult<AddCartMutation>;
 export type AddCartMutationOptions = Apollo.BaseMutationOptions<AddCartMutation, AddCartMutationVariables>;
+export const GetFullCartDocument = gql`
+    query getFullCart($cartId: ID!) {
+  getFullCart(cartId: $cartId) {
+    name
+    price
+  }
+}
+    `;
+
+/**
+ * __useGetFullCartQuery__
+ *
+ * To run a query within a React component, call `useGetFullCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFullCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFullCartQuery({
+ *   variables: {
+ *      cartId: // value for 'cartId'
+ *   },
+ * });
+ */
+export function useGetFullCartQuery(baseOptions: Apollo.QueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFullCartQuery, GetFullCartQueryVariables>(GetFullCartDocument, options);
+      }
+export function useGetFullCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFullCartQuery, GetFullCartQueryVariables>(GetFullCartDocument, options);
+        }
+export type GetFullCartQueryHookResult = ReturnType<typeof useGetFullCartQuery>;
+export type GetFullCartLazyQueryHookResult = ReturnType<typeof useGetFullCartLazyQuery>;
+export type GetFullCartQueryResult = Apollo.QueryResult<GetFullCartQuery, GetFullCartQueryVariables>;
 export const ListCategoriesDocument = gql`
     query listCategories {
   getListCategories {

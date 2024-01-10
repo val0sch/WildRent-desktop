@@ -264,14 +264,19 @@ export type Query = {
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']>;
   getDetailsUserConnected?: Maybe<DetailsUser>;
+  getFullCart?: Maybe<Array<Maybe<Product>>>;
   getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
   getListCategories?: Maybe<Array<Maybe<Category>>>;
   getListItems?: Maybe<Array<Maybe<Item>>>;
   getListProducts?: Maybe<Array<Maybe<Product>>>;
   getListProductsByCategory?: Maybe<Array<Maybe<Product>>>;
   getProductById?: Maybe<Product>;
-  getProductsByCart?: Maybe<Array<Maybe<Product>>>;
   login?: Maybe<LoginInfo>;
+};
+
+
+export type QueryGetFullCartArgs = {
+  cartId: Scalars['ID'];
 };
 
 
@@ -287,11 +292,6 @@ export type QueryGetListProductsByCategoryArgs = {
 
 export type QueryGetProductByIdArgs = {
   productId: Scalars['ID'];
-};
-
-
-export type QueryGetProductsByCartArgs = {
-  cartId: Scalars['ID'];
 };
 
 
@@ -550,13 +550,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getFullCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetFullCartArgs, 'cartId'>>;
   getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
   getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   getListProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
   getListProductsByCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetListProductsByCategoryArgs, 'categoryLabel'>>;
   getProductById?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryGetProductByIdArgs, 'productId'>>;
-  getProductsByCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QueryGetProductsByCartArgs, 'cartId'>>;
   login?: Resolver<Maybe<ResolversTypes['LoginInfo']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'infos'>>;
 };
 

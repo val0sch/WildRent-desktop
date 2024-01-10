@@ -9,7 +9,7 @@ type Cart {
 }
 
 type Query {
-  getProductsByCart(cartId:ID!): [Product]
+  getFullCart(cartId:ID!): [Product]
 }
 
 type Mutation {

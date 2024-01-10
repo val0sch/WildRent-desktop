@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const GET_PRODUCTS_BY_CART = gql`
-  query GetProductsByCart {
-    getProductsByCart {
+export const GET_FULL_CART = gql`
+  query getFullCart($cartId: ID!) {
+    getFullCart(cartId: $cartId) {
       name
       price
     }
