@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --exit-child --tree-kill --watch src/**/*.ts,src/**/*.gql --poll src/index.ts",
     "codegen": "graphql-codegen --config codegen.ts --watch \"src/gen.temp\"",
-    "test": "jest",
+    "test": "jest --watchAll",
     "fixtures": "fixtures-ts-node-esm load ./src/fixtures -d ./src/lib/datasourceLocal.ts --sync ",
     "build": "tsc",
     "prod": "node build/index.js"
@@ -35,6 +35,8 @@
     "@graphql-codegen/client-preset": "^3.0.1",
     "@graphql-codegen/typescript": "3.0.4",
     "@graphql-codegen/typescript-resolvers": "3.2.1",
+    "@graphql-tools/mock": "^9.0.0",
+    "@graphql-tools/schema": "^10.0.2",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.13",
     "@types/jest": "^29.5.2",
