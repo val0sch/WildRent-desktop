@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import socket from "../../Utils/socketService";
 import "../../style/messaging.css";
 import useAuth from "../../hooks/useAuth";
@@ -115,34 +115,30 @@ const Messaging = () => {
 
       {userSelected ? (
         <div className="chat-container">
-            <div className="messages-container">
-              {userSelected?.messages?.map((message: any) => (
-                <div
-                  className={`message-box ${
-                    userInfos.email === message.author
-                      ? "box-right"
-                      : "box-left"
-                  }`}
-                  key={message.message}
-                >
-                  <p>
-                    <UserCircle size={20} />
-                    {message.author === "admin@admin.fr"
-                      ? "You"
-                      : message.author}
-                  </p>
+          <div className="messages-container">
+            {userSelected?.messages?.map((message: any) => (
+              <div
+                className={`message-box ${
+                  userInfos.email === message.author ? "box-right" : "box-left"
+                }`}
+                key={message.message}
+              >
+                <p>
+                  <UserCircle size={20} />
+                  {message.author === "admin@admin.fr" ? "You" : message.author}
+                </p>
 
-                  <p
-                    className={`${
-                      userInfos.email === message.author ? "you" : "other"
-                    }`}
-                  >
-                    {message.message}
-                  </p>
-                  <p>{message.time}</p>
-                </div>
-              ))}
-            </div>
+                <p
+                  className={`${
+                    userInfos.email === message.author ? "you" : "other"
+                  }`}
+                >
+                  {message.message}
+                </p>
+                <p>{message.time}</p>
+              </div>
+            ))}
+          </div>
           <div className="writing-box">
             <input
               type="text"
