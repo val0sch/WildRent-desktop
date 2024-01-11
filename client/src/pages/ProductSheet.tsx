@@ -1,10 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCT } from "../graphql/product.query";
 import { Product } from "../generated";
 import { GET_PRODUCT_IMAGES } from "../graphql/image.query";
 
-// Import Swiper styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -12,13 +11,14 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Navigation, Pagination } from "swiper/modules";
 
-// style
 import "../style/productSheet.css";
+import { ADD_ITEM } from "../graphql/item.mutation";
+import useCart from "../hooks/useCart";
 
 function ProductSheet(): JSX.Element {
   const { productId } = useParams();
   const navigate = useNavigate();
-
+  const {addToCart} = useCart()
   // FETCH DATAS
   const { data: imagesData } = useQuery(GET_PRODUCT_IMAGES, {
     variables: {
@@ -35,6 +35,17 @@ function ProductSheet(): JSX.Element {
   } = useQuery(GET_PRODUCT, {
     variables: {
       productId: productId,
+    },
+  });
+
+  const [addItemToCart] = useMutation(ADD_ITEM, {
+    onCompleted(data) {
+      console.log("%c⧭", "color: #0088cc", "add item", data);
+      addToCart(data.addItem);
+      // navigate("/cart");
+    },
+    onError(error) {
+      console.error("%c⧭", "color: #917399", error);
     },
   });
 
@@ -56,9 +67,22 @@ function ProductSheet(): JSX.Element {
     },
   };
 
-  // Handle functions
-  const handleReservation = () => {
-    console.log("hello");
+  const handleItem = async () => {
+    try {
+      await addItemToCart({
+        variables: {
+          infos: {
+            quantity: 4,
+            start_rent_date: new Date(),
+            due_rent_date: new Date(),
+            isFavorite: false,
+            productId: product.id,
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleGoBack = () => {
@@ -105,7 +129,7 @@ function ProductSheet(): JSX.Element {
           <p>{product.size}</p>
         </div>
 
-        <button className="resa-btn" onClick={handleReservation}>
+        <button className="resa-btn" onClick={handleItem}>
           Je réserve
         </button>
       </div>

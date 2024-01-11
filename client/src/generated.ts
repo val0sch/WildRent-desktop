@@ -61,6 +61,18 @@ export type DetailsUserRegister = {
   lastname: Scalars['String']['input'];
 };
 
+export type FullItem = {
+  __typename?: 'FullItem';
+  cart?: Maybe<Cart>;
+  due_rent_date: Scalars['Date']['output'];
+  id: Scalars['ID']['output'];
+  isFavorite: Scalars['Boolean']['output'];
+  product?: Maybe<ProductInfo>;
+  productId: Scalars['ID']['output'];
+  quantity: Scalars['Int']['output'];
+  start_rent_date: Scalars['Date']['output'];
+};
+
 export type Image = {
   __typename?: 'Image';
   id?: Maybe<Scalars['ID']['output']>;
@@ -97,10 +109,9 @@ export type Item = {
 };
 
 export type ItemRegister = {
-  cart?: InputMaybe<Scalars['String']['input']>;
   due_rent_date?: InputMaybe<Scalars['Date']['input']>;
   isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
-  product: Scalars['String']['input'];
+  productId: Scalars['String']['input'];
   quantity?: InputMaybe<Scalars['Int']['input']>;
   start_rent_date?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -253,6 +264,12 @@ export type ProductImageInput = {
   id: Scalars['ID']['input'];
 };
 
+export type ProductInfo = {
+  __typename?: 'ProductInfo';
+  name: Scalars['String']['output'];
+  price: Scalars['Int']['output'];
+};
+
 export type ProductRegister = {
   category?: InputMaybe<Scalars['String']['input']>;
   description: Scalars['String']['input'];
@@ -270,6 +287,7 @@ export type Query = {
   checkSession?: Maybe<Array<Maybe<Item>>>;
   checkToken?: Maybe<Scalars['Boolean']['output']>;
   getDetailsUserConnected?: Maybe<DetailsUser>;
+  getFullCart?: Maybe<Array<Maybe<FullItem>>>;
   getImagesByProduct?: Maybe<Array<Maybe<Image>>>;
   getListCategories?: Maybe<Array<Maybe<Category>>>;
   getListItems?: Maybe<Array<Maybe<Item>>>;
@@ -350,6 +368,11 @@ export type AddCartMutationVariables = Exact<{
 
 export type AddCartMutation = { __typename?: 'Mutation', addCart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null };
 
+export type GetFullCartQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFullCartQuery = { __typename?: 'Query', getFullCart?: Array<{ __typename?: 'FullItem', id: string, start_rent_date: any, due_rent_date: any, isFavorite: boolean, quantity: number, productId: string, cart?: { __typename?: 'Cart', id?: string | null, state?: string | null, creation_date?: any | null } | null, product?: { __typename?: 'ProductInfo', name: string, price: number } | null } | null> | null };
+
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -419,6 +442,13 @@ export type ImagesByProductQueryVariables = Exact<{
 
 
 export type ImagesByProductQuery = { __typename?: 'Query', getImagesByProduct?: Array<{ __typename?: 'Image', id?: string | null, isMain?: boolean | null, name?: string | null } | null> | null };
+
+export type AddItemMutationVariables = Exact<{
+  infos: ItemRegister;
+}>;
+
+
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: { __typename?: 'Item', id?: string | null, quantity?: number | null } | null };
 
 export type AddProductWithImagesMutationVariables = Exact<{
   infos: ProductRegister;
@@ -552,6 +582,7 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DetailsUser: ResolverTypeWrapper<DetailsUser>;
   DetailsUserRegister: DetailsUserRegister;
+  FullItem: ResolverTypeWrapper<FullItem>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
   ImageInput: ImageInput;
@@ -564,6 +595,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Product: ResolverTypeWrapper<Product>;
   ProductImageInput: ProductImageInput;
+  ProductInfo: ResolverTypeWrapper<ProductInfo>;
   ProductRegister: ProductRegister;
   Query: ResolverTypeWrapper<{}>;
   Session: ResolverTypeWrapper<Session>;
@@ -583,6 +615,7 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   DetailsUser: DetailsUser;
   DetailsUserRegister: DetailsUserRegister;
+  FullItem: FullItem;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -595,6 +628,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Product: Product;
   ProductImageInput: ProductImageInput;
+  ProductInfo: ProductInfo;
   ProductRegister: ProductRegister;
   Query: {};
   Session: Session;
@@ -629,6 +663,18 @@ export type DetailsUserResolvers<ContextType = any, ParentType extends Resolvers
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FullItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['FullItem'] = ResolversParentTypes['FullItem']> = {
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>;
+  due_rent_date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isFavorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['ProductInfo']>, ParentType, ContextType>;
+  productId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  start_rent_date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -692,11 +738,18 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ProductInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductInfo'] = ResolversParentTypes['ProductInfo']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   checkAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   checkSession?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
   checkToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   getDetailsUserConnected?: Resolver<Maybe<ResolversTypes['DetailsUser']>, ParentType, ContextType>;
+  getFullCart?: Resolver<Maybe<Array<Maybe<ResolversTypes['FullItem']>>>, ParentType, ContextType>;
   getImagesByProduct?: Resolver<Maybe<Array<Maybe<ResolversTypes['Image']>>>, ParentType, ContextType, RequireFields<QueryGetImagesByProductArgs, 'productId'>>;
   getListCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getListItems?: Resolver<Maybe<Array<Maybe<ResolversTypes['Item']>>>, ParentType, ContextType>;
@@ -727,11 +780,13 @@ export type Resolvers<ContextType = any> = {
   Category?: CategoryResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DetailsUser?: DetailsUserResolvers<ContextType>;
+  FullItem?: FullItemResolvers<ContextType>;
   Image?: ImageResolvers<ContextType>;
   Item?: ItemResolvers<ContextType>;
   LoginInfo?: LoginInfoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
+  ProductInfo?: ProductInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Session?: SessionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
@@ -874,6 +929,54 @@ export function useAddCartMutation(baseOptions?: Apollo.MutationHookOptions<AddC
 export type AddCartMutationHookResult = ReturnType<typeof useAddCartMutation>;
 export type AddCartMutationResult = Apollo.MutationResult<AddCartMutation>;
 export type AddCartMutationOptions = Apollo.BaseMutationOptions<AddCartMutation, AddCartMutationVariables>;
+export const GetFullCartDocument = gql`
+    query getFullCart {
+  getFullCart {
+    id
+    start_rent_date
+    due_rent_date
+    isFavorite
+    cart {
+      id
+      state
+      creation_date
+    }
+    quantity
+    productId
+    product {
+      name
+      price
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetFullCartQuery__
+ *
+ * To run a query within a React component, call `useGetFullCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFullCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFullCartQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFullCartQuery(baseOptions?: Apollo.QueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFullCartQuery, GetFullCartQueryVariables>(GetFullCartDocument, options);
+      }
+export function useGetFullCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFullCartQuery, GetFullCartQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFullCartQuery, GetFullCartQueryVariables>(GetFullCartDocument, options);
+        }
+export type GetFullCartQueryHookResult = ReturnType<typeof useGetFullCartQuery>;
+export type GetFullCartLazyQueryHookResult = ReturnType<typeof useGetFullCartLazyQuery>;
+export type GetFullCartQueryResult = Apollo.QueryResult<GetFullCartQuery, GetFullCartQueryVariables>;
 export const ListCategoriesDocument = gql`
     query listCategories {
   getListCategories {
@@ -1246,6 +1349,40 @@ export function useImagesByProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type ImagesByProductQueryHookResult = ReturnType<typeof useImagesByProductQuery>;
 export type ImagesByProductLazyQueryHookResult = ReturnType<typeof useImagesByProductLazyQuery>;
 export type ImagesByProductQueryResult = Apollo.QueryResult<ImagesByProductQuery, ImagesByProductQueryVariables>;
+export const AddItemDocument = gql`
+    mutation addItem($infos: ItemRegister!) {
+  addItem(infos: $infos) {
+    id
+    quantity
+  }
+}
+    `;
+export type AddItemMutationFn = Apollo.MutationFunction<AddItemMutation, AddItemMutationVariables>;
+
+/**
+ * __useAddItemMutation__
+ *
+ * To run a mutation, you first call `useAddItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addItemMutation, { data, loading, error }] = useAddItemMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useAddItemMutation(baseOptions?: Apollo.MutationHookOptions<AddItemMutation, AddItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddItemMutation, AddItemMutationVariables>(AddItemDocument, options);
+      }
+export type AddItemMutationHookResult = ReturnType<typeof useAddItemMutation>;
+export type AddItemMutationResult = Apollo.MutationResult<AddItemMutation>;
+export type AddItemMutationOptions = Apollo.BaseMutationOptions<AddItemMutation, AddItemMutationVariables>;
 export const AddProductWithImagesDocument = gql`
     mutation AddProductWithImages($infos: ProductRegister!) {
   addProductWithImages(infos: $infos) {

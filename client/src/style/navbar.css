@@ -217,7 +217,7 @@ a.navlink {
     color: white;
   }
 
-  .navlink span {
+  .navlink span.span-panier {
     display: none;
   }
 

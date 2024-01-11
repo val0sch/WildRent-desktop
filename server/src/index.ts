@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as dotenv from "dotenv";
 import datasource from "./lib/datasource";
 import datasourceSqlite from "./lib/datasourceSqlite";
@@ -10,7 +11,6 @@ import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
 import http from "http";
 
-import "reflect-metadata";
 import cors from "cors";
 import { json } from "body-parser";
 import resolvers from "./resolvers";
@@ -67,12 +67,10 @@ const start = async () => {
         let user = null;
 
         if (req.headers.authorization) {
-          // console.log("req.headers.authorization", req.headers.authorization);
           const payload = (await new UserService().getAndCheckToken(
             req.headers.authorization
           )) as any;
           if (payload) {
-            // console.log("payload", payload);
             const email = payload.email;
             user = await new UserService().findByEmail(email);
           }
@@ -86,10 +84,9 @@ const start = async () => {
           //créer la session
           const date = new Date();
           const time = date.getTime();
-          const expireTime = time + 3600 * 24;
+          const expireTime = time + 3600 * 24 * 1000;
           date.setTime(expireTime);
           session = await new SessionService().createSession(user?.id);
-          // console.log("%c⧭", "color: #ff0000", session);
 
           res.cookie("sessionId", session.id, {
             httpOnly: true,
@@ -97,7 +94,12 @@ const start = async () => {
             expires: date,
           });
         } else {
-          // reinitialiser le temps du cookie
+          // on reinitialise le temps du cookie
+          res.cookie("sessionId", req.cookies.sessionId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            expires: new Date(Date.now() + 3600 * 24 * 1000),
+          });
           const sessionId = req.cookies.sessionId;
           session = await new SessionService().findSession(sessionId);
         }
@@ -106,7 +108,7 @@ const start = async () => {
     })
   );
 
-  // TODO FINIR ET EXTERNALISER Configuration et démarrage du serveur Socket.IO
+  
   const io = new Server<
     ClientToServerEvents,
     ServerToClientEvents,
@@ -122,6 +124,7 @@ const start = async () => {
   // On the server-side, we register a middleware which checks the username and allows the connection:
   //    The username is added as an attribute of the socket object, in order to be reused later.
   //    You can attach any attribute, as long as you don't overwrite an existing one like socket.id or socket.handshake.
+  
   io.use((socket, next) => {
     const userEmail: string = socket.handshake.auth.userEmail;
     if (!userEmail) {
@@ -194,7 +197,7 @@ start();
 // Pour Valérie erreur de processus qui ne s'arrête pas correctement :
 // Gestion d'erreurs liées à la sortie standard (stdout) et terminaison du processus
 process.stdout.on("error", function (err) {
-  console.log("process error", err);
+  // console.log("process error", err);
   if (err.code == "EPIPE") {
     process.exit(0);
     // process.stdin.resume();

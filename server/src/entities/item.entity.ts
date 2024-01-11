@@ -3,7 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
+
 } from "typeorm";
 import Cart from "./cart.entity";
 

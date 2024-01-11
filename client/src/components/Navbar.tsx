@@ -18,7 +18,8 @@ export default function Accueil(): JSX.Element {
   // gestion login admin
   const { data, refetch } = useQuery(CHECK_ISADMIN);
   const { userInfos, logout } = useAuth();
-  const { cart } = useCart();
+  const { cartCount } = useCart();
+
   useEffect(() => {
     refetch();
   }, [userInfos, refetch]);
@@ -67,7 +68,7 @@ export default function Accueil(): JSX.Element {
         </div>
 
         <h1>
-          <Link to="/">WILDRENT {cart?.length}</Link>
+          <Link to="/">WILDRENT</Link>
         </h1>
 
         <ul className={`${showMenu ? "open" : "desktop"}`}>
@@ -112,7 +113,8 @@ export default function Accueil(): JSX.Element {
           <li className="navlink mobile">
             <Link to="/panier" onClick={closeMenu}>
               <ShoppingCartSimple size={32} />
-              <span>Panier</span>
+              <span className="span-panier">Panier</span>
+              <span className="cart-count">{cartCount}</span>
             </Link>
           </li>
           {data?.checkAdmin && (
