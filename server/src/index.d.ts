@@ -13,8 +13,7 @@ export interface IContext {
 
 export interface IUserLogin {}
 
-// Interface Socket.io
-
+// * Interface Socket.io
 interface MessageData {
   room: string;
   author: string;
@@ -22,7 +21,14 @@ interface MessageData {
   time: string;
 }
 interface ServerToClientEvents {
-  users: (users: { userID: string; userEmail: string }[]) => void;
+  users: (
+    users: {
+      userID: string;
+      userEmail: string;
+      isSelected: boolean;
+      messages: MessageData[] | [];
+    }[]
+  ) => void;
   userConnected: ({ userID: string, userEmail: string }) => void;
   userDisconnected: (userID: string) => void;
   privateMessage: ({ messageData: MessageData, from: string }) => void;

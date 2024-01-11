@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import socket from "../../Utils/socketService";
 import "../../style/messaging.css";
 import useAuth from "../../hooks/useAuth";
+import { UserCircle } from "@phosphor-icons/react";
 
 export interface UserData {
   userID: string;
@@ -30,6 +31,7 @@ const Messaging = () => {
           new Date(Date.now()).getMinutes(),
       };
 
+      // Ajout du message dans listUsers, dans l'objet du user visé et dans le tableau des messages
       setListUsers((prev: any) =>
         prev.map((user: any) =>
           user.userID === userId
@@ -38,11 +40,13 @@ const Messaging = () => {
         )
       );
 
+      // Émission du message privé via le socket
       socket.emit("privateMessage", {
         messageData,
         to: userId,
       });
     }
+
     setInput("");
   };
 
@@ -55,14 +59,14 @@ const Messaging = () => {
       }
     });
 
-    // We register a handler for the users event:
+    // Gestion de l'événement "users" pour mettre à jour la liste des utilisateurs
     socket.on("users", (users: any) => {
       console.log("USERS ====>", users);
       setListUsers(users);
     });
 
+    // Gestion de l'événement "privateMessage" pour mettre à jour la liste des messages privés
     socket.on("privateMessage", ({ messageData, from }) => {
-      console.log("privateMessage", messageData, from);
       setListUsers((prev: any) =>
         prev.map((user: any) =>
           user.userID === from
@@ -72,6 +76,9 @@ const Messaging = () => {
       );
     });
 
+    // Fonction de nettoyage lors du démontage du composant
+    // on peut ajouter autant de socket que l'on souhaite nettoyer,
+    // ici, on déconnecte le socket, donc le user lorsqu'il quitte le composant
     return () => {
       socket.disconnect();
     };
@@ -79,26 +86,19 @@ const Messaging = () => {
 
   const handleSelectedUser = (userEmail: string) => {
     setListUsers((prev: any) =>
-      prev.map((user: any) =>
-        user.userEmail === userEmail
-          ? { ...user, isSelected: !user.isSelected }
-          : user
-      )
+      prev.map((user: any) => ({
+        ...user,
+        isSelected: user.userEmail === userEmail ? !user.isSelected : false,
+      }))
     );
   };
-
-  useEffect(() => {
-    console.log("LIST USERS", listUsers);
-  }, [listUsers]);
   const users = listUsers.filter((user: any) => user.userEmail !== userEmail);
 
   const userSelected = listUsers.find((user: any) => user.isSelected === true);
-  console.log(userSelected, "userSelected");
-  console.log("listUsers3", listUsers);
 
   return (
     <div className="messaging-container">
-      <div className="list-conversation">
+      <div className="list-users">
         <ul>
           {users.map((user: any) => (
             <li key={user.userEmail}>
@@ -115,15 +115,34 @@ const Messaging = () => {
 
       {userSelected ? (
         <div className="chat-container">
-          <div className="messages-container">
-            {userSelected?.messages?.map((message: any) => (
-              <div className="message-box" key={message.message}>
-                <p>{message.author}</p>
-                <p>{message.message}</p>
-                <p>{message.time}</p>
-              </div>
-            ))}
-          </div>
+            <div className="messages-container">
+              {userSelected?.messages?.map((message: any) => (
+                <div
+                  className={`message-box ${
+                    userInfos.email === message.author
+                      ? "box-right"
+                      : "box-left"
+                  }`}
+                  key={message.message}
+                >
+                  <p>
+                    <UserCircle size={20} />
+                    {message.author === "admin@admin.fr"
+                      ? "You"
+                      : message.author}
+                  </p>
+
+                  <p
+                    className={`${
+                      userInfos.email === message.author ? "you" : "other"
+                    }`}
+                  >
+                    {message.message}
+                  </p>
+                  <p>{message.time}</p>
+                </div>
+              ))}
+            </div>
           <div className="writing-box">
             <input
               type="text"
@@ -146,7 +165,7 @@ const Messaging = () => {
           </div>
         </div>
       ) : (
-        <p>Pas d'utilisateur sélectionné</p>
+        <p className="no-user">Pas d'utilisateur sélectionné</p>
       )}
     </div>
   );

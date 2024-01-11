@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import "../style/backoffice.css";
 import Plongeur from "../assets/back-office.jpeg";
-import { DribbbleLogo, Football } from "@phosphor-icons/react";
+import { DribbbleLogo, Football, WechatLogo } from "@phosphor-icons/react";
 
 function BackOffice(): JSX.Element {
-  
   return (
     <section className="back-office-main-container">
       <div className="back-office-img-container">
@@ -32,6 +31,7 @@ function BackOffice(): JSX.Element {
             className="back-office-button-action"
             to={"/back-office/messagerie"}
           >
+            <WechatLogo size={32} />
             Messagerie
           </Link>
         </div>

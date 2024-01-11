@@ -15,12 +15,13 @@ import cors from "cors";
 import { json } from "body-parser";
 import resolvers from "./resolvers";
 import UserService from "./services/user.service";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import {
   ClientToServerEvents,
   ServerToClientEvents,
   InterServerEvents,
   SocketData,
+  MessageData,
 } from "../src/index.d";
 import cookieParser from "cookie-parser";
 import SessionService from "./services/session.service";
@@ -29,9 +30,8 @@ dotenv.config();
 
 // Initialisation des instances Express et des serveurs HTTP
 const app = express();
-const appIO = express();
 const httpServer = http.createServer(app);
-const IoHttpServer = http.createServer(appIO);
+const IoHttpServer = http.createServer(app);
 
 const start = async () => {
   // Initialisation des sources de données
@@ -108,23 +108,28 @@ const start = async () => {
     })
   );
 
-  
+  // *********** CODE SOCKET.IO POUR LE CHAT ****************
+
+  // * Ce code crée un serveur Socket.IO qui permet la communication en temps réel entre les clients.
+  // * Il gère la connexion, la déconnexion, les messages privés,
+  // * et la mise à jour de la liste des utilisateurs connectés.
+
+  // ********************************************************
+
+  // Importation de la classe Server à partir de la bibliothèque Socket.IO
   const io = new Server<
     ClientToServerEvents,
-    ServerToClientEvents,
-    InterServerEvents,
-    SocketData
+    ServerToClientEvents
   >(IoHttpServer, {
     cors: {
-      origin: "*",
+      origin: "http://localhost:3000",
       methods: ["GET", "POST"],
     },
   });
 
-  // On the server-side, we register a middleware which checks the username and allows the connection:
-  //    The username is added as an attribute of the socket object, in order to be reused later.
-  //    You can attach any attribute, as long as you don't overwrite an existing one like socket.id or socket.handshake.
-  
+  // Middleware pour vérifier le nom d'utilisateur avant de permettre la connexion
+  // socket.auth est chargé dans le component Messaging avec l'email récupéré du context useAuth()
+  // et il est vérifié ici dans ce middleware :
   io.use((socket, next) => {
     const userEmail: string = socket.handshake.auth.userEmail;
     if (!userEmail) {
@@ -134,15 +139,17 @@ const start = async () => {
     next();
   });
 
+  // Tableau pour stocker les utilisateurs qui se connecte sur le serveur socket, avec leurs informations
   const users: {
     userID: string;
     userEmail: string;
     isSelected: boolean;
-    messages: any;
+    messages: MessageData[] | [];
   }[] = [];
-  // Listing all users ,  we send all existing users to the client:
+
+  // Événement déclenché lorsqu'un client se connecte
   io.on("connection", (socket): any => {
-    // console.log("ID =========> ", socket.id);
+    // Création d'un nouvel utilisateur avec des informations de base
     const newUser = {
       userID: socket.id,
       userEmail: socket.data.userEmail,
@@ -150,14 +157,20 @@ const start = async () => {
       messages: [],
     };
 
-    const userExist = users.find((u) => u.userEmail === socket.data.userEmail);
+    // Vérification si l'utilisateur existe déjà dans le tableau
+    const userExist = users.find(
+      (user) => user.userEmail === socket.data.userEmail
+    );
     console.log("USER =========> ", userExist);
     if (!userExist) {
       users.push(newUser);
     }
 
+    // Envoi de la liste de tous les utilisateurs connectés à tous les clients
+    // io.emit("users", users);
     io.emit("users", users);
-    // forward the private message to the right recipient
+
+    // Écoute des messages privés et les transmet au destinataire approprié
     socket.on("privateMessage", ({ messageData, to }) => {
       console.log("messageData =======>", messageData);
 
@@ -167,16 +180,18 @@ const start = async () => {
       });
     });
 
-    // notify users upon disconnection
+    // Notification aux utilisateurs lors de la déconnexion d'un client
     socket.on("disconnect", () => {
       const userIndex = users.findIndex((user) => user.userID === socket.id);
       users.splice(userIndex, 1);
-      console.log("USERS after disconnected", users);
-      // socket.broadcast.emit("userDisconnected", socket.id);
-      socket.emit("users", users);
+      console.log("USERS after disconnection", users);
+      // broadcast émet pour tous les utilisateurs sauf la personne qui se deconnecte
+      socket.broadcast.emit("userDisconnected", socket.id);
+      io.emit("users", users);
     });
   });
 
+  // Écoute du port 3001 pour les connexions HTTP
   await new Promise<void>((resolve) => IoHttpServer.listen(3001, resolve));
   console.log("🚀 Server ready at http://localhost:3001");
 
