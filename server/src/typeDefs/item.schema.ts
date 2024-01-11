@@ -26,7 +26,6 @@ input ItemRegister {
   start_rent_date: Date
   due_rent_date: Date
   isFavorite: Boolean
-  cart: String
-  product: String!
+  productId: String!
 }
 `;

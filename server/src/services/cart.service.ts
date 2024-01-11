@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import datasource from "../lib/datasource";
+import datasource from "../lib/datasourceSqlite";
 import Cart from "../entities/cart.entity";
 import { CartRegister } from "../graphql/graphql";
 

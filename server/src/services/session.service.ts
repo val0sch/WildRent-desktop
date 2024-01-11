@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import datasourceSqlite from "../lib/datasourceSqlite";
 import Session from "../entities/session.entity";
+import Cart from "../entities/cart.entity";
 export default class SessionService {
   dbSqlite: Repository<Session>;
   constructor() {
@@ -16,5 +17,9 @@ export default class SessionService {
       where: { id },
       relations: { cart: { items: true } },
     });
+  }
+
+  async updateSession(id: string, userId?: string | undefined, cart?: Cart | undefined) {
+    return await this.dbSqlite.update(id, { userId, cart });
   }
 }
