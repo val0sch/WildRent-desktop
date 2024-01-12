@@ -1,55 +1,113 @@
-.container {
-  height: 93vh;
+.messaging-container {
+  height: 90vh;
   display: flex;
 }
 
-.list-conversation {
+.list-users {
   height: 100%;
-  /* background-color: rgba(201, 147, 255, 0.141); */
   border-right: solid 2px grey;
-  width: 20%;
+  width: 30%;
+  padding: 1em 3em;
 }
 
 .chat-container {
   height: 100%;
   padding: 1em;
-  /* background-color: aqua; */
-  width: 80%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+
 .messages-container {
-  /* background-color: red; */
-  height: 100%;
   padding: 2em;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 90%;
   overflow-y: scroll;
-  gap: 2em;
+  position: relative;
+  height: 90%;
 }
+
 .writing-box {
   display: flex;
-  background-color: beige;
   justify-content: space-between;
+  width: 100%;
 }
+
+.writing-box > input {
+  width: 90%;
+}
+
 .message-box {
   display: flex;
+  width: fit-content;
   flex-direction: column;
+  width: 45%;
+  margin: 0.2em;
 }
-p {
-  align-self: flex-end;
-  color: grey;
-}
+
 .message-box > p:nth-child(1) {
   align-self: flex-start;
+  font-size: 0.9em;
+  color: black;
+  display: flex;
+  align-items: center;
 }
 .message-box > p:nth-child(2) {
-  font-size: 2em;
-  color: black;
+  align-self: flex-start;
+  font-size: 1em;
+  color: white;
 }
-/* input {
-  width: 88%;
-} */
+.message-box > p:nth-child(3) {
+  align-self: flex-end;
+  font-size: 0.9em;
+  color: grey;
+}
+.you,
+.other {
+  margin: 0.1em;
+  padding: 0.8em;
+  border-radius: 8px;
+  min-width: 100%;
+}
+.you {
+  background-color: var(--main-navy);
+}
+.other {
+  background-color: #50a5b1;
+}
+
+.box-right {
+  align-self: flex-end;
+}
+.box-left {
+  align-self: flex-start;
+}
+button.emailUser-btn {
+  height: 50%;
+  color: black;
+  box-shadow: none;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1em;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9em;
+  background-color: transparent;
+}
+
+.emailUser-btn:hover {
+  background-color: rgba(161, 160, 160, 0.157);
+}
+.emailUser-btn.selected {
+  background-color: var(--main-orange);
+  color: white;
+}
+
+.no-user {
+  align-self: center;
+  margin: 0 auto;
+}
