@@ -6,12 +6,13 @@ import * as jwt from "jsonwebtoken";
 
 export default class UserService {
   db: Repository<User>;
+
   constructor() {
     this.db = datasource.getRepository("User");
   }
 
   async listUsers() {
-    return await this.db.find({ relations: ['detailsUser'] });
+    return await this.db.find();
   }
 
   async findByEmail(email: string) {
@@ -19,7 +20,7 @@ export default class UserService {
   }
 
   async findById(id: string) {
-    return await this.db.findOne({ where: { id }, relations: ['detailsUser'] });
+    return await this.db.findOne({ where: { id }, relations: ["detailsUser"] });
   }
 
   async addUser({ email, password, isAdmin, detailsUser }: any) {
@@ -29,7 +30,7 @@ export default class UserService {
   async updateUser({ id, email, password, isAdmin }: any) {
     return await this.db.update(id, { email, password, isAdmin });
   }
-  
+
   async deleteUser({ id }: { id: string }) {
     return await this.db.delete({ id });
   }

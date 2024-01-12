@@ -7,6 +7,10 @@ type User {
   detailsUser: DetailsUser
 }
 
+type UserEmail{
+  email: String
+}
+
 type LoginInfo {
   token: String
   email: String
@@ -16,6 +20,7 @@ type Query {
   login(infos: UserLogin!): LoginInfo
   checkToken: Boolean
   checkAdmin: Boolean
+  getListUsers: [UserEmail]
 }
 
 type Mutation {

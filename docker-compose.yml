@@ -23,7 +23,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
+  testrunner:
+    build: ./testrunner
+    environment:
+      PORT: 4000
+    volumes:
+      - ./testrunner/src/:/app/src/
+    depends_on:
+          db:
+            condition: service_healthy
   db:
     image: postgres:15
     restart: always
@@ -40,6 +48,7 @@ services:
       - 5432:5432
     volumes:
       - wildrent-data:/var/lib/postgresql/data
+
   adminer:
     image: adminer
     depends_on:
