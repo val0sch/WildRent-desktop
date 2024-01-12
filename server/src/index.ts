@@ -117,15 +117,15 @@ const start = async () => {
   // ********************************************************
 
   // Importation de la classe Server à partir de la bibliothèque Socket.IO
-  const io = new Server<
-    ClientToServerEvents,
-    ServerToClientEvents
-  >(IoHttpServer, {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
-    },
-  });
+  const io = new Server<ClientToServerEvents, ServerToClientEvents>(
+    IoHttpServer,
+    {
+      cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+      },
+    }
+  );
 
   // Middleware pour vérifier le nom d'utilisateur avant de permettre la connexion
   // socket.auth est chargé dans le component Messaging avec l'email récupéré du context useAuth()

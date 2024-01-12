@@ -14,7 +14,6 @@ import {
 
 export default {
   Query: {
- 
     async login(_: any, { infos }: QueryLoginArgs) {
       const { email, password } = infos;
       //vérification que le user existe bien :
@@ -49,6 +48,10 @@ export default {
         isAdmin = user.isAdmin;
       }
       return isAdmin;
+    },
+
+    async getListUsers(_: any, {}) {
+      return await new UserService().listUsers();
     },
   },
 

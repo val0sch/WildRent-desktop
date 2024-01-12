@@ -17,6 +17,7 @@ type Query {
 
 type Mutation {
   addItem(infos: ItemRegister!): Item
+  resolved: String
   updateItem(id: ID!, infos: ItemRegister!): Item
   deleteItem(id: ID!): Item
 }
